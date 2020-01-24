@@ -1,13 +1,18 @@
 #include "Message.h"
 
+Message::Message()
+{
+}
+
 Message::Message(
+        unsigned int id,
         std::string text,
         std::time_t time,
         std::string author,
         std::string recipient,
-        Message::MessageType type,
-        double rate)
+        Message::MessageType type, double rate)
 {
+    ID = id;
     Text = text;
     Time = time;
     Author = author;

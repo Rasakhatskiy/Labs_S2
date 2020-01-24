@@ -118,10 +118,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Message.cpp" />
+    <ClCompile Include="Operator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="Operator.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Task.txt" />

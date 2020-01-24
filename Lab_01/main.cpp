@@ -1,17 +1,19 @@
 #include <conio.h>
 #include <iostream>
-
+#include "Operator.h"
 #include "Menu.h"
 
 int main() 
 {
     auto menu = Menu();
     auto action = Menu::Action();
+    auto _operator = Operator();
     while ((action = menu.GetAction()) != Menu::Action::Quit)
     {
         switch (action)
         {
             case Menu::Action::Add:
+                _operator.Add();
                 break;
             case Menu::Action::Save:
                 break;

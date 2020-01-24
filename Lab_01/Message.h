@@ -16,6 +16,7 @@ public:
         Comment
     };
 
+    unsigned int ID;
     std::string Text;
     std::time_t Time;
     std::string Author;
@@ -23,11 +24,14 @@ public:
     MessageType Type;
     double Rate;
 
-    Message(std::string text,
+    Message();
+
+    Message(unsigned int id,
+            std::string text,
             std::time_t time,
             std::string author,
             std::string recipient,
-            MessageType type,
+            MessageType type, 
             double rate);
 };
 
