@@ -1,6 +1,7 @@
 #ifndef OPERATOR_H
 #define OPERATOR_H
 #include "Message.h"
+#include "DateTime.h"
 #include <vector>
 #include <iostream>
 #include <conio.h>
@@ -15,7 +16,7 @@ public:
     std::string ReadStringShort();
     Message::MessageType ReadMessageType();
     double ReadDouble();
-    time_t ReadDateTime();
+    DateTime ReadDateTime();
 
     bool IsValidStringName(std::string name);
 

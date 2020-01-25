@@ -1,11 +1,10 @@
 #include "Operator.h"
 
-
 void Operator::Add()
 {
     Message message = Message();
     message.Text = ReadStringMultiLine();
-    //todo time
+    message.Time = ReadDateTime();
     message.Author = ReadStringShort();
     message.Recipient = ReadStringShort();
     message.Type = ReadMessageType();
@@ -19,7 +18,7 @@ std::string Operator::ReadStringMultiLine()
     const std::string cancel = ":wq";
     do
     {
-        std::cout << "\t>";
+        std::cout << ">";
         result += buffer + "\n";
     }
     while (std::getline(std::cin, buffer) && buffer != cancel);
@@ -33,7 +32,7 @@ std::string Operator::ReadStringShort()
     bool valid = false;
     do
     {
-        std::cout << "\t>";
+        std::cout << ">";
         std::cin >> result;
         valid = IsValidStringName(result);
         if (!valid) std::cout << "YOU ARE WRONG! TRY AGAIN!" << std::endl;
@@ -50,7 +49,7 @@ Message::MessageType Operator::ReadMessageType()
     std::string result;
     do
     {
-        std::cout << "\t>";
+        std::cout << ">";
         std::cin >> result;
         for (const char c : allowed)
         {
@@ -80,7 +79,7 @@ double Operator::ReadDouble()
     double result;
     do
     {
-        std::cout << "\t>";
+        std::cout << ">";
         std::cin >> result;
         valid = result >= 0;
         if (!valid) std::cout << "YOU ARE WRONG! TRY AGAIN!" << std::endl;
@@ -88,84 +87,55 @@ double Operator::ReadDouble()
     return result;
 }
 
-time_t Operator::ReadDateTime()
+DateTime Operator::ReadDateTime()
 {
-    std::cout << "Enter date and time in yyyy:mm:dd HH:mm:ss format" << std::endl;
-    std::string result;
-    time_t time = time_t();
-    
+    std::cout << "Enter date and time in yyyy-mm-dd HH:mm:ss format" << std::endl;
+    std::cout << ">";
+    std::string str;
     bool valid = false;
     int c = 0;
+    char key;
 
-    //year
-    while (c < 4)
+    while (c < 19)
     {
-        char key = (char)_getch();
-        if (isdigit(c)) { result += key; c++; }
-        else std::cout << "\b";
+        if (c == 4 || c == 7) 
+        {
+            str += '-';
+            std::cout << '-';
+            c++;
+            continue;
+        }
+        if (c == 10)
+        {
+            str += ' ';
+            std::cout << ' ';
+            c++;
+            continue;
+        }
+        if (c == 13 || c == 16)
+        {
+            str += ':';
+            std::cout << ':';
+            c++;
+            continue;
+        }
+        key = (char)_getch();
+        if (isdigit(key))
+        {
+            str += key;
+            c++;
+            std::cout << key;
+        }
     }
-    std::cout << '-';
-    result += '-';
-    c = 0;
+    std::cout << std::endl;
 
-    //month
-    while (c < 2)
-    {
-        char key = (char)_getch();
-        if (isdigit(c)) { result += key; c++; }
-        else std::cout << "\b";
-    }
-    std::cout << '-';
-    result += '-';
-    c = 0;
-
-    //day
-    while (c < 2)
-    {
-        char key = (char)_getch();
-        if (isdigit(c)) { result += key; c++; }
-        else std::cout << "\b";
-    }
-    std::cout << ' ';
-    result += ' ';
-    c = 0;
-
-    //hour
-    while (c < 2)
-    {
-        char key = (char)_getch();
-        if (isdigit(c)) { result += key; c++; }
-        else std::cout << "\b";
-    }
-    std::cout << ':';
-    result += ':';
-    c = 0;
-
-    //minute
-    while (c < 2)
-    {
-        char key = (char)_getch();
-        if (isdigit(c)) { result += key; c++; }
-        else std::cout << "\b";
-    }
-    std::cout << ':';
-    result += ':';
-    c = 0;
-
-    //second
-    while (c < 2)
-    {
-        char key = (char)_getch();
-        if (isdigit(c)) { result += key; c++; }
-        else std::cout << "\b";
-    }
-    
-    struct tm tm;
-    //_strptime(result, "%Y-%m-%d %H:%M:%S", &tm);
-    time_t t = mktime(&tm);
-   
-
-    return t;//todo;
+    return DateTime(
+        std::stoi(str.substr(0, 4)),
+        std::stoi(str.substr(5, 2)),
+        std::stoi(str.substr(8, 2)),
+        std::stoi(str.substr(11, 2)),
+        std::stoi(str.substr(14, 2)),
+        std::stoi(str.substr(17, 2)));
 }
 
 bool Operator::IsValidStringName(std::string name)

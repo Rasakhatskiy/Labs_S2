@@ -3,6 +3,7 @@
 
 #include <string>
 #include <ctime>
+#include "DateTime.h"
 
 class Message
 {
@@ -18,7 +19,7 @@ public:
 
     unsigned int ID;
     std::string Text;
-    std::time_t Time;
+    DateTime Time;
     std::string Author;
     std::string Recipient;
     MessageType Type;
@@ -28,7 +29,7 @@ public:
 
     Message(unsigned int id,
             std::string text,
-            std::time_t time,
+            DateTime time,
             std::string author,
             std::string recipient,
             MessageType type, 

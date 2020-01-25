@@ -7,7 +7,7 @@ Message::Message()
 Message::Message(
         unsigned int id,
         std::string text,
-        std::time_t time,
+        DateTime time,
         std::string author,
         std::string recipient,
         Message::MessageType type, double rate)
