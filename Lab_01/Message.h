@@ -34,6 +34,8 @@ public:
             std::string recipient,
             MessageType type, 
             double rate);
+
+
 };
 
 #endif //LAB_1_MESSAGE_H

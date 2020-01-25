@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="DateTime.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -122,6 +123,7 @@
     <ClCompile Include="Operator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataBase.h" />
     <ClInclude Include="DateTime.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />

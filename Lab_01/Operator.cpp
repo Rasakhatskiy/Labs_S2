@@ -2,6 +2,20 @@
 
 void Operator::Add()
 {
+    _DataBase.AddMessage(ReadMessage());
+}
+
+void Operator::PrintMemory()
+{
+    for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+    {
+        PrintMessage(i, _DataBase.MemoryBase[i]);
+    }
+    system("pause");
+}
+
+Message Operator::ReadMessage()
+{
     Message message = Message();
     message.Text = ReadStringMultiLine();
     message.Time = ReadDateTime();
@@ -9,6 +23,28 @@ void Operator::Add()
     message.Recipient = ReadStringShort();
     message.Type = ReadMessageType();
     message.Rate = ReadDouble();
+    return message;
+}
+
+void Operator::PrintMessage(int id, Message message)
+{
+    std::cout << "-----Message [" << id << "][" << message.Time.ToString() << "]-----\n";
+    std::cout << " -> Author : " + message.Author + "\n";
+    std::cout << " <- Recipient : " + message.Recipient + "\n";
+
+    std::string type;
+    switch (message.Type)
+    {
+        case Message::MessageType::Answer: type = "Answer"; break;
+        case Message::MessageType::Comment: type = "Comment"; break;
+        case Message::MessageType::Invite: type = "Invite"; break;
+        case Message::MessageType::News: type = "News"; break;
+        case Message::MessageType::Question: type = "Question"; break;
+        default:type = "Nuclear Missile Launch Codes";
+    }
+    std::cout << "   [" + type + "]\n";
+    std::cout << message.Text;
+    std::cout << "\n   Spam rate : " << message.Rate << std::endl;
 }
 
 std::string Operator::ReadStringMultiLine()
@@ -146,9 +182,6 @@ bool Operator::IsValidStringName(std::string name)
 
     return true;
 }
-
-
-
 
 Operator::Operator()
 {

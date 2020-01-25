@@ -21,6 +21,7 @@ int main()
             case Menu::Action::Load:
                 break;
             case Menu::Action::Print:
+                _operator.PrintMemory();
                 break;
             case Menu::Action::Search:
                 break;
