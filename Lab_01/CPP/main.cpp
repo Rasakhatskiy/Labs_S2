@@ -1,8 +1,8 @@
 #include <conio.h>
 #include <iostream>
-#include "Operator.h"
-#include "Menu.h"
-#include "DateTime.h"
+#include "..\Include\Operator.hpp"
+#include "..\Include\Menu.hpp"
+#include "..\Include\DateTime.hpp"
 
 int main() 
 {

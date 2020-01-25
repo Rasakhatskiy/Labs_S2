@@ -1,8 +1,8 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+#ifndef DATABASE_HPP
+#define DATABASE_HPP
 
 #include <vector>
-#include "Message.h"
+#include "..\Include\Message.hpp"
 
 
 class DataBase
@@ -17,7 +17,7 @@ public:
     void AddMessage(Message message);
 };
 
-#endif //DATABASE_H
+#endif //DATABASE_HPP
 
 
 

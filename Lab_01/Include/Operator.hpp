@@ -1,8 +1,8 @@
-#ifndef OPERATOR_H
-#define OPERATOR_H
-#include "Message.h"
-#include "DateTime.h"
-#include "DataBase.h"
+#ifndef OPERATOR_HPP
+#define OPERATOR_HPP
+#include "..\Include\Message.hpp"
+#include "..\Include\DateTime.hpp"
+#include "..\Include\DataBase.hpp"
 #include <vector>
 #include <iostream>
 #include <conio.h>
@@ -33,4 +33,4 @@ public:
     ~Operator();
 };
 
-#endif //OPERATOR_H
+#endif //OPERATOR_HPP

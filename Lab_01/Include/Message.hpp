@@ -1,9 +1,9 @@
-#ifndef LAB_1_MESSAGE_H
-#define LAB_1_MESSAGE_H
+#ifndef LAB_1_MESSAGE_HPP
+#define LAB_1_MESSAGE_HPP
 
 #include <string>
 #include <ctime>
-#include "DateTime.h"
+#include "..\Include\DateTime.hpp"
 
 class Message
 {
@@ -38,4 +38,4 @@ public:
 
 };
 
-#endif //LAB_1_MESSAGE_H
+#endif //LAB_1_MESSAGE_HPP

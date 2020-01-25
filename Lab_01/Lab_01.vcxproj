@@ -115,19 +115,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DataBase.cpp" />
-    <ClCompile Include="DateTime.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Message.cpp" />
-    <ClCompile Include="Operator.cpp" />
+    <ClCompile Include="CPP\DataBase.cpp" />
+    <ClCompile Include="CPP\DateTime.cpp" />
+    <ClCompile Include="CPP\main.cpp" />
+    <ClCompile Include="CPP\Menu.cpp" />
+    <ClCompile Include="CPP\Message.cpp" />
+    <ClCompile Include="CPP\Operator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataBase.h" />
-    <ClInclude Include="DateTime.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Message.h" />
-    <ClInclude Include="Operator.h" />
+    <ClInclude Include="Include\DataBase.hpp" />
+    <ClInclude Include="Include\DateTime.hpp" />
+    <ClInclude Include="Include\Menu.hpp" />
+    <ClInclude Include="Include\Message.hpp" />
+    <ClInclude Include="Include\Operator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Task.txt" />

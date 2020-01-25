@@ -1,5 +1,5 @@
-#ifndef DATETIME_H
-#define DATETIME_H
+#ifndef DATETIME_HPP
+#define DATETIME_HPP
 
 #include <ctime>
 #include <iostream>
@@ -25,4 +25,4 @@ public:
     bool operator ==(DateTime right);
 };
 
-#endif //DATETIME_H
+#endif //DATETIME_HPP

@@ -1,5 +1,5 @@
-#ifndef LAB_1_MENU_H
-#define LAB_1_MENU_H
+#ifndef LAB_1_MENU_HPP
+#define LAB_1_MENU_HPP
 
 #include <string>
 #include <iostream>
@@ -43,4 +43,4 @@ public:
 };
 
 
-#endif //LAB_1_MENU_H
+#endif //LAB_1_MENU_HPP
