@@ -30,10 +30,14 @@ private:
 
 public:
     void SaveText();
+    void SaveBin();
+    void Load();
     void Add();
     void PrintMemory();
     Operator();
     ~Operator();
+
+
 };
 
 #endif //OPERATOR_HPP

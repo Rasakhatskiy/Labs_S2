@@ -10,6 +10,26 @@ void Operator::SaveText()
     system("pause");
 }
 
+void Operator::SaveBin()
+{
+    if (_DataBase.SaveToBin() == 0)
+        std::cout << "***Saved***" << std::endl;
+    else
+        std::cerr << "***Error***" << std::endl;
+
+    system("pause");
+}
+
+void Operator::Load()
+{
+    if (_DataBase.ReadBin() == 0)
+        std::cout << "***Loaded to memory***" << std::endl;
+    else
+        std::cerr << "***Error***" << std::endl;
+
+    system("pause");
+}
+
 void Operator::Add()
 {
     _DataBase.AddMessage(ReadMessage());
@@ -203,3 +223,4 @@ Operator::Operator()
 Operator::~Operator()
 {
 }
+

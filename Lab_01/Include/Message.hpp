@@ -23,7 +23,7 @@ public:
     std::string Author;
     std::string Recipient;
     MessageType Type;
-    double Rate;
+    float Rate;
 
     Message();
 
@@ -33,7 +33,7 @@ public:
             std::string author,
             std::string recipient,
             MessageType type, 
-            double rate);
+            float rate);
 
 
 };

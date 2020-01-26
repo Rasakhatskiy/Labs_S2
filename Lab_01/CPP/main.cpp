@@ -19,8 +19,12 @@ int main()
             case Menu::Action::SaveText:
                 _operator.SaveText();
                 break;
+            case Menu::Action::SaveBin:
+                _operator.SaveBin();
             case Menu::Action::Load:
+                _operator.Load();
                 break;
+                
             case Menu::Action::Print:
                 _operator.PrintMemory();
                 break;

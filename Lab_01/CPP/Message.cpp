@@ -10,7 +10,8 @@ Message::Message(
         DateTime time,
         std::string author,
         std::string recipient,
-        Message::MessageType type, double rate)
+        Message::MessageType type, 
+        float rate)
 {
     ID = id;
     Text = text;

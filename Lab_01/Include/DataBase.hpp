@@ -10,10 +10,13 @@ class DataBase
 {
     const std::string PathText = "D:\\DataBase.txt";
     const std::string PathBin = "D:\\DataBase.bin";
-    
+    unsigned int MaxID = 0;
+
 public:
     std::vector<Message> MemoryBase;
     int SaveToText();
+    int LoadFromBin();
+    int ReadBin();
     int SaveToBin();
     DataBase();
     ~DataBase();
