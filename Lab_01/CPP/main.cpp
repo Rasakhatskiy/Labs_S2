@@ -16,7 +16,8 @@ int main()
             case Menu::Action::Add:
                 _operator.Add();
                 break;
-            case Menu::Action::Save:
+            case Menu::Action::SaveText:
+                _operator.SaveText();
                 break;
             case Menu::Action::Load:
                 break;

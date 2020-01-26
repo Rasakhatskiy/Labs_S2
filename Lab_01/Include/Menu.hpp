@@ -7,14 +7,20 @@
 
 class Menu
 {
+    enum class MenuType 
+    {
+        Main, Save
+    };
+    MenuType CurrentMenu = MenuType::Main;
 private:
     enum class Button
     {
         Undefined, Up, Down, Select, Return, Quit
     };
     
-    std::string MenuList[7] =
-        {
+    const int MainMenuLength = 8;
+    std::string MainMenu[8] =
+    {
         "Add new message",
         "Save to file",
         "Load from file",
@@ -22,10 +28,20 @@ private:
         "Search",
         "Edit",
         "Remove",
-        };
+        "Exit",
+    };
+
+    const int SaveMenuLength = 5;
+    std::string SaveMenu[5] =
+    {
+        "Save to text",
+        "Save to bin",
+        "Change text file path",
+        "Change bin file path",
+        "Back",
+    };
 
     char Selector = '>';
-    int Length = 7;
     int Cursor;
 
 
@@ -35,7 +51,9 @@ private:
 public:
     enum class Action
     {
-        Add, Save, Load, Print, Search, Edit, Remove, Quit, Undefined
+        Add, Save, Load, Print, Search, Edit, Remove, //Main menu
+        SaveText, SaveBin, ChangeTextPath, ChangeBinPath, //Save menu
+        Undefined, Quit, // General
     };
     Menu();
     void Run();

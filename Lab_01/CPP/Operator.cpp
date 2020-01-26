@@ -1,5 +1,15 @@
 #include "..\Include\Operator.hpp"
 
+void Operator::SaveText()
+{
+    if (_DataBase.SaveToText() == 0)
+        std::cout << "***Saved***" << std::endl;
+    else
+        std::cerr << "***Error***" << std::endl;
+
+    system("pause");
+}
+
 void Operator::Add()
 {
     _DataBase.AddMessage(ReadMessage());
@@ -19,7 +29,9 @@ Message Operator::ReadMessage()
     Message message = Message();
     message.Text = ReadStringMultiLine();
     message.Time = ReadDateTime();
+    std::cout << "Enter author name" << std::endl;
     message.Author = ReadStringShort();
+    std::cout << "Enter recipient name" << std::endl;
     message.Recipient = ReadStringShort();
     message.Type = ReadMessageType();
     message.Rate = ReadDouble();

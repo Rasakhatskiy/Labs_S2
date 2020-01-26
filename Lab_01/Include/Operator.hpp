@@ -1,8 +1,10 @@
 #ifndef OPERATOR_HPP
 #define OPERATOR_HPP
+
 #include "..\Include\Message.hpp"
 #include "..\Include\DateTime.hpp"
 #include "..\Include\DataBase.hpp"
+
 #include <vector>
 #include <iostream>
 #include <conio.h>
@@ -27,6 +29,7 @@ private:
     bool IsValidStringName(std::string name);
 
 public:
+    void SaveText();
     void Add();
     void PrintMemory();
     Operator();

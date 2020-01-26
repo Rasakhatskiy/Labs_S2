@@ -18,10 +18,34 @@ Menu::Action Menu::GetAction()
             if (Cursor > 0) Cursor--;
             break;
         case Menu::Button::Down:
-            if (Cursor < Length - 1) Cursor++;
+            if (Cursor < MainMenuLength - 1) Cursor++;
             break;
         case Menu::Button::Select:
-            return (Action)Cursor;
+            //Main menu
+            if (CurrentMenu == MenuType::Main && Cursor == 1)
+            {
+                Cursor = 0;
+                CurrentMenu = MenuType::Save;
+                return Action::Undefined;
+            }
+            if (CurrentMenu == MenuType::Main && Cursor == MainMenuLength - 1)
+            {
+                return Action::Quit;
+                break;
+            }
+
+            //Save manu
+            if (CurrentMenu == MenuType::Save && Cursor == SaveMenuLength - 1)
+            {
+                Cursor = 0;
+                CurrentMenu = MenuType::Main;
+                return Action::Undefined;
+                break;
+            }
+            
+            //General
+            if(CurrentMenu == MenuType::Main) return (Action)(Cursor + 0);
+            if(CurrentMenu == MenuType::Save) return (Action)(Cursor + 7);
             break;
         case Menu::Button::Return:
             return Action::Undefined;
@@ -58,12 +82,30 @@ Menu::Button Menu::GetButton()
 void Menu::Draw()
 {
     system("CLS");
-    for (int i = 0; i < Length; ++i)
+
+    switch (CurrentMenu)
     {
-        if (Cursor == i) std::cout << Selector;
-        else std::cout << " ";
-        std::cout << MenuList[i] << std::endl;
+        case Menu::MenuType::Main:
+            for (int i = 0; i < MainMenuLength; ++i)
+            {
+                if (Cursor == i) std::cout << Selector;
+                else std::cout << " ";
+                std::cout << MainMenu[i] << std::endl;
+            }
+            break;
+        case Menu::MenuType::Save:
+            for (int i = 0; i < SaveMenuLength; ++i)
+            {
+                if (Cursor == i) std::cout << Selector;
+                else std::cout << " ";
+                std::cout << SaveMenu[i] << std::endl;
+            }
+            break;
+        default:
+            break;
     }
+
+    
 }
 
 

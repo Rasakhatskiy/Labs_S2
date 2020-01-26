@@ -1,19 +1,24 @@
 #ifndef DATABASE_HPP
 #define DATABASE_HPP
 
-#include <vector>
 #include "..\Include\Message.hpp"
 
+#include <vector>
+#include <fstream>
 
 class DataBase
 {
+    const std::string PathText = "D:\\DataBase.txt";
+    const std::string PathBin = "D:\\DataBase.bin";
+    
 public:
     std::vector<Message> MemoryBase;
-
+    int SaveToText();
+    int SaveToBin();
     DataBase();
     ~DataBase();
 
-    void PrintFromMemory();
+    
     void AddMessage(Message message);
 };
 
