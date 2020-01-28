@@ -47,6 +47,7 @@ void Operator::PrintMemory()
 Message Operator::ReadMessage()
 {
     Message message = Message();
+    message.ID = 0;
     message.Text = ReadStringMultiLine();
     message.Time = ReadDateTime();
     std::cout << "Enter author name" << std::endl;

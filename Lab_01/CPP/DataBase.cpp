@@ -49,6 +49,8 @@ int DataBase::ReadBin()
     /*if (!FileExists(PathBin))
         return -1;*/
 
+    MemoryBase.clear();
+
     std::ifstream file;
     file.open(PathBin, std::ios::in | std::ios::binary);
 
@@ -61,23 +63,47 @@ int DataBase::ReadBin()
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
-    unsigned largestId = 0;
-    uint32_t id, sizeAuthor, sizeRecipient, sizeText;
+
+    uint32_t id, time, sizeText;
+    float rate;
+    Byte typeB, sizeAuthor, sizeRecipient;
+    
 
     for (int i = 0; i < number; ++i)
     {
         file.read(reinterpret_cast<char *>(&id), sizeof(id));
-        if (id > largestId) largestId = id;
-        file.ignore(5);
+        file.read(reinterpret_cast<char *>(&time), sizeof(time));
+        file.read(reinterpret_cast<char *>(&rate), sizeof(rate));
+        file.read(reinterpret_cast<char *>(&typeB), sizeof(typeB));
         file.read(reinterpret_cast<char *>(&sizeAuthor), sizeof(sizeAuthor));
         file.read(reinterpret_cast<char *>(&sizeRecipient), sizeof(sizeRecipient));
         file.read(reinterpret_cast<char *>(&sizeText), sizeof(sizeText));
-        file.ignore(sizeAuthor + sizeRecipient + sizeText);
-        
+
+        char * author = new char[sizeAuthor + 1];
+        char * recipient = new char[sizeRecipient + 1];
+        char * text = new char[sizeText + 1];
+
+        file.read(author, sizeAuthor);
+        file.read(recipient, sizeRecipient);
+        file.read(text, sizeText);
+
+        author[sizeAuthor] = '\0';
+        recipient[sizeRecipient] = '\0';
+        text[sizeText] = '\0';
+
+        MemoryBase.push_back(Message::Message(
+            id, 
+            std::string(text), 
+            DateTime::DateTime(time), 
+            std::string(author), 
+            std::string(recipient), 
+            Message::GetType((char)typeB), 
+            rate));
+
+        delete author, recipient, text;
     }
     file.read(reinterpret_cast<char *>(&check), sizeof(check));
     if (check != 0xFFFFFFFF) return -2;
-    MaxID = largestId;
     file.close();
     return 0;
 }
@@ -131,6 +157,48 @@ int DataBase::SaveToBin()
     return 0;
 }
 
+int DataBase::ReadIDs() 
+{
+    IDs.clear();
+    /*if (!FileExists(PathBin))
+        return -1;*/
+
+    std::ifstream file;
+    file.open(PathBin, std::ios::in | std::ios::binary);
+
+    uint32_t number;
+    file.read(reinterpret_cast<char *>(&number), sizeof(number));
+
+    uint32_t check;
+    file.read(reinterpret_cast<char *>(&check), sizeof(check));
+    if (check != 0xFFFFFFFF) return -2;
+
+    //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
+    //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
+
+    uint32_t id, sizeText;
+    Byte sizeAuthor, sizeRecipient;
+
+    for (int i = 0; i < number; ++i)
+    {
+        file.read(reinterpret_cast<char *>(&id), sizeof(id));
+        file.ignore(sizeof(int));
+        file.ignore(sizeof(float));
+        file.ignore(sizeof(Byte));
+        file.read(reinterpret_cast<char *>(&sizeAuthor), sizeof(sizeAuthor));
+        file.read(reinterpret_cast<char *>(&sizeRecipient), sizeof(sizeRecipient));
+        file.read(reinterpret_cast<char *>(&sizeText), sizeof(sizeText));
+        file.ignore(sizeAuthor);
+        file.ignore(sizeRecipient);
+        file.ignore(sizeText);
+
+        IDs.push_back(id);
+    }
+    file.read(reinterpret_cast<char *>(&check), sizeof(check));
+    if (check != 0xFFFFFFFF) return -2;
+    file.close();
+    return 0;
+}
 
 void DataBase::AddMessage(Message message)
 {

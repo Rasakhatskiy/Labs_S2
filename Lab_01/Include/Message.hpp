@@ -4,6 +4,7 @@
 #include <string>
 #include <ctime>
 #include "..\Include\DateTime.hpp"
+#define Byte unsigned char
 
 class Message
 {
@@ -35,7 +36,18 @@ public:
             MessageType type, 
             float rate);
 
-
+    static MessageType GetType(char ch)
+    {
+        ch = tolower(ch);
+        switch (ch)
+        {
+            case 'n': return Message::MessageType::News;
+            case 'q': return Message::MessageType::Question;
+            case 'a': return Message::MessageType::Answer;
+            case 'i': return Message::MessageType::Invite;
+            case 'c': return Message::MessageType::Comment;
+        }
+    }
 };
 
 #endif //LAB_1_MESSAGE_HPP
