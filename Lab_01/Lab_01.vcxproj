@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="Include\DataBase.hpp" />
     <ClInclude Include="Include\DateTime.hpp" />
+    <ClInclude Include="Include\Error.hpp" />
     <ClInclude Include="Include\Menu.hpp" />
     <ClInclude Include="Include\Message.hpp" />
     <ClInclude Include="Include\Operator.hpp" />

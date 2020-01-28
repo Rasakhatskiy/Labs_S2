@@ -1,4 +1,9 @@
 #include "..\Include\DataBase.hpp"
+inline bool FileExists(const std::string& name)
+{
+    std::ifstream f(name.c_str());
+    return f.good();
+}
 
 DataBase::DataBase()
 {
@@ -159,9 +164,10 @@ int DataBase::SaveToBin()
 
 int DataBase::ReadIDs() 
 {
-    IDs.clear();
-    /*if (!FileExists(PathBin))
-        return -1;*/
+    if (!FileExists(PathBin))
+        return -1;
+
+    std::vector<int> newIDs;
 
     std::ifstream file;
     file.open(PathBin, std::ios::in | std::ios::binary);
@@ -192,11 +198,16 @@ int DataBase::ReadIDs()
         file.ignore(sizeRecipient);
         file.ignore(sizeText);
 
-        IDs.push_back(id);
+        newIDs.push_back(id);
     }
+
+
     file.read(reinterpret_cast<char *>(&check), sizeof(check));
     if (check != 0xFFFFFFFF) return -2;
     file.close();
+
+    IDs.clear();
+    IDs = newIDs;
     return 0;
 }
 
@@ -205,8 +216,3 @@ void DataBase::AddMessage(Message message)
     MemoryBase.push_back(message);
 }
 
-inline bool FileExists(const std::string& name)
-{
-    std::ifstream f(name.c_str());
-    return f.good();
-}
