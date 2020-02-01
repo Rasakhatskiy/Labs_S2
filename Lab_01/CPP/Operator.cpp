@@ -12,27 +12,37 @@ void Operator::SaveText()
 
 void Operator::SaveBin()
 {
-    if (_DataBase.SaveToBin() == 0)
-        std::cout << "***Saved***" << std::endl;
-    else
-        std::cerr << "***Error***" << std::endl;
+
+    int result = _DataBase.SaveToBin();
+        if (result == 0)
+            std::cout << "***Saved tobinary file***" << std::endl;
+        else
+            PrintError(result);
 
     system("pause");
 }
 
-void Operator::Load()
+
+void Operator::LoadBin()
 {
-    if (_DataBase.ReadBin() == 0)
+    int result = _DataBase.ReadBin();
+    if (result == 0)
         std::cout << "***Loaded to memory***" << std::endl;
     else
-        std::cerr << "***Error***" << std::endl;
+        PrintError(result);
 
     system("pause");
 }
+
 
 void Operator::Add()
 {
-    _DataBase.AddMessage(ReadMessage());
+    auto message = ReadMessage();
+    _DataBase.AddMessage(message);
+    ClearScreen();
+    PrintMessage(0, message);
+    std::cout << "Saved to memory" << std::endl;
+    system("pause");
 }
 
 void Operator::PrintMemory()
@@ -214,6 +224,16 @@ bool Operator::IsValidStringName(std::string name)
             return false;
 
     return true;
+}
+
+void Operator::PrintError(int errorID)
+{
+    std::cerr << "Error : " << GetError(errorID) << std::endl;
+}
+
+void Operator::ClearScreen()
+{
+    system("CLS");
 }
 
 Operator::Operator()

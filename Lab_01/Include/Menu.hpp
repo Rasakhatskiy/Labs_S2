@@ -42,6 +42,7 @@ private:
     };
 
     char Selector = '>';
+    char Selector2 = '<';
     int Cursor;
 
 

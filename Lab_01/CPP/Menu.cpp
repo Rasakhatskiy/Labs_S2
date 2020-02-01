@@ -90,7 +90,9 @@ void Menu::Draw()
             {
                 if (Cursor == i) std::cout << Selector;
                 else std::cout << " ";
-                std::cout << MainMenu[i] << std::endl;
+                std::cout << MainMenu[i];
+                if (Cursor == i) std::cout << Selector2;
+                std::cout << std::endl;
             }
             break;
         case Menu::MenuType::Save:
@@ -98,7 +100,10 @@ void Menu::Draw()
             {
                 if (Cursor == i) std::cout << Selector;
                 else std::cout << " ";
-                std::cout << SaveMenu[i] << std::endl;
+                std::cout << SaveMenu[i];
+                if (Cursor == i) std::cout << Selector2;
+                std::cout << std::endl;
+
             }
             break;
         default:

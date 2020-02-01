@@ -10,18 +10,18 @@ enum ERROR
     FileCorrupted = -2
 };
 
-int MAX_ERROR = 2;
-std::string[] ERROR_TEXT=
+const int MAX_ERROR = 3;
+const std::string ERROR_TEXT[MAX_ERROR] =
 {
     "Error doesn't exists!",
     "File does't exists!",
     "File is corrupted!"
-}
+};
 
-std::string GetError(int id)
+inline std::string GetError(int id)
 {
     id = std::abs(id);
-    if (id > MAX_ERROR) return ERROR_TEXT[0];
+    if (id >= MAX_ERROR) return ERROR_TEXT[0];
     else return ERROR_TEXT[id];
 }
 

@@ -4,6 +4,7 @@
 #include "..\Include\Message.hpp"
 #include "..\Include\DateTime.hpp"
 #include "..\Include\DataBase.hpp"
+#include "..\Include\Error.hpp"
 
 #include <vector>
 #include <iostream>
@@ -28,10 +29,14 @@ private:
     void PrintMessage(int id, Message message);
     bool IsValidStringName(std::string name);
 
+    void PrintError(int errorID);
+
+    void ClearScreen();
+
 public:
     void SaveText();
     void SaveBin();
-    void Load();
+    void LoadBin();
     void Add();
     void PrintMemory();
     Operator();

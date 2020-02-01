@@ -13,6 +13,8 @@ DataBase::~DataBase()
 {
 }
 
+
+
 int DataBase::SaveToText()
 {
     std::ofstream textFile;
@@ -42,17 +44,11 @@ int DataBase::SaveToText()
     return 0;
 }
 
-int DataBase::LoadFromBin()
-{
-    bool successRead = false;
-    
-    return 0;
-}
 
 int DataBase::ReadBin()
 {
-    /*if (!FileExists(PathBin))
-        return -1;*/
+    if (!FileExists(PathBin))
+        return -1;
 
     MemoryBase.clear();
 
@@ -64,9 +60,10 @@ int DataBase::ReadBin()
 
     uint32_t check;
     file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != 0xFFFFFFFF) return -2;
+    if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
+
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
 
     uint32_t id, time, sizeText;
@@ -107,37 +104,35 @@ int DataBase::ReadBin()
 
         delete author, recipient, text;
     }
-    file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != 0xFFFFFFFF) return -2;
     file.close();
     return 0;
 }
 
 int DataBase::SaveToBin()
 {
-    //if (ReadBin != 0) 
     MaxID = 0;
+    MaxElements = 0;
+
+    int readRes = ReadIDs();
+
     std::ofstream file;
 
-    file.open(PathBin, std::ios::out | std::ios::binary);
-        
-    /*if (MaxID == 0)
-    {
+    file.open(PathBin, std::ios::out | std::ios::app | std::ios::binary);
 
-    }*/
     uint32_t number = MemoryBase.size();
-    file.write(reinterpret_cast<char *>(&number), sizeof(number));
+    if (MaxID == 0) file.write(reinterpret_cast<char *>(&number), sizeof(number));
 
-    uint32_t check = 0xFFFFFFFF;
-    file.write(reinterpret_cast<char *>(&check), sizeof(check));
+    uint32_t check = I_LOVE_KNU_EXCEPT_MATAN;
+    if(MaxID == 0) file.write(reinterpret_cast<char *>(&check), sizeof(check));
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
+
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
     unsigned largestId = 0;
 
     for (int i = 0; i < number; ++i)
     {
-        uint32_t id = i;
+        uint32_t id = MaxID++;
         uint32_t time = MemoryBase[i].Time.Time;
         float rate = MemoryBase[i].Rate;
         uint8_t type = MemoryBase[i].Type;
@@ -156,8 +151,12 @@ int DataBase::SaveToBin()
         file << MemoryBase[i].Author;
         file << MemoryBase[i].Recipient;
         file << MemoryBase[i].Text;
+        MaxElements++;
     }
-    file.write(reinterpret_cast<char *>(&check), sizeof(check));
+    file.seekp(0);
+
+    number = MaxElements;
+    if (MaxID == 0) file.write(reinterpret_cast<char *>(&number), sizeof(number));
     file.close();
     return 0;
 }
@@ -177,9 +176,10 @@ int DataBase::ReadIDs()
 
     uint32_t check;
     file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != 0xFFFFFFFF) return -2;
+    if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
+
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
 
     uint32_t id, sizeText;
@@ -201,13 +201,14 @@ int DataBase::ReadIDs()
         newIDs.push_back(id);
     }
 
-
-    file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != 0xFFFFFFFF) return -2;
     file.close();
 
     IDs.clear();
     IDs = newIDs;
+    MaxID = 0;
+    MaxElements = IDs.size();
+    for (int i = 0; i < IDs.size(); i++)
+        if (IDs[i] > MaxID) MaxID = IDs[i];
     return 0;
 }
 
@@ -215,4 +216,3 @@ void DataBase::AddMessage(Message message)
 {
     MemoryBase.push_back(message);
 }
-

@@ -21,8 +21,9 @@ int main()
                 break;
             case Menu::Action::SaveBin:
                 _operator.SaveBin();
+                break;
             case Menu::Action::Load:
-                _operator.Load();
+                _operator.LoadBin();
                 break;
                 
             case Menu::Action::Print:
