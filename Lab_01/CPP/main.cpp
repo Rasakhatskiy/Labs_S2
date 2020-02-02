@@ -9,6 +9,7 @@ int main()
     auto menu = Menu();
     auto action = Menu::Action();
     auto _operator = Operator();
+    _operator.LoadIDs();
     while ((action = menu.GetAction()) != Menu::Action::Quit)
     {
         switch (action)

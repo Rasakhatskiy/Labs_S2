@@ -55,13 +55,6 @@ int DataBase::ReadBin()
     std::ifstream file;
     file.open(PathBin, std::ios::in | std::ios::binary);
 
-    uint32_t number;
-    file.read(reinterpret_cast<char *>(&number), sizeof(number));
-
-    uint32_t check;
-    file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;
-
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
 
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
@@ -71,7 +64,7 @@ int DataBase::ReadBin()
     Byte typeB, sizeAuthor, sizeRecipient;
     
 
-    for (int i = 0; i < number; ++i)
+    while (!file.eof())
     {
         file.read(reinterpret_cast<char *>(&id), sizeof(id));
         file.read(reinterpret_cast<char *>(&time), sizeof(time));
@@ -161,22 +154,63 @@ int DataBase::SaveToBin()
     return 0;
 }
 
+int DataBase::SaveToBin(Message message)
+{
+    std::ofstream file;
+    uint32_t number;
+
+    file.open(PathBin, std::ios::out | std::ios::app | std::ios::binary);
+
+    //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
+
+    //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
+    unsigned largestId = 0;
+
+    uint32_t id = MaxID++;
+    uint32_t time = message.Time.Time;
+    float rate = message.Rate;
+    uint8_t type = message.Type;
+    uint8_t sizeAuthor = message.Author.size();
+    uint8_t sizeRecipient = message.Recipient.size();
+    uint32_t sizeText = message.Text.size();
+
+    file.write(reinterpret_cast<char *>(&id), sizeof(id));
+    file.write(reinterpret_cast<char *>(&time), sizeof(time));
+    file.write(reinterpret_cast<char *>(&rate), sizeof(rate));
+    file.write(reinterpret_cast<char *>(&type), sizeof(type));
+    file.write(reinterpret_cast<char *>(&sizeAuthor), sizeof(sizeAuthor));
+    file.write(reinterpret_cast<char *>(&sizeRecipient), sizeof(sizeRecipient));
+    file.write(reinterpret_cast<char *>(&sizeText), sizeof(sizeText));
+
+    file << message.Author;
+    file << message.Recipient;
+    file << message.Text;
+    MaxElements++;
+
+    file.close();
+    return 0;
+}
+
 int DataBase::ReadIDs() 
 {
     if (!FileExists(PathBin))
+    {
+        MaxElements = 0;
+        MaxID = 0;
         return -1;
+    }
 
     std::vector<int> newIDs;
 
     std::ifstream file;
     file.open(PathBin, std::ios::in | std::ios::binary);
 
-    uint32_t number;
+   /* uint32_t number;
     file.read(reinterpret_cast<char *>(&number), sizeof(number));
 
     uint32_t check;
     file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;
+    if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;*/
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
 
@@ -185,7 +219,7 @@ int DataBase::ReadIDs()
     uint32_t id, sizeText;
     Byte sizeAuthor, sizeRecipient;
 
-    for (int i = 0; i < number; ++i)
+    while(!file.eof())
     {
         file.read(reinterpret_cast<char *>(&id), sizeof(id));
         file.ignore(sizeof(int));
@@ -197,7 +231,6 @@ int DataBase::ReadIDs()
         file.ignore(sizeAuthor);
         file.ignore(sizeRecipient);
         file.ignore(sizeText);
-
         newIDs.push_back(id);
     }
 
@@ -205,10 +238,12 @@ int DataBase::ReadIDs()
 
     IDs.clear();
     IDs = newIDs;
+
     MaxID = 0;
     MaxElements = IDs.size();
     for (int i = 0; i < IDs.size(); i++)
         if (IDs[i] > MaxID) MaxID = IDs[i];
+
     return 0;
 }
 

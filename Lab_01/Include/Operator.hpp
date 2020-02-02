@@ -37,6 +37,8 @@ public:
     void SaveText();
     void SaveBin();
     void LoadBin();
+    void LoadIDs();
+
     void Add();
     void PrintMemory();
     Operator();

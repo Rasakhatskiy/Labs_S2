@@ -20,6 +20,7 @@ public:
     int SaveToText();
     int ReadBin();
     int SaveToBin();
+    int SaveToBin(Message message);
     int ReadIDs();
     DataBase();
     ~DataBase();

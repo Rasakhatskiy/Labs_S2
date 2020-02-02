@@ -13,11 +13,11 @@ void Operator::SaveText()
 void Operator::SaveBin()
 {
 
-    int result = _DataBase.SaveToBin();
+    /*int result = _DataBase.SaveToBin();
         if (result == 0)
             std::cout << "***Saved tobinary file***" << std::endl;
         else
-            PrintError(result);
+            PrintError(result);*/
 
     system("pause");
 }
@@ -38,10 +38,10 @@ void Operator::LoadBin()
 void Operator::Add()
 {
     auto message = ReadMessage();
-    _DataBase.AddMessage(message);
+    _DataBase.SaveToBin(message);
     ClearScreen();
     PrintMessage(0, message);
-    std::cout << "Saved to memory" << std::endl;
+    std::cout << "***Saved to disk***" << std::endl;
     system("pause");
 }
 
@@ -69,9 +69,14 @@ Message Operator::ReadMessage()
     return message;
 }
 
+void Operator::LoadIDs()
+{
+    _DataBase.ReadIDs();
+}
+
 void Operator::PrintMessage(int id, Message message)
 {
-    std::cout << "-----Message [" << id << "][" << message.Time.ToString() << "]-----\n";
+    std::cout << "\n-----Message [" << id << "][" << message.Time.ToString() << "]-----------------------------------\n";
     std::cout << " -> Author : " + message.Author + "\n";
     std::cout << " <- Recipient : " + message.Recipient + "\n";
 
@@ -86,7 +91,24 @@ void Operator::PrintMessage(int id, Message message)
         default:type = "Nuclear Missile Launch Codes";
     }
     std::cout << "   [" + type + "]\n";
-    std::cout << message.Text;
+    auto size = message.Text.size();
+    int col = 0;
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << message.Text[i];
+        col++;
+        if (message.Text[i] == '\n')
+        {
+            std::cout << "#\t";
+            col = 0;
+        }
+        if (col > 108)
+        {
+            std::cout << "\n#\t";
+            col = 0;
+        }
+    }
+    //std::cout << message.Text;
     std::cout << "\n   Spam rate : " << message.Rate << std::endl;
 }
 
