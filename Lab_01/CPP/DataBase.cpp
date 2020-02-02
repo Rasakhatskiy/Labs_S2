@@ -86,6 +86,8 @@ int DataBase::ReadBin()
         recipient[sizeRecipient] = '\0';
         text[sizeText] = '\0';
 
+        if (file.eof()) break;
+
         MemoryBase.push_back(Message::Message(
             id, 
             std::string(text), 
@@ -159,7 +161,7 @@ int DataBase::SaveToBin(Message message)
     std::ofstream file;
     uint32_t number;
 
-    file.open(PathBin, std::ios::out | std::ios::app | std::ios::binary);
+    file.open(PathBin, std::ios::out | std::ios::app | std::ofstream::binary);
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
 
@@ -182,9 +184,9 @@ int DataBase::SaveToBin(Message message)
     file.write(reinterpret_cast<char *>(&sizeRecipient), sizeof(sizeRecipient));
     file.write(reinterpret_cast<char *>(&sizeText), sizeof(sizeText));
 
-    file << message.Author;
-    file << message.Recipient;
-    file << message.Text;
+    file.write(message.Author.c_str(), message.Author.size());
+    file.write(message.Recipient.c_str(), message.Recipient.size());
+    file.write(message.Text.c_str(), message.Text.size());
     MaxElements++;
 
     file.close();
