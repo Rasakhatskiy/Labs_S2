@@ -34,13 +34,23 @@ private:
     void ClearScreen();
 
 public:
+	void Add();
+
     void SaveText();
     void SaveBin();
-    void LoadBin();
-    void LoadIDs();
+	void ChangeTextPath();
+	void ChangeBinPath();
 
-    void Add();
+	void LoadBin();
+	void LoadText();
+
+	void SearchText();
+	void SerchRateAuthor();
+	void SearchTypeTime();
+
     void PrintMemory();
+	void LoadIDs();
+
     Operator();
     ~Operator();
 

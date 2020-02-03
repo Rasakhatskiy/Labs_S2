@@ -78,6 +78,8 @@ int DataBase::ReadBin()
         char * recipient = new char[sizeRecipient + 1];
         char * text = new char[sizeText + 1];
 
+        if (file.eof()) break;
+
         file.read(author, sizeAuthor);
         file.read(recipient, sizeRecipient);
         file.read(text, sizeText);
@@ -86,7 +88,6 @@ int DataBase::ReadBin()
         recipient[sizeRecipient] = '\0';
         text[sizeText] = '\0';
 
-        if (file.eof()) break;
 
         MemoryBase.push_back(Message::Message(
             id, 

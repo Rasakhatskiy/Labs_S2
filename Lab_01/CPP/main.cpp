@@ -6,43 +6,33 @@
 
 int main() 
 {
-    auto menu = Menu();
+    auto _menu = Menu();
+	auto _operator = Operator();
     auto action = Menu::Action();
-    auto _operator = Operator();
+
     _operator.LoadIDs();
-    while ((action = menu.GetAction()) != Menu::Action::Quit)
+    while ((action = _menu.GetAction()) != Menu::Action::Quit)
     {
         switch (action)
         {
-            case Menu::Action::Add:
-                _operator.Add();
-                break;
-            case Menu::Action::SaveText:
-                _operator.SaveText();
-                break;
-            case Menu::Action::SaveBin:
-                _operator.SaveBin();
-                break;
-            case Menu::Action::Load:
-                _operator.LoadBin();
-                break;
+            case Menu::Action::Add:				_operator.Add();			break;
+
+            case Menu::Action::SaveText:		_operator.SaveText();		break;
+            case Menu::Action::SaveBin:			_operator.SaveBin();		break;
+			case Menu::Action::ChangeTextPath:	/*todo*/					break;
+			case Menu::Action::ChangeBinPath:	/*todo*/					break;
+
+            case Menu::Action::LoadBin:			_operator.LoadBin();		break;
+			case Menu::Action::LoadText:		/*todo*/					break;
                 
-            case Menu::Action::Print:
-                _operator.PrintMemory();
-                break;
-            case Menu::Action::Search:
-                break;
-            case Menu::Action::Edit:
-                break;
-            case Menu::Action::Remove:
-                break;
-            case Menu::Action::Quit:
-                return 0;
-                break;
-            case Menu::Action::Undefined:
-                break;
-            default:
-                break;
+            case Menu::Action::Print:			_operator.PrintMemory();	break;
+            case Menu::Action::Search:			/*todo*/					break;
+            case Menu::Action::Edit:			/*todo*/					break;
+            case Menu::Action::Remove:			/*todo*/					break;
+            case Menu::Action::Quit:										return 0;
+            case Menu::Action::Undefined:		_menu.ResetCursor();		break;
+            case Menu::Action::Move:										break;
+            default:														break;
         }
     }
     return 0;

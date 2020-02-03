@@ -4,12 +4,13 @@
 #include <string>
 #include <iostream>
 #include <conio.h>
+#include <vector>
 
 class Menu
 {
     enum class MenuType 
     {
-        Main, Save
+        Main, Save, Load, Search
     };
     MenuType CurrentMenu = MenuType::Main;
 private:
@@ -18,8 +19,7 @@ private:
         Undefined, Up, Down, Select, Return, Quit
     };
     
-    const int MainMenuLength = 8;
-    std::string MainMenu[8] =
+    std::vector<std::string> MainMenu =
     {
         "Add new message",
         "Save to file",
@@ -31,8 +31,7 @@ private:
         "Exit",
     };
 
-    const int SaveMenuLength = 5;
-    std::string SaveMenu[5] =
+	std::vector<std::string> SaveMenu =
     {
         "Save to text",
         "Save to bin",
@@ -40,6 +39,21 @@ private:
         "Change bin file path",
         "Back",
     };
+
+	std::vector<std::string> LoadMenu =
+	{
+		"Load from text",
+		"Load from bin",
+		"Back",
+	};
+
+	std::vector<std::string> SearchMenu =
+	{
+		"Search by text fragment",
+		"Search by rate from author",
+		"Search by type with time",
+		"Back",
+	};
 
     char Selector = '>';
     char Selector2 = '<';
@@ -52,12 +66,15 @@ private:
 public:
     enum class Action
     {
-        Add, Save, Load, Print, Search, Edit, Remove, //Main menu
-        SaveText, SaveBin, ChangeTextPath, ChangeBinPath, //Save menu
-        Undefined, Quit, // General
+        Add, Save, Load, Print, Search, Edit, Remove,		//Main menu		00-06 
+        SaveText, SaveBin, ChangeTextPath, ChangeBinPath,	//Save menu		07-10
+		LoadText, LoadBin,									//Load menu		11-12
+		SearchText, SearchRateAuthor, SearchTypeTime,		//Search menu	13-15
+        Undefined, Move, Quit, // General
     };
     Menu();
     void Run();
+	void ResetCursor();
     Action GetAction();
 };
 
