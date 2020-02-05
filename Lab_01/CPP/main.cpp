@@ -23,7 +23,7 @@ int main()
 			case Menu::Action::ChangeBinPath:	/*todo*/					break;
 
             case Menu::Action::LoadBin:			_operator.LoadBin();		break;
-			case Menu::Action::LoadText:		/*todo*/					break;
+			case Menu::Action::LoadText:		_operator.LoadText();		break;
                 
             case Menu::Action::Print:			_operator.PrintMemory();	break;
             case Menu::Action::Search:			/*todo*/					break;

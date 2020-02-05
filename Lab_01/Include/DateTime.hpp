@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+#include "../Include/Error.hpp"
 
 class DateTime
 {
@@ -15,6 +16,7 @@ public:
 
     DateTime();
     DateTime(int time);
+	DateTime(std::string time);
     DateTime(int year, int month, int day, int hour, int minute, int second);
     ~DateTime();
 

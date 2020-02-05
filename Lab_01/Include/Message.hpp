@@ -47,6 +47,7 @@ public:
             case 'i': return Message::MessageType::Invite;
             case 'c': return Message::MessageType::Comment;
         }
+		return Message::MessageType::Comment; //just because
     }
 };
 

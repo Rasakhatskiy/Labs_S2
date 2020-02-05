@@ -35,8 +35,6 @@ private:
     {
         "Save to text",
         "Save to bin",
-        "Change text file path",
-        "Change bin file path",
         "Back",
     };
 

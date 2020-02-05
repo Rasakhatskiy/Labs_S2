@@ -13,7 +13,7 @@ DateTime::DateTime()
 
 DateTime::DateTime(int time)
 {
-    
+	Time = time;
     //6 bits - x, x+2000 = year
     //4 bits - month
     //5 bits - day
@@ -73,6 +73,49 @@ DateTime::DateTime(int time)
         (bitArray[29] << 2) |
         (bitArray[30] << 1) |
         (bitArray[31] << 0);
+}
+
+DateTime::DateTime(std::string time)
+{
+	if (time[4] != '-' || time[7] != '-' || time[10] != ' ' || time[13] != ':' || time[16] != ':')
+	{
+		Years = 0;
+		Months = 0;
+		Days = 0;
+		Hours = 0;
+		Minutes = 0;
+		Seconds = 0;
+		Time = 0;
+		return;
+	}
+
+	Years =		std::stoi(time.substr(0, 4));
+	Months =	std::stoi(time.substr(5, 2));
+	Days =		std::stoi(time.substr(8, 2));
+	Hours =		std::stoi(time.substr(11, 2));
+	Minutes =	std::stoi(time.substr(14, 2));
+	Seconds =	std::stoi(time.substr(17, 2));
+
+	Time = 0;
+	int i, k;
+
+	for (i = 0, k = 5; i < 6; i++, k--)
+		Time |= (((Years - 1999) & (1 << k)) >> k) << 31 - i;
+
+	for (i = 6, k = 3; i < 10; i++, k--)
+		Time |= ((Months & (1 << k)) >> k) << 31 - i;
+
+	for (i = 10, k = 4; i < 15; i++, k--)
+		Time |= ((Days & (1 << k)) >> k) << 31 - i;
+
+	for (i = 15, k = 4; i < 20; i++, k--)
+		Time |= ((Hours & (1 << k)) >> k) << 31 - i;
+
+	for (i = 20, k = 5; i < 26; i++, k--)
+		Time |= ((Minutes & (1 << k)) >> k) << 31 - i;
+
+	for (i = 26, k = 5; i < 32; i++, k--)
+		Time |= ((Seconds & (1 << k)) >> k) << 31 - i;
 }
 
 DateTime::DateTime(int year, int month, int day, int hour, int minute, int second)

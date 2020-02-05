@@ -51,7 +51,7 @@ Menu::Action Menu::GetAction()
 			{
 				switch (Cursor)
 				{
-					case 4:	CurrentMenu = MenuType::Main;					return Action::Undefined;
+					case 2:	CurrentMenu = MenuType::Main;					return Action::Undefined;
 					default:												return (Action)(Cursor + 7);
 				}
 			}
@@ -83,6 +83,7 @@ Menu::Action Menu::GetAction()
         case Menu::Button::Quit:											return Action::Quit;
         default: break;
     }
+																			return Action::Undefined;
 }
 
 Menu::Menu()
@@ -120,7 +121,7 @@ void Menu::Draw()
 		case Menu::MenuType::Search:	menu = SearchMenu;	break;
 	}
 
-	for (int i = 0; i < menu.size(); ++i)
+	for (unsigned i = 0; i < menu.size(); ++i)
 	{
 		if (Cursor == i)	std::cout << Selector;
 		else				std::cout << " ";

@@ -26,12 +26,25 @@ void Operator::SaveBin()
 void Operator::LoadBin()
 {
     int result = _DataBase.ReadBin();
+
     if (result == 0)
         std::cout << "***Loaded to memory***" << std::endl;
     else
         PrintError(result);
 
     system("pause");
+}
+
+void Operator::LoadText()
+{
+	int result = _DataBase.ReadText();
+
+	if (result == 0)
+		std::cout << "***Loaded to memory***" << std::endl;
+	else
+		PrintError(result);
+
+	system("pause");
 }
 
 

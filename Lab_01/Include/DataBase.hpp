@@ -19,6 +19,7 @@ public:
     std::vector<Message> MemoryBase;
     int SaveToText();
     int ReadBin();
+	int ReadText();
     int SaveToBin();
     int SaveToBin(Message message);
     int ReadIDs();

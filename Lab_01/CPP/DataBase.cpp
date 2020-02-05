@@ -14,7 +14,6 @@ DataBase::~DataBase()
 }
 
 
-
 int DataBase::SaveToText()
 {
     std::ofstream textFile;
@@ -43,7 +42,6 @@ int DataBase::SaveToText()
     textFile.close();
     return 0;
 }
-
 
 int DataBase::ReadBin()
 {
@@ -98,10 +96,76 @@ int DataBase::ReadBin()
             Message::GetType((char)typeB), 
             rate));
 
-        delete author, recipient, text;
+        delete[] author, recipient, text;
     }
     file.close();
     return 0;
+}
+
+int DataBase::ReadText()
+{
+	if (!FileExists(PathText))
+		return -1;
+
+	MemoryBase.clear();
+
+	std::ifstream file;
+	file.open(PathText, std::ios::in);
+
+	std::string lineInfo;
+	std::string lineAuthor;
+	std::string lineRecipient;
+	std::string lineType;
+	std::string lineMessage;
+	std::string lineRate;
+
+
+	std::string message;
+
+
+	while (!file.eof())
+	{
+		std::getline(file, lineInfo);
+		std::getline(file, lineAuthor);
+		std::getline(file, lineRecipient);
+		std::getline(file, lineType);
+		bool endMessage = false;
+
+		do 
+		{
+			std::getline(file, lineMessage);
+			if (lineMessage.size() > 15)
+			{
+				if (lineMessage.substr(3, 11) == "Spam rate :")
+				{
+					lineRate = lineMessage.substr(14, lineMessage.size() - 1);
+					endMessage = true;
+				}
+			}
+			if (!endMessage) message += lineMessage + "\n";
+		} while (!endMessage);
+
+		bool readId = false, readDate = false;
+
+		std::string id, date;
+		for (auto& i : lineInfo)
+		{
+			if (i == '[') 
+				if (!readId) readId = true; 
+				else readDate = true;
+
+			if (i == ']')
+			{
+				if (readId) readId = false;
+				if (readDate) break;
+			}
+			if (readId) id += i;
+			if (readDate) date += i;
+		}
+
+
+
+	}
 }
 
 int DataBase::SaveToBin()
