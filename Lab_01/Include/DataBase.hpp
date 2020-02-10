@@ -28,6 +28,7 @@ public:
 
     
     void AddMessage(Message message);
+	int ReadIdDate(std::string source, unsigned& id, DateTime& datetime);
 };
 
 #endif //DATABASE_HPP

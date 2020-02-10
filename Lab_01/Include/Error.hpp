@@ -15,9 +15,9 @@ const int MAX_ERROR = 4;
 const std::string ERROR_TEXT[MAX_ERROR] =
 {
     "Error doesn't exists!",
-    "File does't exists!",
-    "File is corrupted!",
-	"Invalid date format"
+    "File does't exists!",		//-1
+    "File is corrupted!",		//-2
+	"Invalid date format"		//-3
 };
 
 inline std::string GetError(int id)

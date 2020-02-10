@@ -118,18 +118,38 @@ int DataBase::ReadText()
 	std::string lineType;
 	std::string lineMessage;
 	std::string lineRate;
-
-
 	std::string message;
 
 
 	while (!file.eof())
 	{
-		std::getline(file, lineInfo);
-		std::getline(file, lineAuthor);
-		std::getline(file, lineRecipient);
-		std::getline(file, lineType);
+		int error = 0;
 		bool endMessage = false;
+
+		unsigned id;
+		DateTime dateTime;
+		std::string author;
+		std::string recipient;
+		Message::MessageType type;
+		float rate;
+
+		std::getline(file, lineInfo);
+		if (file.eof())break;
+		if (lineInfo[0] != '-') return ERROR::FileCorrupted;
+		error = ReadIdDate(lineInfo, id, dateTime);
+		if (error != 0) return error;
+
+		std::getline(file, lineAuthor);
+		if (lineAuthor[2] != '>') return ERROR::FileCorrupted;
+		author = lineAuthor.substr(13, lineAuthor.size() - 1);
+
+		std::getline(file, lineRecipient);
+		if (lineRecipient[1] != '<') return ERROR::FileCorrupted;
+		recipient = lineRecipient.substr(16, lineRecipient.size() - 1);
+
+		std::getline(file, lineType);
+		if (lineType[3] != '[') return ERROR::FileCorrupted;
+		type = Message::GetType(lineType[4]);
 
 		do 
 		{
@@ -143,29 +163,21 @@ int DataBase::ReadText()
 				}
 			}
 			if (!endMessage) message += lineMessage + "\n";
+
+			if(file.eof() && !endMessage) return ERROR::FileCorrupted;
 		} while (!endMessage);
-
-		bool readId = false, readDate = false;
-
-		std::string id, date;
-		for (auto& i : lineInfo)
-		{
-			if (i == '[') 
-				if (!readId) readId = true; 
-				else readDate = true;
-
-			if (i == ']')
-			{
-				if (readId) readId = false;
-				if (readDate) break;
-			}
-			if (readId) id += i;
-			if (readDate) date += i;
-		}
-
-
-
+		rate = std::stod(lineRate);
+		
+		MemoryBase.push_back(Message(
+			id,
+			message,
+			dateTime,
+			author,
+			recipient,
+			type,
+			rate));
 	}
+	return 0;
 }
 
 int DataBase::SaveToBin()
@@ -317,4 +329,51 @@ int DataBase::ReadIDs()
 void DataBase::AddMessage(Message message)
 {
     MemoryBase.push_back(message);
+}
+
+int DataBase::ReadIdDate(std::string source, unsigned &id, DateTime &datetime)
+{
+	bool readId = false;
+	bool toReadId = false;
+	bool toReadDate = false;
+	std::string idStr, dateString;
+
+	try 
+	{ 
+		for (auto& i : source)
+		{
+			if (i == '[')
+			{
+				if (!readId)
+					toReadId = true;
+				else
+					toReadDate = true;
+				continue;
+			}
+
+			if (i == ']')
+			{
+				if (toReadId)
+				{
+					toReadId = false;
+					readId = true;
+				}
+
+				if (toReadDate)
+					break;
+
+				continue;
+			}
+			if (toReadId) idStr += i;
+			if (toReadDate) dateString += i;
+		}
+
+		id = std::stoi(idStr);
+		datetime = DateTime(dateString);
+	}
+	catch (...) 
+	{ 
+		return ERROR::FileCorrupted;
+	}
+	return 0;
 }
