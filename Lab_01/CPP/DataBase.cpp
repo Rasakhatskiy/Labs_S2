@@ -14,7 +14,6 @@ DataBase::~DataBase()
 }
 
 
-
 int DataBase::ReadBin()
 {
     if (!FileExists(PathBin))
