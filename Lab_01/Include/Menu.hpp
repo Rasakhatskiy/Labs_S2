@@ -22,7 +22,7 @@ private:
     std::vector<std::string> MainMenu =
     {
         "Add new message",
-        "Save to file",
+        "Save memory to file",
         "Load from file",
         "Print",
         "Search",

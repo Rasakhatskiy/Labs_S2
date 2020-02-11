@@ -26,7 +26,7 @@ int main()
 			case Menu::Action::LoadText:		_operator.LoadText();		break;
                 
             case Menu::Action::Print:			_operator.PrintMemory();	break;
-            case Menu::Action::Search:			/*todo*/					break;
+			case Menu::Action::SearchText:		_operator.SearchText();		break;
             case Menu::Action::Edit:			/*todo*/					break;
             case Menu::Action::Remove:			/*todo*/					break;
             case Menu::Action::Quit:										return 0;

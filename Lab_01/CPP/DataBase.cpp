@@ -235,6 +235,12 @@ int DataBase::SaveToBin()
 
 int DataBase::SaveToBin(Message message)
 {
+
+	/*MaxID = 0;*/
+	//MaxElements = 0;
+
+	int readRes = ReadIDs();
+
     std::ofstream file;
     uint32_t number;
 
@@ -245,7 +251,7 @@ int DataBase::SaveToBin(Message message)
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
     unsigned largestId = 0;
 
-    uint32_t id = MaxID++;
+    uint32_t id = ++MaxID;
     uint32_t time = message.Time.Time;
     float rate = message.Rate;
     uint8_t type = message.Type;
@@ -375,5 +381,20 @@ int DataBase::ReadIdDate(std::string source, unsigned &id, DateTime &datetime)
 	{ 
 		return ERROR::FileCorrupted;
 	}
+	return 0;
+}
+
+int DataBase::SearchByText(std::string fragment)
+{
+	ReadBin();
+	std::vector<Message> result;
+	for (auto& i : MemoryBase)
+	{
+		if (i.Text.find(fragment) != std::string::npos)
+		{
+			result.push_back(i);
+		}
+	}
+	MemoryBase = result;
 	return 0;
 }

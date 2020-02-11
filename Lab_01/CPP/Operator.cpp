@@ -48,6 +48,16 @@ void Operator::LoadText()
 }
 
 
+void Operator::SearchText()
+{
+	std::cout << "Enter fragment for search : \n";
+	std::string fragment;
+	std::getline(std::cin, fragment);
+	_DataBase.SearchByText(fragment);
+	PrintMemory();
+}
+
+
 void Operator::Add()
 {
     auto message = ReadMessage();
@@ -62,7 +72,7 @@ void Operator::PrintMemory()
 {
     for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
     {
-        PrintMessage(i, _DataBase.MemoryBase[i]);
+        PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
     }
     system("pause");
 }
@@ -72,13 +82,25 @@ Message Operator::ReadMessage()
     Message message = Message();
     message.ID = 0;
     message.Text = ReadStringMultiLine();
+	std::cout << std::endl;
+
     message.Time = ReadDateTime();
+	std::cout << std::endl;
+
     std::cout << "Enter author name" << std::endl;
     message.Author = ReadStringShort();
+	std::cout << std::endl;
+
     std::cout << "Enter recipient name" << std::endl;
     message.Recipient = ReadStringShort();
+	std::cout << std::endl;
+
     message.Type = ReadMessageType();
+	std::cout << std::endl;
+
     message.Rate = ReadDouble();
+	std::cout << std::endl;
+
     return message;
 }
 
@@ -279,4 +301,5 @@ Operator::Operator()
 Operator::~Operator()
 {
 }
+
 
