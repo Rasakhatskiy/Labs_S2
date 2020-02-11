@@ -26,8 +26,11 @@ int main()
 			case Menu::Action::LoadText:		_operator.LoadText();		break;
                 
             case Menu::Action::Print:			_operator.PrintMemory();	break;
+
 			case Menu::Action::SearchText:		_operator.SearchText();		break;
-			case Menu::Action::SearchRateAuthor:_operator.SerchRateAuthor(); break;
+			case Menu::Action::SearchRateAuthor:_operator.SerchRateAuthor();break;
+			case Menu::Action::SearchTypeTime:	_operator.SearchTypeTime();	break;
+
             case Menu::Action::Edit:			/*todo*/					break;
             case Menu::Action::Remove:			/*todo*/					break;
             case Menu::Action::Quit:										return 0;

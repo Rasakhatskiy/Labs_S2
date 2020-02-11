@@ -331,6 +331,16 @@ int DataBase::SearchRateAuthor(std::string author, float rateMin, float rateMax)
 
 int DataBase::SearchTypeTime(Message::MessageType type, DateTime dateTimeBefore)
 {
+	ReadBin();
+	std::vector<Message> result;
+	for (auto& i : MemoryBase)
+	{
+		if (i.Type == type && i.Time < dateTimeBefore)
+		{
+			result.push_back(i);
+		}
+	}
+	MemoryBase = result;
 	return 0;
 }
 

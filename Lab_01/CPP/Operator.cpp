@@ -74,6 +74,21 @@ void Operator::SerchRateAuthor()
 	PrintMemory();
 }
 
+void Operator::SearchTypeTime()
+{
+	Message::MessageType type;
+	DateTime datetime;
+
+	std::cout << "\nEnter message type : \n";
+	type = ReadMessageType();
+
+	std::cout << "Enter maximum date :\n";
+	datetime = ReadDateTime();
+
+	_DataBase.SearchTypeTime(type, datetime);
+	PrintMemory();
+}
+
 void Operator::Add()
 {
     auto message = ReadMessage();

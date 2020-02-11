@@ -177,15 +177,33 @@ std::string DateTime::ToString()
 
 bool DateTime::operator<(DateTime right)
 {
-    return false;
+	if (Years > right.Years)		return false;
+	if (Months > right.Months)		return false;
+	if (Days > right.Days)			return false;
+	if (Hours > right.Hours)		return false;
+	if (Minutes > right.Minutes)	return false;
+	if (Seconds > right.Seconds)	return false;
+	return true;
 }
 
 bool DateTime::operator>(DateTime right)
 {
-    return false;
+	if (Years < right.Years)		return false;
+	if (Months < right.Months)		return false;
+	if (Days < right.Days)			return false;
+	if (Hours < right.Hours)		return false;
+	if (Minutes < right.Minutes)	return false;
+	if (Seconds < right.Seconds)	return false;
+	return true;
 }
 
 bool DateTime::operator==(DateTime right)
 {
-    return false;
+	if (Years != right.Years)		return false;
+	if (Months != right.Months)		return false;
+	if (Days != right.Days)			return false;
+	if (Hours != right.Hours)		return false;
+	if (Minutes != right.Minutes)	return false;
+	if (Seconds != right.Seconds)	return false;
+	return true;
 }
