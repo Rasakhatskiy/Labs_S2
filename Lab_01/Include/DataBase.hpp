@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cctype>
+#include <algorithm>
 
 class DataBase
 {
@@ -17,11 +19,11 @@ class DataBase
     std::vector<int> IDs;
 public:
     std::vector<Message> MemoryBase;
-    int SaveToText();
+    int SaveMemoryToText();
     int ReadBin();
 	int ReadText();
-    int SaveToBin();
-    int SaveToBin(Message message);
+    int SaveMemoryToBin();
+    int AppendToBin(Message message);
     int ReadIDs();
     DataBase();
     ~DataBase();
@@ -30,6 +32,8 @@ public:
     void AddMessage(Message message);
 	int ReadIdDate(std::string source, unsigned& id, DateTime& datetime);
 	int SearchByText(std::string fragment);
+	int SearchRateAuthor(std::string author, float rateMin, float rateMax);
+	int SearchTypeTime(Message::MessageType type, DateTime dateTimeBefore);
 };
 
 #endif //DATABASE_HPP

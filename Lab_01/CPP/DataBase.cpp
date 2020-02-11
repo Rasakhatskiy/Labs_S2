@@ -14,34 +14,6 @@ DataBase::~DataBase()
 }
 
 
-int DataBase::SaveToText()
-{
-    std::ofstream textFile;
-    textFile.open(PathText);
-
-    for (int id = 0; id < MemoryBase.size(); id++)
-    {
-        auto message = MemoryBase[id];
-        textFile << "-----Message [" << id << "][" << message.Time.ToString() << "]-----\n";
-        textFile << " -> Author : " + message.Author + "\n";
-        textFile << " <- Recipient : " + message.Recipient + "\n";
-        std::string type;
-        switch (message.Type)
-        {
-            case Message::MessageType::Answer: type = "Answer"; break;
-            case Message::MessageType::Comment: type = "Comment"; break;
-            case Message::MessageType::Invite: type = "Invite"; break;
-            case Message::MessageType::News: type = "News"; break;
-            case Message::MessageType::Question: type = "Question"; break;
-            default:type = "Nuclear Missile Launch Codes";
-        }
-        textFile << "   [" + type + "]\n";
-        textFile << message.Text;
-        textFile << "\n   Spam rate : " << message.Rate << std::endl;
-    }
-    textFile.close();
-    return 0;
-}
 
 int DataBase::ReadBin()
 {
@@ -180,7 +152,8 @@ int DataBase::ReadText()
 	return 0;
 }
 
-int DataBase::SaveToBin()
+
+int DataBase::SaveMemoryToBin()
 {
     MaxID = 0;
     MaxElements = 0;
@@ -233,7 +206,37 @@ int DataBase::SaveToBin()
     return 0;
 }
 
-int DataBase::SaveToBin(Message message)
+int DataBase::SaveMemoryToText()
+{
+	std::ofstream textFile;
+	textFile.open(PathText);
+
+	for (int id = 0; id < MemoryBase.size(); id++)
+	{
+		auto message = MemoryBase[id];
+		textFile << "-----Message [" << id << "][" << message.Time.ToString() << "]-----\n";
+		textFile << " -> Author : " + message.Author + "\n";
+		textFile << " <- Recipient : " + message.Recipient + "\n";
+		std::string type;
+		switch (message.Type)
+		{
+		case Message::MessageType::Answer: type = "Answer"; break;
+		case Message::MessageType::Comment: type = "Comment"; break;
+		case Message::MessageType::Invite: type = "Invite"; break;
+		case Message::MessageType::News: type = "News"; break;
+		case Message::MessageType::Question: type = "Question"; break;
+		default:type = "Nuclear Missile Launch Codes";
+		}
+		textFile << "   [" + type + "]\n";
+		textFile << message.Text;
+		textFile << "\n   Spam rate : " << message.Rate << std::endl;
+	}
+	textFile.close();
+	return 0;
+}
+
+
+int DataBase::AppendToBin(Message message)
 {
 
 	/*MaxID = 0;*/
@@ -276,76 +279,126 @@ int DataBase::SaveToBin(Message message)
     return 0;
 }
 
-int DataBase::ReadIDs() 
-{
-    if (!FileExists(PathBin))
-    {
-        MaxElements = 0;
-        MaxID = 0;
-        return -1;
-    }
-
-    std::vector<int> newIDs;
-
-    std::ifstream file;
-    file.open(PathBin, std::ios::in | std::ios::binary);
-
-   /* uint32_t number;
-    file.read(reinterpret_cast<char *>(&number), sizeof(number));
-
-    uint32_t check;
-    file.read(reinterpret_cast<char *>(&check), sizeof(check));
-    if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;*/
-
-    //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
-
-    //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
-
-    uint32_t id, sizeText;
-    Byte sizeAuthor, sizeRecipient;
-
-    while(!file.eof())
-    {
-        file.read(reinterpret_cast<char *>(&id), sizeof(id));
-        file.ignore(sizeof(int));
-        file.ignore(sizeof(float));
-        file.ignore(sizeof(Byte));
-        file.read(reinterpret_cast<char *>(&sizeAuthor), sizeof(sizeAuthor));
-        file.read(reinterpret_cast<char *>(&sizeRecipient), sizeof(sizeRecipient));
-        file.read(reinterpret_cast<char *>(&sizeText), sizeof(sizeText));
-        file.ignore(sizeAuthor);
-        file.ignore(sizeRecipient);
-        file.ignore(sizeText);
-        newIDs.push_back(id);
-    }
-
-    file.close();
-
-    IDs.clear();
-    IDs = newIDs;
-
-    MaxID = 0;
-    MaxElements = IDs.size();
-    for (int i = 0; i < IDs.size(); i++)
-        if (IDs[i] > MaxID) MaxID = IDs[i];
-
-    return 0;
-}
 
 void DataBase::AddMessage(Message message)
 {
     MemoryBase.push_back(message);
 }
 
-int DataBase::ReadIdDate(std::string source, unsigned &id, DateTime &datetime)
+
+int DataBase::SearchByText(std::string fragment)
+{
+	ReadBin();
+	std::vector<Message> result;
+	for (auto& i : MemoryBase)
+	{
+		if (i.Text.find(fragment) != std::string::npos)
+		{
+			result.push_back(i);
+		}
+	}
+	MemoryBase = result;
+	return 0;
+}
+
+int DataBase::SearchRateAuthor(std::string author, float rateMin, float rateMax)
+{
+	ReadBin();
+	std::vector<Message> result;
+	std::transform(
+		author.begin(), 
+		author.end(), 
+		author.begin(),
+		[](unsigned char c) { return std::tolower(c); });
+
+	for (auto& i : MemoryBase)
+	{
+		std::string a = i.Author;
+		std::transform(
+			a.begin(),
+			a.end(),
+			a.begin(),
+			[](unsigned char c) { return std::tolower(c); });
+
+		if (a == author && i.Rate >= rateMin && i.Rate <= rateMax)
+		{
+			result.push_back(i);
+		}
+	}
+	MemoryBase = result;
+	return 0;
+}
+
+int DataBase::SearchTypeTime(Message::MessageType type, DateTime dateTimeBefore)
+{
+	return 0;
+}
+
+int DataBase::ReadIDs()
+{
+	if (!FileExists(PathBin))
+	{
+		MaxElements = 0;
+		MaxID = 0;
+		return -1;
+	}
+
+	std::vector<int> newIDs;
+
+	std::ifstream file;
+	file.open(PathBin, std::ios::in | std::ios::binary);
+
+	/* uint32_t number;
+	 file.read(reinterpret_cast<char *>(&number), sizeof(number));
+
+	 uint32_t check;
+	 file.read(reinterpret_cast<char *>(&check), sizeof(check));
+	 if (check != I_LOVE_KNU_EXCEPT_MATAN) return -2;*/
+
+	 //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
+
+	 //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
+
+	uint32_t id, sizeText;
+	Byte sizeAuthor, sizeRecipient;
+
+	while (!file.eof())
+	{
+		file.read(reinterpret_cast<char*>(&id), sizeof(id));
+		file.ignore(sizeof(int));
+		file.ignore(sizeof(float));
+		file.ignore(sizeof(Byte));
+		file.read(reinterpret_cast<char*>(&sizeAuthor), sizeof(sizeAuthor));
+		file.read(reinterpret_cast<char*>(&sizeRecipient), sizeof(sizeRecipient));
+		file.read(reinterpret_cast<char*>(&sizeText), sizeof(sizeText));
+		file.ignore(sizeAuthor);
+		file.ignore(sizeRecipient);
+		file.ignore(sizeText);
+		newIDs.push_back(id);
+	}
+
+	file.close();
+
+	IDs.clear();
+	IDs = newIDs;
+
+	MaxID = 0;
+	MaxElements = IDs.size();
+	for (int i = 0; i < IDs.size(); i++)
+		if (IDs[i] > MaxID) MaxID = IDs[i];
+
+	return 0;
+}
+
+int DataBase::ReadIdDate(std::string source, unsigned& id, DateTime& datetime)
 {
 	bool readId = false;
 	bool toReadId = false;
 	bool toReadDate = false;
 	std::string idStr, dateString;
 
-	try 
-	{ 
+	try
+	{
 		for (auto& i : source)
 		{
 			if (i == '[')
@@ -377,24 +430,9 @@ int DataBase::ReadIdDate(std::string source, unsigned &id, DateTime &datetime)
 		id = std::stoi(idStr);
 		datetime = DateTime(dateString);
 	}
-	catch (...) 
-	{ 
+	catch (...)
+	{
 		return ERROR::FileCorrupted;
 	}
-	return 0;
-}
-
-int DataBase::SearchByText(std::string fragment)
-{
-	ReadBin();
-	std::vector<Message> result;
-	for (auto& i : MemoryBase)
-	{
-		if (i.Text.find(fragment) != std::string::npos)
-		{
-			result.push_back(i);
-		}
-	}
-	MemoryBase = result;
 	return 0;
 }

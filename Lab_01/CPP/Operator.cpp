@@ -2,7 +2,7 @@
 
 void Operator::SaveText()
 {
-    if (_DataBase.SaveToText() == 0)
+    if (_DataBase.SaveMemoryToText() == 0)
         std::cout << "***Saved***" << std::endl;
     else
         std::cerr << "***Error***" << std::endl;
@@ -50,23 +50,40 @@ void Operator::LoadText()
 
 void Operator::SearchText()
 {
-	std::cout << "Enter fragment for search : \n";
+	std::cout << "\nEnter fragment for search : \n";
 	std::string fragment;
 	std::getline(std::cin, fragment);
 	_DataBase.SearchByText(fragment);
 	PrintMemory();
 }
 
+void Operator::SerchRateAuthor()
+{
+	float min, max;
+
+	std::cout << "\nEnter author for search : \n";
+	std::string author = ReadStringShort();
+
+	std::cout << "Enter minimum rate: ";
+	std::cin >> min;
+
+	std::cout << "Enter maximum rate: ";
+	std::cin >> max;
+
+	_DataBase.SearchRateAuthor(author, min, max);
+	PrintMemory();
+}
 
 void Operator::Add()
 {
     auto message = ReadMessage();
-    _DataBase.SaveToBin(message);
+    _DataBase.AppendToBin(message);
     ClearScreen();
     PrintMessage(0, message);
     std::cout << "***Saved to disk***" << std::endl;
     system("pause");
 }
+
 
 void Operator::PrintMemory()
 {
@@ -76,6 +93,45 @@ void Operator::PrintMemory()
     }
     system("pause");
 }
+
+void Operator::PrintMessage(int id, Message message)
+{
+	std::cout << "\n-----Message [" << id << "][" << message.Time.ToString() << "]-----------------------------------\n";
+	std::cout << " -> Author : " + message.Author + "\n";
+	std::cout << " <- Recipient : " + message.Recipient + "\n";
+
+	std::string type;
+	switch (message.Type)
+	{
+	case Message::MessageType::Answer: type = "Answer"; break;
+	case Message::MessageType::Comment: type = "Comment"; break;
+	case Message::MessageType::Invite: type = "Invite"; break;
+	case Message::MessageType::News: type = "News"; break;
+	case Message::MessageType::Question: type = "Question"; break;
+	default:type = "Nuclear Missile Launch Codes";
+	}
+	std::cout << "   [" + type + "]\n";
+	auto size = message.Text.size();
+	int col = 0;
+	for (int i = 0; i < size; i++)
+	{
+		std::cout << message.Text[i];
+		col++;
+		if (message.Text[i] == '\n')
+		{
+			std::cout << "#\t";
+			col = 0;
+		}
+		if (col > 108)
+		{
+			std::cout << "\n#\t";
+			col = 0;
+		}
+	}
+	//std::cout << message.Text;
+	std::cout << "\n   Spam rate : " << message.Rate << std::endl;
+}
+
 
 Message Operator::ReadMessage()
 {
@@ -109,43 +165,7 @@ void Operator::LoadIDs()
     _DataBase.ReadIDs();
 }
 
-void Operator::PrintMessage(int id, Message message)
-{
-    std::cout << "\n-----Message [" << id << "][" << message.Time.ToString() << "]-----------------------------------\n";
-    std::cout << " -> Author : " + message.Author + "\n";
-    std::cout << " <- Recipient : " + message.Recipient + "\n";
 
-    std::string type;
-    switch (message.Type)
-    {
-        case Message::MessageType::Answer: type = "Answer"; break;
-        case Message::MessageType::Comment: type = "Comment"; break;
-        case Message::MessageType::Invite: type = "Invite"; break;
-        case Message::MessageType::News: type = "News"; break;
-        case Message::MessageType::Question: type = "Question"; break;
-        default:type = "Nuclear Missile Launch Codes";
-    }
-    std::cout << "   [" + type + "]\n";
-    auto size = message.Text.size();
-    int col = 0;
-    for (int i = 0; i < size; i++)
-    {
-        std::cout << message.Text[i];
-        col++;
-        if (message.Text[i] == '\n')
-        {
-            std::cout << "#\t";
-            col = 0;
-        }
-        if (col > 108)
-        {
-            std::cout << "\n#\t";
-            col = 0;
-        }
-    }
-    //std::cout << message.Text;
-    std::cout << "\n   Spam rate : " << message.Rate << std::endl;
-}
 
 std::string Operator::ReadStringMultiLine()
 {
