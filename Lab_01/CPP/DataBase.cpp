@@ -64,7 +64,7 @@ int DataBase::ReadBin()
             DateTime::DateTime(time), 
             std::string(author), 
             std::string(recipient), 
-            Message::GetType((char)typeB), 
+            (Message::MessageType)typeB, 
             rate));
 
         delete[] author, recipient, text;
