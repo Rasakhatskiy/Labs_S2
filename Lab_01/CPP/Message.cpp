@@ -2,6 +2,7 @@
 
 Message::Message()
 {
+	ID = -1;
 }
 
 Message::Message(

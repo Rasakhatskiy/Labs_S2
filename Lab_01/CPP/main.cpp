@@ -31,6 +31,9 @@ int main()
 			case Menu::Action::SearchRateAuthor:_operator.SerchRateAuthor();break;
 			case Menu::Action::SearchTypeTime:	_operator.SearchTypeTime();	break;
 
+			case Menu::Action::ModifyText:		_operator.ModifyText();		break;
+			case Menu::Action::ModifyBin:		_operator.ModifyBin();		break;
+
             case Menu::Action::Edit:			/*todo*/					break;
             case Menu::Action::Remove:			/*todo*/					break;
             case Menu::Action::Quit:										return 0;

@@ -14,10 +14,10 @@ DataBase::~DataBase()
 }
 
 
-int DataBase::ReadBin()
+int DataBase::ReadBin(int searchId)
 {
-    if (!FileExists(PathBin))
-        return -1;
+	if (!FileExists(PathBin))
+		return ERROR::FileDoesntExists;
 
     MemoryBase.clear();
 
@@ -32,10 +32,15 @@ int DataBase::ReadBin()
     float rate;
     Byte typeB, sizeAuthor, sizeRecipient;
     
+	LastPointerBegin = -1;
+	LastPointerEnd = -1;
 
     while (!file.eof())
     {
         file.read(reinterpret_cast<char *>(&id), sizeof(id));
+
+		if (id == searchId) LastPointerBegin = (long)file.tellg() - 4;
+
         file.read(reinterpret_cast<char *>(&time), sizeof(time));
         file.read(reinterpret_cast<char *>(&rate), sizeof(rate));
         file.read(reinterpret_cast<char *>(&typeB), sizeof(typeB));
@@ -53,6 +58,8 @@ int DataBase::ReadBin()
         file.read(recipient, sizeRecipient);
         file.read(text, sizeText);
 
+		if (id == searchId) LastPointerEnd = file.tellg();
+
         author[sizeAuthor] = '\0';
         recipient[sizeRecipient] = '\0';
         text[sizeText] = '\0';
@@ -68,15 +75,18 @@ int DataBase::ReadBin()
             rate));
 
         delete[] author, recipient, text;
+
+		if (LastPointerBegin != -1 && LastPointerEnd != -1 && id != -1)
+			break;
     }
     file.close();
     return 0;
 }
 
-int DataBase::ReadText()
+int DataBase::ReadText(int searchId)
 {
 	if (!FileExists(PathText))
-		return -1;
+		return ERROR::FileDoesntExists;
 
 	MemoryBase.clear();
 
@@ -94,6 +104,7 @@ int DataBase::ReadText()
 
 	while (!file.eof())
 	{
+		message = "";
 		int error = 0;
 		bool endMessage = false;
 
@@ -148,6 +159,7 @@ int DataBase::ReadText()
 			type,
 			rate));
 	}
+
 	return 0;
 }
 
@@ -235,12 +247,8 @@ int DataBase::SaveMemoryToText()
 }
 
 
-int DataBase::AppendToBin(Message message)
+int DataBase::AppendToBin(Message _message, int _id)
 {
-
-	/*MaxID = 0;*/
-	//MaxElements = 0;
-
 	int readRes = ReadIDs();
 
     std::ofstream file;
@@ -253,13 +261,13 @@ int DataBase::AppendToBin(Message message)
     //[4b, 4b,   4b,   1b,   1b,       1b,         4b,    SA,     SR,        ST  ]
     unsigned largestId = 0;
 
-    uint32_t id = ++MaxID;
-    uint32_t time = message.Time.Time;
-    float rate = message.Rate;
-    uint8_t type = message.Type;
-    uint8_t sizeAuthor = message.Author.size();
-    uint8_t sizeRecipient = message.Recipient.size();
-    uint32_t sizeText = message.Text.size();
+    uint32_t id = (_id == -1) ? ++MaxID : _id;
+    uint32_t time = _message.Time.Time;
+    float rate = _message.Rate;
+    uint8_t type = _message.Type;
+    uint8_t sizeAuthor = _message.Author.size();
+    uint8_t sizeRecipient = _message.Recipient.size();
+    uint32_t sizeText = _message.Text.size();
 
     file.write(reinterpret_cast<char *>(&id), sizeof(id));
     file.write(reinterpret_cast<char *>(&time), sizeof(time));
@@ -269,9 +277,9 @@ int DataBase::AppendToBin(Message message)
     file.write(reinterpret_cast<char *>(&sizeRecipient), sizeof(sizeRecipient));
     file.write(reinterpret_cast<char *>(&sizeText), sizeof(sizeText));
 
-    file.write(message.Author.c_str(), message.Author.size());
-    file.write(message.Recipient.c_str(), message.Recipient.size());
-    file.write(message.Text.c_str(), message.Text.size());
+    file.write(_message.Author.c_str(), _message.Author.size());
+    file.write(_message.Recipient.c_str(), _message.Recipient.size());
+    file.write(_message.Text.c_str(), _message.Text.size());
     MaxElements++;
 
     file.close();
@@ -343,6 +351,34 @@ int DataBase::SearchTypeTime(Message::MessageType type, DateTime dateTimeBefore)
 	return 0;
 }
 
+
+Message DataBase::GetByIdText(int id)
+{
+	ReadText(id);
+	for (auto& i : MemoryBase)
+	{
+		if (i.ID == id)
+		{
+			return i;
+		}
+	}
+	return Message();
+}
+
+Message DataBase::GetByIdBin(int id)
+{
+	ReadBin(id);
+	for (auto& i : MemoryBase)
+	{
+		if (i.ID == id)
+		{
+			return i;
+		}
+	}
+	return Message();
+}
+
+
 int DataBase::ReadIDs()
 {
 	if (!FileExists(PathBin))
@@ -397,6 +433,71 @@ int DataBase::ReadIDs()
 		if (IDs[i] > MaxID) MaxID = IDs[i];
 
 	return 0;
+}
+
+int DataBase::ShiftDataBase()
+{
+	if (!FileExists(PathBin))
+		return ERROR::FileDoesntExists;
+
+	if (LastPointerBegin == -1 || LastPointerEnd == -1)
+		return ERROR::MessageNotFound;
+
+	auto backupFile = PathBin + ".bk";
+	const int bufferSize = 10 * 1024;
+	std::ifstream ifile;
+	std::ofstream ofile;
+	char buffer[bufferSize];
+	int toCopy;
+
+	//get db size
+	ifile.open(PathBin, std::ios::in | std::ios::binary | std::ios::ate);
+	int fileSize = ifile.tellg();
+	ifile.close();
+
+	ifile.open(PathBin, std::ios::in | std::ios::binary);
+	ofile.open(backupFile, std::ios::out | std::ios::binary);
+
+	toCopy = LastPointerBegin;
+
+	//copy part before shift
+	while (toCopy >= bufferSize)
+	{
+		ifile.read(buffer, bufferSize);
+		ofile.write(buffer, bufferSize);
+		toCopy -= bufferSize;
+	}
+	{
+		ifile.read(buffer, toCopy);
+		ofile.write(buffer, toCopy);
+		toCopy = 0;
+	}
+
+	ifile.seekg(LastPointerEnd);
+	toCopy = fileSize - LastPointerEnd;
+	while (toCopy >= bufferSize)
+	{
+		ifile.read(buffer, bufferSize);
+		ofile.write(buffer, bufferSize);
+		toCopy -= bufferSize;
+	}
+	{
+		ifile.read(buffer, toCopy);
+		ofile.write(buffer, toCopy);
+		toCopy = 0;
+	}
+
+	ifile.close();
+	ofile.close();
+	LastPointerBegin = -1;
+	LastPointerEnd = -1;
+
+	std::remove(PathBin.c_str());
+
+	if (std::rename(backupFile.c_str(), PathBin.c_str()) == 0)
+		return 0;
+	else
+		return ERROR::RenamingError;
 }
 
 int DataBase::ReadIdDate(std::string source, unsigned& id, DateTime& datetime)

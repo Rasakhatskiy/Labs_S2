@@ -30,8 +30,9 @@ private:
     bool IsValidStringName(std::string name);
 
     void PrintError(int errorID);
+	void ClearScreen();
 
-    void ClearScreen();
+    
 
 public:
 	void Add();
@@ -47,6 +48,15 @@ public:
 	void SearchText();
 	void SerchRateAuthor();
 	void SearchTypeTime();
+
+
+	void ModifyText();
+	void ModifyBin();
+	void DeleteText();
+	void DeleteBin();
+	void Demo();
+	void Benchmark();
+
 
     void PrintMemory();
 	void LoadIDs();

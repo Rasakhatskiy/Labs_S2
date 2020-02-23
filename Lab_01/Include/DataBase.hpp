@@ -8,6 +8,8 @@
 #include <fstream>
 #include <cctype>
 #include <algorithm>
+#include <cstdio>
+#include <filesystem>
 
 class DataBase
 {
@@ -20,11 +22,17 @@ class DataBase
 public:
     std::vector<Message> MemoryBase;
     int SaveMemoryToText();
-    int ReadBin();
-	int ReadText();
+    int ReadBin(int searchId = -1);
+	int ReadText(int searchId = -1);
     int SaveMemoryToBin();
-    int AppendToBin(Message message);
+	int AppendToBin(Message message, int id = -1);
     int ReadIDs();
+
+	int ShiftDataBase();
+
+	int LastPointerBegin = -1;
+	int LastPointerEnd = -1;
+
     DataBase();
     ~DataBase();
 
@@ -34,6 +42,8 @@ public:
 	int SearchByText(std::string fragment);
 	int SearchRateAuthor(std::string author, float rateMin, float rateMax);
 	int SearchTypeTime(Message::MessageType type, DateTime dateTimeBefore);
+	Message GetByIdText(int id);
+	Message GetByIdBin(int id);
 };
 
 #endif //DATABASE_HPP

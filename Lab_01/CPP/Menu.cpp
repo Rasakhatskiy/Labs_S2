@@ -21,6 +21,7 @@ Menu::Action Menu::GetAction()
         case Menu::MenuType::Save:	maxMenu = SaveMenu.size();		break;
         case Menu::MenuType::Load:	maxMenu = LoadMenu.size();		break;
         case Menu::MenuType::Search:maxMenu = SearchMenu.size();	break;
+        case Menu::MenuType::Modify:maxMenu = ModifyMenu.size();	break;
         default: break;
     }
 
@@ -41,6 +42,7 @@ Menu::Action Menu::GetAction()
 					case 1: CurrentMenu = MenuType::Save;					return Action::Undefined;
 					case 2: CurrentMenu = MenuType::Load;					return Action::Undefined;
 					case 4: CurrentMenu = MenuType::Search;					return Action::Undefined;
+					case 5: CurrentMenu = MenuType::Modify;					return Action::Undefined;
 					case 7:													return Action::Quit;
 					default:												return (Action)(Cursor + 0);
 				}
@@ -73,6 +75,26 @@ Menu::Action Menu::GetAction()
 				{
 					case 3: CurrentMenu = MenuType::Main;					return Action::Undefined;
 					default:												return (Action)(Cursor + 13);
+				}
+			}
+
+			//---------------------------------------------MODIFY MENU----------------------------------------------------
+			if (CurrentMenu == MenuType::Modify)
+			{
+				switch (Cursor)
+				{
+				case 2: CurrentMenu = MenuType::Main;					return Action::Undefined;
+				default:												return (Action)(Cursor + 16);
+				}
+			}
+
+			//---------------------------------------------DELETE MENU----------------------------------------------------
+			if (CurrentMenu == MenuType::Delete)
+			{
+				switch (Cursor)
+				{
+				case 2: CurrentMenu = MenuType::Main;					return Action::Undefined;
+				default:												return (Action)(Cursor + 18);
 				}
 			}
 
@@ -119,6 +141,8 @@ void Menu::Draw()
 		case Menu::MenuType::Save:		menu = SaveMenu;	break;
 		case Menu::MenuType::Load:		menu = LoadMenu;	break;
 		case Menu::MenuType::Search:	menu = SearchMenu;	break;
+		case Menu::MenuType::Modify:	menu = ModifyMenu;	break;
+		case Menu::MenuType::Delete:	menu = DeleteMenu;	break;
 	}
 
 	for (unsigned i = 0; i < menu.size(); ++i)

@@ -328,6 +328,90 @@ void Operator::ClearScreen()
     system("CLS");
 }
 
+
+void Operator::ModifyText()
+{
+	int ID;
+	Message message;
+	bool done = false;
+
+	while (!done)
+	{
+		std::cout << "Enter ID to modify : ";
+		std::cin >> ID;
+		message = _DataBase.GetByIdText(ID);
+		if (message.ID == -1)
+		{
+			std::cout << "Message not found!" << std::endl;
+		}
+		else
+		{
+			done = true;
+		}
+	}
+	
+	PrintMessage(message.ID, message);
+	message.Text = ReadStringMultiLine();
+	message.Rate = ReadDouble();
+
+	_DataBase.ShiftDataBase();
+	_DataBase.AddMessage(message);
+}
+
+void Operator::ModifyBin()
+{
+	int ID;
+	Message message;
+	bool done = false;
+
+	while (!done)
+	{
+		std::cout << "Enter ID to modify : ";
+		std::cin >> ID;
+		message = _DataBase.GetByIdBin(ID);
+		if (message.ID == -1)
+		{
+			std::cout << "Message not found!" << std::endl;
+		}
+		else
+		{
+			done = true;
+		}
+	}
+
+	PrintMessage(message.ID, message);
+	message.Text = ReadStringMultiLine();
+	message.Rate = ReadDouble();
+
+	int error = _DataBase.ShiftDataBase();
+
+	if (error == 0)
+		_DataBase.AppendToBin(message, message.ID);
+	else
+		PrintError(error);
+}
+
+
+void Operator::DeleteText()
+{
+
+}
+
+void Operator::DeleteBin()
+{
+
+}
+
+void Operator::Demo()
+{
+
+}
+
+void Operator::Benchmark()
+{
+
+}
+
 Operator::Operator()
 {
     

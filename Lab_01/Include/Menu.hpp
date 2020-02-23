@@ -10,7 +10,7 @@ class Menu
 {
     enum class MenuType 
     {
-        Main, Save, Load, Search
+        Main, Save, Load, Search, Modify, Delete
     };
     MenuType CurrentMenu = MenuType::Main;
 private:
@@ -53,6 +53,20 @@ private:
 		"Back",
 	};
 
+	std::vector<std::string> ModifyMenu =
+	{
+		"Modify in bin",
+		"Modify in text",
+		"Back"
+	};
+
+	std::vector<std::string> DeleteMenu =
+	{
+		"Delete in bin",
+		"Delete in text",
+		"Back"
+	};
+
     char Selector = '>';
     char Selector2 = '<';
     int Cursor;
@@ -68,7 +82,9 @@ public:
         SaveText, SaveBin, ChangeTextPath, ChangeBinPath,	//Save menu		07-10
 		LoadText, LoadBin,									//Load menu		11-12
 		SearchText, SearchRateAuthor, SearchTypeTime,		//Search menu	13-15
-        Undefined, Move, Quit, // General
+		ModifyBin, ModifyText, 								//Edit menu		16-17
+		DeleteBin, DeleteText,								//Delete menu	18-19
+		Undefined, Move, Quit, // General
     };
     Menu();
     void Run();
