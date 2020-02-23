@@ -131,6 +131,7 @@
     <ClInclude Include="Include\Operator.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Include\RandomText.hpp" />
     <Text Include="Task.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

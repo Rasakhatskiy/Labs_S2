@@ -6,6 +6,7 @@
 #include "..\Include\DataBase.hpp"
 #include "..\Include\Error.hpp"
 
+
 #include <vector>
 #include <iostream>
 #include <conio.h>
@@ -36,11 +37,10 @@ private:
 
 public:
 	void Add();
+	void LoadIDs();
 
     void SaveText();
     void SaveBin();
-	void ChangeTextPath();
-	void ChangeBinPath();
 
 	void LoadBin();
 	void LoadText();
@@ -57,9 +57,9 @@ public:
 	void Demo();
 	void Benchmark();
 
+	std::string GetRandomText();
 
     void PrintMemory();
-	void LoadIDs();
 
     Operator();
     ~Operator();

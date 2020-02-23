@@ -19,7 +19,7 @@ int DataBase::ReadIDsBin()
 	{
 		MaxElements = 0;
 		MaxID_BIN = 0;
-		return -1;
+		return ERROR::FileDoesntExists;
 	}
 
 	std::vector<int> newIDs;

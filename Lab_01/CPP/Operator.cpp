@@ -1,4 +1,14 @@
 #include "..\Include\Operator.hpp"
+#include "..\Include\RandomText.hpp"
+void Operator::Add()
+{
+	auto message = ReadMessage();
+	_DataBase.AppendToBin(message);
+	ClearScreen();
+	PrintMessage(0, message);
+	std::cout << "***Saved to disk***" << std::endl;
+	system("pause");
+}
 
 void Operator::SaveText()
 {
@@ -89,64 +99,6 @@ void Operator::SearchTypeTime()
 	PrintMemory();
 }
 
-void Operator::Add()
-{
-    auto message = ReadMessage();
-    _DataBase.AppendToBin(message);
-    ClearScreen();
-    PrintMessage(0, message);
-    std::cout << "***Saved to disk***" << std::endl;
-    system("pause");
-}
-
-
-void Operator::PrintMemory()
-{
-    for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
-    {
-        PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
-    }
-    system("pause");
-}
-
-void Operator::PrintMessage(int id, Message message)
-{
-	std::cout << "\n-----Message [" << id << "][" << message.Time.ToString() << "]-----------------------------------\n";
-	std::cout << " -> Author : " + message.Author + "\n";
-	std::cout << " <- Recipient : " + message.Recipient + "\n";
-
-	std::string type;
-	switch (message.Type)
-	{
-	case Message::MessageType::Answer: type = "Answer"; break;
-	case Message::MessageType::Comment: type = "Comment"; break;
-	case Message::MessageType::Invite: type = "Invite"; break;
-	case Message::MessageType::News: type = "News"; break;
-	case Message::MessageType::Question: type = "Question"; break;
-	default:type = "Nuclear Missile Launch Codes";
-	}
-	std::cout << "   [" + type + "]\n";
-	auto size = message.Text.size();
-	int col = 0;
-	for (int i = 0; i < size; i++)
-	{
-		std::cout << message.Text[i];
-		col++;
-		if (message.Text[i] == '\n')
-		{
-			std::cout << "#\t";
-			col = 0;
-		}
-		if (col > 108)
-		{
-			std::cout << "\n#\t";
-			col = 0;
-		}
-	}
-	//std::cout << message.Text;
-	std::cout << "\n   Spam rate : " << message.Rate << std::endl;
-}
-
 
 Message Operator::ReadMessage()
 {
@@ -179,7 +131,6 @@ void Operator::LoadIDs()
 {
     _DataBase.ReadIDsBin();
 }
-
 
 
 std::string Operator::ReadStringMultiLine()
@@ -416,15 +367,99 @@ void Operator::DeleteBin()
 
 }
 
+
 void Operator::Demo()
 {
 
 }
 
+
 void Operator::Benchmark()
 {
 
 }
+
+std::string Operator::GetRandomText()
+{
+	std::string randText = RANDOM_LARGE_TEXT;
+	std::vector<std::string> words;
+	std::string delimiter = " ";
+	size_t pos = 0;
+	std::string token;
+	while ((pos = randText.find(delimiter)) != std::string::npos) {
+		words.push_back(randText.substr(0, pos));
+		randText.erase(0, pos + delimiter.length());
+	}
+
+	std::string text;
+	srand((unsigned)time(0));
+	int numberOfWords = (rand() % words.size() - 1);
+
+	for (int i = 0; i < numberOfWords; i++)
+	{
+		srand((unsigned)time(0));
+		int number = (rand() % words.size() - 1);
+		
+		text += words[number] + " ";
+	}
+
+	return text;
+}
+
+
+
+
+
+void Operator::PrintMemory()
+{
+	for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+	{
+		PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
+	}
+	system("pause");
+}
+
+void Operator::PrintMessage(int id, Message message)
+{
+	std::cout << "\n-----Message [" << id << "][" << message.Time.ToString() << "]-----------------------------------\n";
+	std::cout << " -> Author : " + message.Author + "\n";
+	std::cout << " <- Recipient : " + message.Recipient + "\n";
+
+	std::string type;
+	switch (message.Type)
+	{
+	case Message::MessageType::Answer: type = "Answer"; break;
+	case Message::MessageType::Comment: type = "Comment"; break;
+	case Message::MessageType::Invite: type = "Invite"; break;
+	case Message::MessageType::News: type = "News"; break;
+	case Message::MessageType::Question: type = "Question"; break;
+	default:type = "Nuclear Missile Launch Codes";
+	}
+	std::cout << "   [" + type + "]\n";
+	auto size = message.Text.size();
+	int col = 0;
+	for (int i = 0; i < size; i++)
+	{
+		std::cout << message.Text[i];
+		col++;
+		if (message.Text[i] == '\n')
+		{
+			std::cout << "#\t";
+			col = 0;
+		}
+		if (col > 108)
+		{
+			std::cout << "\n#\t";
+			col = 0;
+		}
+	}
+	//std::cout << message.Text;
+	std::cout << "\n   Spam rate : " << message.Rate << std::endl;
+}
+
+
+
+
 
 Operator::Operator()
 {
