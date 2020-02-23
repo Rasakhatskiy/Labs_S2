@@ -11,6 +11,7 @@
 #include <iostream>
 #include <conio.h>
 #include <ctime>
+#include <random>
 
 class Operator
 {
@@ -58,6 +59,12 @@ public:
 	void Benchmark();
 
 	std::string GetRandomText();
+
+	std::string GetRandomAuthor();
+
+	std::string GetRandomRecipient();
+
+	Message GetRandomMessage();
 
     void PrintMemory();
 

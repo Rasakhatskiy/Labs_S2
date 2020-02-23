@@ -370,6 +370,21 @@ void Operator::DeleteBin()
 
 void Operator::Demo()
 {
+	//Add random messages
+	//Print
+	//Save to text
+	//Search by word "told"
+	//Search by author Kakyoin
+	//Search invites
+	const int NUMBER_OF_MESSAGES = 13;
+	const std::string SEARCH_WORD = "told";
+	const std::string SEARCH_AUTHOR = "Kakyoin";
+	const Message::MessageType SEARCH_Type = Message::MessageType::Invite;
+
+	for (int i = 0; i < NUMBER_OF_MESSAGES; i++)
+	{
+		_DataBase.AddMessage(GetRandomMessage());
+	}
 
 }
 
@@ -378,6 +393,7 @@ void Operator::Benchmark()
 {
 
 }
+
 
 std::string Operator::GetRandomText()
 {
@@ -391,24 +407,74 @@ std::string Operator::GetRandomText()
 		randText.erase(0, pos + delimiter.length());
 	}
 
-	std::string text;
-	srand((unsigned)time(0));
-	int numberOfWords = (rand() % words.size() - 1);
+	std::string text = "\n";
+
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 eng(rd());
+	std::uniform_int_distribution<> distr(0, words.size() - 1); // define the range
+
+	int numberOfWords = (distr(eng));
 
 	for (int i = 0; i < numberOfWords; i++)
 	{
-		srand((unsigned)time(0));
-		int number = (rand() % words.size() - 1);
+		int number = (distr(eng));
 		
 		text += words[number] + " ";
 	}
-
+	text += "\n";
 	return text;
 }
 
+std::string Operator::GetRandomAuthor()
+{
+	std::string randText = RANDOM_AUTHOR;
+	std::vector<std::string> words;
+	std::string delimiter = " ";
+	size_t pos = 0;
+	std::string token;
+	while ((pos = randText.find(delimiter)) != std::string::npos) {
+		words.push_back(randText.substr(0, pos));
+		randText.erase(0, pos + delimiter.length());
+	}
 
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 eng(rd());
+	std::uniform_int_distribution<> distr(0, words.size() - 1); // define the range
 
+	return words[distr(eng)];
+}
 
+std::string Operator::GetRandomRecipient()
+{
+	std::string randText = RANDOM_RECIPIENT;
+	std::vector<std::string> words;
+	std::string delimiter = " ";
+	size_t pos = 0;
+	std::string token;
+	while ((pos = randText.find(delimiter)) != std::string::npos) {
+		words.push_back(randText.substr(0, pos));
+		randText.erase(0, pos + delimiter.length());
+	}
+
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 eng(rd());
+	std::uniform_int_distribution<> distr(0, words.size() - 1); // define the range
+
+	return words[distr(eng)];
+}
+
+Message Operator::GetRandomMessage()
+{
+	Message message = Message();
+	message.ID = 0;
+	message.Text = GetRandomText();
+	message.Author = GetRandomAuthor();
+	message.Recipient = GetRandomRecipient();
+	message.Time = DateTime(rand() % INT32_MAX - (INT32_MAX / 2));
+	message.Type = Message::MessageType(rand() % 5);
+	message.Rate = (rand() % UINT32_MAX);
+	return message;
+}
 
 void Operator::PrintMemory()
 {
@@ -456,9 +522,6 @@ void Operator::PrintMessage(int id, Message message)
 	//std::cout << message.Text;
 	std::cout << "\n   Spam rate : " << message.Rate << std::endl;
 }
-
-
-
 
 
 Operator::Operator()

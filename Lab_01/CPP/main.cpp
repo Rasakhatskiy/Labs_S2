@@ -10,6 +10,8 @@ int main()
 	auto _operator = Operator();
     auto action = Menu::Action();
 
+	_operator.Demo();
+
     _operator.LoadIDs();
     while ((action = _menu.GetAction()) != Menu::Action::Quit)
     {
