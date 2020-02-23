@@ -16,25 +16,34 @@ class DataBase
     const std::string PathText = "D:\\DataBase.txt";
     const std::string PathBin = "D:\\DataBase.bin";
     const unsigned int I_LOVE_KNU_EXCEPT_MATAN = 0x5849584B; //Inversed KXIX -> XIXK
-    unsigned int MaxID = 0;
+    unsigned int MaxID_BIN = 0;
+    unsigned int MaxID_TXT = 0;
     unsigned int MaxElements = 0;
     std::vector<int> IDs;
 public:
+	DataBase();
+	~DataBase();
+
     std::vector<Message> MemoryBase;
-    int SaveMemoryToText();
-    int ReadBin(int searchId = -1);
-	int ReadText(int searchId = -1);
-    int SaveMemoryToBin();
-	int AppendToBin(Message message, int id = -1);
-    int ReadIDs();
-
-	int ShiftDataBase();
-
 	int LastPointerBegin = -1;
 	int LastPointerEnd = -1;
 
-    DataBase();
-    ~DataBase();
+
+	int ReadIDsBin();
+	int ReadIDsText();
+
+	int ReadBin(int searchId = -1);
+	int ReadText(int searchId = -1);
+
+    int SaveMemoryToText();
+	int SaveMemoryToBin();
+
+	int AppendToBin (Message message, int id = -1);
+	int AppendToText(Message message, int id = -1);
+    
+	int ShiftDataBaseBin();
+	int ShiftDataBaseText();
+
 
     
     void AddMessage(Message message);

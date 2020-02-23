@@ -177,7 +177,7 @@ Message Operator::ReadMessage()
 
 void Operator::LoadIDs()
 {
-    _DataBase.ReadIDs();
+    _DataBase.ReadIDsBin();
 }
 
 
@@ -349,13 +349,22 @@ void Operator::ModifyText()
 			done = true;
 		}
 	}
-	
+
 	PrintMessage(message.ID, message);
 	message.Text = ReadStringMultiLine();
 	message.Rate = ReadDouble();
 
-	_DataBase.ShiftDataBase();
-	_DataBase.AddMessage(message);
+	int error = _DataBase.ShiftDataBaseText();
+
+	if (error == 0)
+	{
+		_DataBase.AppendToText(message, message.ID);
+		std::cout << "***Saved to text file***" << std::endl;
+	}
+	else
+	{
+		PrintError(error);
+	}
 }
 
 void Operator::ModifyBin()
@@ -383,12 +392,17 @@ void Operator::ModifyBin()
 	message.Text = ReadStringMultiLine();
 	message.Rate = ReadDouble();
 
-	int error = _DataBase.ShiftDataBase();
+	int error = _DataBase.ShiftDataBaseBin();
 
 	if (error == 0)
+	{
 		_DataBase.AppendToBin(message, message.ID);
+		std::cout << "***Saved to binary file***" << std::endl;
+	}
 	else
+	{
 		PrintError(error);
+	}
 }
 
 
