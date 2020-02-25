@@ -12,6 +12,8 @@
 #include <conio.h>
 #include <ctime>
 #include <random>
+#include <chrono>
+#include <thread>
 
 class Operator
 {

@@ -372,7 +372,7 @@ void Operator::Demo()
 {
 	//Add random messages
 	//Print
-	//Save to text
+	//Save to disk
 	//Search by word "told"
 	//Search by author Kakyoin
 	//Search invites
@@ -381,10 +381,74 @@ void Operator::Demo()
 	const std::string SEARCH_AUTHOR = "Kakyoin";
 	const Message::MessageType SEARCH_Type = Message::MessageType::Invite;
 
-	for (int i = 0; i < NUMBER_OF_MESSAGES; i++)
+	//Step 1 - create messages and read them
 	{
-		_DataBase.AddMessage(GetRandomMessage());
+		std::cout << "***Demo mode powered on***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		std::cout << "***Turning on jet engines***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		std::cout << "***Launching nuclear missiles***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		std::cout << "***Generating " << NUMBER_OF_MESSAGES << " random messages***" << std::endl;
+
+		for (int i = 0; i < NUMBER_OF_MESSAGES; i++)
+			_DataBase.AppendToBin(GetRandomMessage());
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		std::cout << "***Saved on disk***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		//LoadBin();
+		//no press any key
+		{
+			int result = _DataBase.ReadBin();
+			if (result == 0) std::cout << "***Loaded to memory***" << std::endl;
+			else PrintError(result);
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		std::cout << "----NOW READ! QUICK! YOU HAVE 5 SECONDS" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
+		//PrintMemory();
+		//no press any key
+		{
+			for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+				PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(6000));
+		system("CLS");
+
+		std::cout << "----ACTUALLY THIS WAS 6 SECONDS----" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+
+		std::cout << "----OK, OK, I WILL GIVE YOU MORE TIME----" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
+		//PrintMemory();
+		//no press any key
+		{
+			for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+				PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
+		}
+		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+		system("pause");
+		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+		system("CLS");
+		std::cout
+			<< "You have wasted "
+			<< std::chrono::duration_cast<std::chrono::seconds>(end - begin).count()
+			<< " seconds of your life to read these messages." << std::endl;
+		system("pause");
+		system("CLS");
 	}
+
+
 
 }
 
