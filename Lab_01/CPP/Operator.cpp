@@ -448,8 +448,47 @@ void Operator::Demo()
 		system("CLS");
 	}
 
+	//Step 2 - search
+	{
+		std::cout << "***Now let's search for word \"" << SEARCH_WORD << "\"***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		_DataBase.SearchByText(SEARCH_WORD);
+		
+		std::cout << "***Here is what i found***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		{
+			for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+				PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
+		}
+		system("pause");
+		system("CLS");
 
+		std::cout << "***Now let's search for author \"" << SEARCH_AUTHOR << "\"***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		_DataBase.SearchRateAuthor(SEARCH_AUTHOR, 0, 100000000);
 
+		std::cout << "***Here is what i found***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		{
+			for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+				PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
+		}
+		system("pause");
+		system("CLS");
+
+		std::cout << "***Now let's search for invites***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		_DataBase.SearchTypeTime(SEARCH_Type, DateTime(3000, 12, 12, 59, 59, 59));
+
+		std::cout << "***Here is what i found***" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		{
+			for (int i = 0; i < _DataBase.MemoryBase.size(); i++)
+				PrintMessage(_DataBase.MemoryBase[i].ID, _DataBase.MemoryBase[i]);
+		}
+		system("pause");
+		system("CLS");
+	}
 }
 
 
