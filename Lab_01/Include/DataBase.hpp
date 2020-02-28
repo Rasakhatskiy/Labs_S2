@@ -56,7 +56,16 @@ public:
 	void SetDeafaultTextPath();
 	void SetBinPath(std::string path);
 	void SetTextPath(std::string path);
+
+	
+
 };
+
+inline bool FileExists(const std::string& name)
+{
+	std::ifstream f(name.c_str());
+	return f.good();
+}
 
 #endif //DATABASE_HPP
 

@@ -1,9 +1,4 @@
 #include "..\Include\DataBase.hpp"
-inline bool FileExists(const std::string& name)
-{
-    std::ifstream f(name.c_str());
-    return f.good();
-}
 
 DataBase::DataBase()
 {

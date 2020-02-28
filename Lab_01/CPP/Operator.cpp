@@ -378,7 +378,7 @@ void Operator::Demo()
 	//Search invites
 	const int NUMBER_OF_MESSAGES = 13;
 	const std::string SEARCH_WORD = "told";
-	const std::string SEARCH_AUTHOR = "Kakyoin";
+	const std::string SEARCH_AUTHOR = "Coichi";
 	const Message::MessageType SEARCH_Type = Message::MessageType::Invite;
 
 	//Step 1 - create messages and read them
@@ -496,15 +496,21 @@ void Operator::Benchmark()
 	int NUMBER_OF_MESSAGES = 10;
 	bool flag = true;
 	const std::string SEARCH_WORD = "told";
-	const std::string SEARCH_AUTHOR = "Kakyoin";
+	const std::string SEARCH_AUTHOR = "Coichi";
 	const Message::MessageType SEARCH_Type = Message::MessageType::Invite;
+
+	const std::string mainPath = "D:\\DataBase.bin";
+	const std::string benchPath = "D:\\DataBaseBenchmark.bin";
 
 	auto begin = std::chrono::steady_clock::now();
 	auto end = std::chrono::steady_clock::now();
 
 	std::cout << "***Benchmark mode powered on***" << std::endl;
+	_DataBase.SetBinPath(benchPath);
 	while (flag)
 	{
+		if (FileExists(benchPath)) std::remove(benchPath.c_str());
+
 		//Generate to memory
 		{
 			std::cout << "***Generating " << NUMBER_OF_MESSAGES << " random messages***" << std::endl;
@@ -519,7 +525,7 @@ void Operator::Benchmark()
 				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
 				<< " seconds" << std::endl;
 
-			if (std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() > 10)
+			if (std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() >= 10)
 				flag = false;
 
 			int totalSize = 0;
@@ -574,6 +580,8 @@ void Operator::Benchmark()
 				<< " seconds" << std::endl;
 			std::cout << std::endl;
 
+
+
 			std::cout << "***Now let's search for author \"" << SEARCH_AUTHOR << "\"***" << std::endl;
 			begin = std::chrono::steady_clock::now();
 			_DataBase.SearchRateAuthor(SEARCH_AUTHOR, 0, 100000000);
@@ -603,7 +611,7 @@ void Operator::Benchmark()
 		std::cout << "\n\n\n";
 		NUMBER_OF_MESSAGES *= 10;
 	}
-	
+	_DataBase.SetBinPath(mainPath);
 }
 
 
