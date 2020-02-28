@@ -491,10 +491,119 @@ void Operator::Demo()
 	}
 }
 
-
 void Operator::Benchmark()
 {
+	int NUMBER_OF_MESSAGES = 10;
+	bool flag = true;
+	const std::string SEARCH_WORD = "told";
+	const std::string SEARCH_AUTHOR = "Kakyoin";
+	const Message::MessageType SEARCH_Type = Message::MessageType::Invite;
 
+	auto begin = std::chrono::steady_clock::now();
+	auto end = std::chrono::steady_clock::now();
+
+	std::cout << "***Benchmark mode powered on***" << std::endl;
+	while (flag)
+	{
+		//Generate to memory
+		{
+			std::cout << "***Generating " << NUMBER_OF_MESSAGES << " random messages***" << std::endl;
+			begin = std::chrono::steady_clock::now();
+			for (int i = 0; i < NUMBER_OF_MESSAGES; i++)
+				_DataBase.MemoryBase.push_back(GetRandomMessage());
+			end = std::chrono::steady_clock::now();
+
+			std::cout << "***Saved to memory***" << std::endl;
+			std::cout
+				<< "Elapsed time: "
+				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
+				<< " seconds" << std::endl;
+
+			if (std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() > 10)
+				flag = false;
+
+			int totalSize = 0;
+			for (auto& i : _DataBase.MemoryBase)
+				totalSize += i.GetSize();
+
+			std::cout
+				<< "Memory taken: "
+				<< totalSize / 1024.0
+				<< " KB" << std::endl;
+			std::cout << std::endl;
+		}
+
+		//Save on disk
+		{
+			auto begin = std::chrono::steady_clock::now();
+			_DataBase.SaveMemoryToBin();
+			auto end = std::chrono::steady_clock::now();
+
+			std::cout << "***Saved on disk***" << std::endl;
+			std::cout
+				<< "Elapsed time: "
+				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
+				<< " seconds" << std::endl;
+			std::cout << std::endl;
+		}
+
+		//Read from disk
+		{
+			begin = std::chrono::steady_clock::now();
+			_DataBase.ReadBin();
+			end = std::chrono::steady_clock::now();
+
+			std::cout << "***Loaded from disk***" << std::endl;
+			std::cout
+				<< "Elapsed time: "
+				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
+				<< " seconds" << std::endl;
+			std::cout << std::endl;
+		}
+
+		//Search
+		{
+			std::cout << "***Now let's search for word \"" << SEARCH_WORD << "\"***" << std::endl;
+			begin = std::chrono::steady_clock::now();
+			_DataBase.SearchByText(SEARCH_WORD);
+			end = std::chrono::steady_clock::now();
+			std::cout << "Found " << _DataBase.MemoryBase.size() << " elements" << std::endl;
+			std::cout
+				<< "Elapsed time: "
+				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
+				<< " seconds" << std::endl;
+			std::cout << std::endl;
+
+			std::cout << "***Now let's search for author \"" << SEARCH_AUTHOR << "\"***" << std::endl;
+			begin = std::chrono::steady_clock::now();
+			_DataBase.SearchRateAuthor(SEARCH_AUTHOR, 0, 100000000);
+			end = std::chrono::steady_clock::now();
+			std::cout << "Found " << _DataBase.MemoryBase.size() << " elements" << std::endl;
+			std::cout
+				<< "Elapsed time: "
+				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
+				<< " seconds" << std::endl;
+			std::cout << std::endl;
+
+
+
+			std::cout << "***Now let's search for invites***" << std::endl;
+			begin = std::chrono::steady_clock::now();
+			_DataBase.SearchTypeTime(SEARCH_Type, DateTime(3000, 12, 12, 59, 59, 59));
+			end = std::chrono::steady_clock::now();
+			std::cout << "Found " << _DataBase.MemoryBase.size() << " elements" << std::endl;
+			std::cout
+				<< "Elapsed time: "
+				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
+				<< " seconds" << std::endl;
+			std::cout << std::endl;
+		}
+		system("pause");
+
+		std::cout << "\n\n\n";
+		NUMBER_OF_MESSAGES *= 10;
+	}
+	
 }
 
 

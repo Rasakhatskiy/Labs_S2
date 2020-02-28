@@ -36,6 +36,8 @@ public:
             MessageType type, 
             float rate);
 
+	int GetSize();
+
     static MessageType GetType(char ch)
     {
         ch = tolower(ch);

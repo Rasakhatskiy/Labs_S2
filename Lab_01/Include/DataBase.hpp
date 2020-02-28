@@ -13,8 +13,8 @@
 
 class DataBase
 {
-    const std::string PathText = "D:\\DataBase.txt";
-    const std::string PathBin = "D:\\DataBase.bin";
+    std::string PathText = "D:\\DataBase.txt";
+    std::string PathBin = "D:\\DataBase.bin";
     const unsigned int I_LOVE_KNU_EXCEPT_MATAN = 0x5849584B; //Inversed KXIX -> XIXK
     unsigned int MaxID_BIN = 0;
     unsigned int MaxID_TXT = 0;
@@ -51,6 +51,11 @@ public:
 	int SearchTypeTime(Message::MessageType type, DateTime dateTimeBefore);
 	Message GetByIdText(int id);
 	Message GetByIdBin(int id);
+
+	void SetDeafaultBinPath();
+	void SetDeafaultTextPath();
+	void SetBinPath(std::string path);
+	void SetTextPath(std::string path);
 };
 
 #endif //DATABASE_HPP

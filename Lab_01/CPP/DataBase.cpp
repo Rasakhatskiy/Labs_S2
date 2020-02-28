@@ -251,10 +251,6 @@ int DataBase::SaveMemoryToBin()
     file.open(PathBin, std::ios::out | std::ios::app | std::ios::binary);
 
     uint32_t number = MemoryBase.size();
-    if (MaxID_BIN == 0) file.write(reinterpret_cast<char *>(&number), sizeof(number));
-
-    uint32_t check = I_LOVE_KNU_EXCEPT_MATAN;
-    if(MaxID_BIN == 0) file.write(reinterpret_cast<char *>(&check), sizeof(check));
 
     //[ID, Time, Rate, Type, SAauthor, SRecipient, SText, Author, Recipient, Text]
 
@@ -658,4 +654,24 @@ Message DataBase::GetByIdBin(int id)
 		}
 	}
 	return Message();
+}
+
+void DataBase::SetDeafaultBinPath()
+{
+	PathBin = "D:\\DataBase.bin";
+}
+
+void DataBase::SetDeafaultTextPath()
+{
+	PathText = "D:\\DataBase.txt";
+}
+
+void DataBase::SetBinPath(std::string path)
+{
+	PathBin = path;
+}
+
+void DataBase::SetTextPath(std::string path)
+{
+	PathText = path;
 }

@@ -22,3 +22,12 @@ Message::Message(
     Type = type;
     Rate = rate;
 }
+
+int Message::GetSize()
+{
+	int size = sizeof(this);
+	size += Author.size();
+	size += Recipient.size();
+	size += Text.size();
+	return size;
+}
