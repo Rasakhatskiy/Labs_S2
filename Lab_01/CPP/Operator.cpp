@@ -505,7 +505,7 @@ void Operator::Benchmark()
 	auto begin = std::chrono::steady_clock::now();
 	auto end = std::chrono::steady_clock::now();
 
-	std::cout << "***Benchmark mode powered on***" << std::endl;
+	std::cout << "---Benchmark mode powered on---" << std::endl;
 	_DataBase.SetBinPath(benchPath);
 	while (flag)
 	{
@@ -513,13 +513,13 @@ void Operator::Benchmark()
 
 		//Generate to memory
 		{
-			std::cout << "***Generating " << NUMBER_OF_MESSAGES << " random messages***" << std::endl;
+			std::cout << "---Generating " << NUMBER_OF_MESSAGES << " random messages---" << std::endl;
 			begin = std::chrono::steady_clock::now();
 			for (int i = 0; i < NUMBER_OF_MESSAGES; i++)
 				_DataBase.MemoryBase.push_back(GetRandomMessage());
 			end = std::chrono::steady_clock::now();
 
-			std::cout << "***Saved to memory***" << std::endl;
+			std::cout << "---Saved to memory---" << std::endl;
 			std::cout
 				<< "Elapsed time: "
 				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
@@ -545,7 +545,7 @@ void Operator::Benchmark()
 			_DataBase.SaveMemoryToBin();
 			auto end = std::chrono::steady_clock::now();
 
-			std::cout << "***Saved on disk***" << std::endl;
+			std::cout << "---Saved on disk---" << std::endl;
 			std::cout
 				<< "Elapsed time: "
 				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
@@ -559,7 +559,7 @@ void Operator::Benchmark()
 			_DataBase.ReadBin();
 			end = std::chrono::steady_clock::now();
 
-			std::cout << "***Loaded from disk***" << std::endl;
+			std::cout << "---Loaded from disk---" << std::endl;
 			std::cout
 				<< "Elapsed time: "
 				<< std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0
@@ -569,7 +569,7 @@ void Operator::Benchmark()
 
 		//Search
 		{
-			std::cout << "***Now let's search for word \"" << SEARCH_WORD << "\"***" << std::endl;
+			std::cout << "---Now let's search for word \"" << SEARCH_WORD << "\"---" << std::endl;
 			begin = std::chrono::steady_clock::now();
 			_DataBase.SearchByText(SEARCH_WORD);
 			end = std::chrono::steady_clock::now();
@@ -582,7 +582,7 @@ void Operator::Benchmark()
 
 
 
-			std::cout << "***Now let's search for author \"" << SEARCH_AUTHOR << "\"***" << std::endl;
+			std::cout << "---Now let's search for author \"" << SEARCH_AUTHOR << "\"---" << std::endl;
 			begin = std::chrono::steady_clock::now();
 			_DataBase.SearchRateAuthor(SEARCH_AUTHOR, 0, 100000000);
 			end = std::chrono::steady_clock::now();
@@ -595,7 +595,7 @@ void Operator::Benchmark()
 
 
 
-			std::cout << "***Now let's search for invites***" << std::endl;
+			std::cout << "---Now let's search for invites---" << std::endl;
 			begin = std::chrono::steady_clock::now();
 			_DataBase.SearchTypeTime(SEARCH_Type, DateTime(3000, 12, 12, 59, 59, 59));
 			end = std::chrono::steady_clock::now();
