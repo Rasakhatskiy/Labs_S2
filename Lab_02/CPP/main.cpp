@@ -8,6 +8,8 @@ int main()
 	list.Insert(12, 0);
 	list.Insert(14, 1);
 	list.Insert(15, 2);
-	//12 14 15 13 
+	//12 14 15 13
+	list.Remove(3);
+	//12 14 15
 	//list.CreateEmpty();
 }

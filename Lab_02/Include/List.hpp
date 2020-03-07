@@ -87,37 +87,34 @@ void List<Type>::Insert(Type value, int index)
 		{
 			throw std::out_of_range("Index out of range");
 		}
+		if (Size == 0)
+		{
+			Root->Value = value;
+			Size++;
+			return;
+		}
+		if (index == 0)
+		{
+			Node* newRoot = new Node(value, Root);
+			Node* temp = Root;
+			while (temp->Next != Root)
+				temp = temp->Next;
+			temp->Next = newRoot;
+			Root = newRoot;
+		}
 		else
 		{
-			if (Size == 0)
+			int count = 1;
+			Node* prev = Root;
+			while (count != index)
 			{
-				Root->Value = value;
-				Size++;
-				return;
+				prev = prev->Next;
+				count++;
 			}
-			if (index == 0)
-			{
-				Node* newRoot = new Node(value, Root);
-				Node* temp = Root;
-				while (temp->Next != Root)
-					temp = temp->Next;
-				temp->Next = newRoot;
-				Root = newRoot;
-			}
-			else
-			{
-				int count = 1;
-				Node* prev = Root;
-				while (count != index)
-				{
-					prev = prev->Next;
-					count++;
-				}
-				Node* temp = new Node(value, prev->Next);
-				prev->Next = temp;
-			}
-			Size++;
+			Node* temp = new Node(value, prev->Next);
+			prev->Next = temp;
 		}
+		Size++;
 	}
 	catch (...)
 	{
@@ -130,7 +127,42 @@ void List<Type>::Insert(Type value, int index)
 template<typename Type>
 void List<Type>::Remove(int index)
 {
-	//todo
+	try
+	{
+		if (index > Size || index < 0)
+		{
+			throw std::out_of_range("Index out of range");
+		}
+		if (Size == 0)
+		{
+			throw std::out_of_range("List is empty");
+		}
+		if (index == 0)
+		{
+			Node* iter = Root->Next;
+			while (iter->Next != Root)
+				iter = iter->Next;
+			iter->Next = Root->Next;
+			Root = iter->Next;
+		}
+		else
+		{
+			int count = 1;
+			Node* prev = Root;
+			while (count != index)
+			{
+				count++;
+				prev = prev->Next;
+			}
+			prev->Next = prev->Next->Next;
+		}
+		Size--;
+	}
+	catch (...)
+	{
+		Error = true;
+	}
+	return;
 }
 
 template<typename Type>
