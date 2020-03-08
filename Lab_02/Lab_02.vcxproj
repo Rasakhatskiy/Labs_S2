@@ -127,11 +127,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\List.hpp" />
+    <ClInclude Include="Include\Menu.hpp" />
     <ClInclude Include="Include\Point.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPP\List.cpp" />
     <ClCompile Include="CPP\main.cpp" />
+    <ClCompile Include="CPP\Menu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,11 +2,28 @@
 #define LIST_HPP
 
 #include <stdexcept>
+#include <string>
+
+template <typename Type>
+struct Node
+{
+	Type Value;
+	Node<Type>* Next;
+	Node(Type value, Node* next)
+	{
+		Value = value;
+		Next = next;
+	}
+	Node() { ; }
+};
 
 template <typename Type>
 class List
 {
 public:
+	
+
+
 	//calls create empty
 	List<Type>();
 
@@ -31,42 +48,29 @@ public:
 	//Replaces element at index with given element
 	void Set(Type element, int index);
 
+	//returns root node pointer
+	Node<Type>* GetRoot();
+
 	bool IsError();
 
 private:
-	struct Node
-	{
-		Type Value;
-		Node* Next;
-		Node(Type value, Node* next)
-		{
-			Value = value;
-			Next = next;
-		}
-		Node() = default;
-	};
-
-	Node* Root;
-
-	//minimal real size of dynamic array
-	const int MIN_REAL_SIZE = 16;
+	
+	//Root node of list
+	Node<Type>* Root;
 
 	//true if error ocurred
 	bool Error = false;
 
-	//Real size of dynamic array
-	int RealSize;
-
 	//Shown size to user
-	int Size;
+	int Size = 0;
 };
 
 template <typename Type>
 void List<Type>::CreateEmpty()
 {
+	while (Size != 0) Remove(0);
 	Size = 0;
-	RealSize = MIN_REAL_SIZE;
-	Root = new Node();
+	Root = new Node<Type>();
 	Root->Next = Root;
 }
 
@@ -93,8 +97,8 @@ void List<Type>::Insert(Type value, int index)
 		}
 		if (index == 0)
 		{
-			Node* newRoot = new Node(value, Root);
-			Node* temp = Root;
+			auto newRoot = new Node<Type>(value, Root);
+			auto temp = Root;
 			while (temp->Next != Root)
 				temp = temp->Next;
 			temp->Next = newRoot;
@@ -103,13 +107,13 @@ void List<Type>::Insert(Type value, int index)
 		else
 		{
 			int count = 1;
-			Node* prev = Root;
+			auto prev = Root;
 			while (count != index)
 			{
 				prev = prev->Next;
 				count++;
 			}
-			Node* temp = new Node(value, prev->Next);
+			auto temp = new Node<Type>(value, prev->Next);
 			prev->Next = temp;
 		}
 		Size++;
@@ -137,7 +141,7 @@ void List<Type>::Remove(int index)
 		}
 		if (index == 0)
 		{
-			Node* iter = Root->Next;
+			auto iter = Root->Next;
 			while (iter->Next != Root)
 				iter = iter->Next;
 			iter->Next = Root->Next;
@@ -147,14 +151,14 @@ void List<Type>::Remove(int index)
 		else
 		{
 			int count = 1;
-			Node* prev = Root;
+			auto prev = Root;
 			while (count != index)
 			{
 				count++;
 				prev = prev->Next;
 			}
-			Node* current = prev->Next;
-			Node* next = current->Next;
+			auto current = prev->Next;
+			auto next = current->Next;
 			delete current;
 			current = next;
 		}
@@ -181,7 +185,7 @@ Type List<Type>::Get(int index)
 			throw std::out_of_range("List is empty");
 		}
 		int count = 0;
-		Node* seek = Root;
+		auto seek = Root;
 		while (count != index)
 		{
 			seek = seek->Next;
@@ -209,7 +213,7 @@ void List<Type>::Set(Type value, int index)
 			throw std::out_of_range("List is empty");
 		}
 		int count = 0;
-		Node* seek = Root;
+		auto seek = Root;
 		while (count != index)
 		{
 			seek = seek->Next;
@@ -223,18 +227,22 @@ void List<Type>::Set(Type value, int index)
 	}
 }
 
-
 template<typename Type>
 bool List<Type>::IsError()
 {
 	return Error;
 }
 
-
 template <typename Type>
 List<Type>::List()
 {
 	CreateEmpty();
+}
+
+template <typename Type> 
+Node<Type>* List<Type>::GetRoot()
+{
+	return Root;
 }
 
 template<typename Type>
