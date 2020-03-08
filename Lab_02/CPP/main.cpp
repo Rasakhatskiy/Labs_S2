@@ -44,7 +44,11 @@ Point3D ReadPoint()
 
 void PrintPoint(Point3D point)
 {
-	std::cout << point.X << point.Y << point.Z << std::endl;
+	std::cout << "(" 
+		<< point.X << "; "
+		<< point.Y << "; "
+		<< point.Z << ")"
+		<< std::endl;
 }
 
 int ReadIndex()
@@ -72,6 +76,7 @@ void PrintList()
 		PrintPoint(node->Value);
 		node = node->Next;
 	}
+	system("pause");
 }
 
 void ExecuteAction(Menu::Action action)
@@ -93,13 +98,27 @@ void ExecuteAction(Menu::Action action)
 	{
 		PrintList();
 	}
+
+	if (action == Menu::Action::Get)
+	{
+		PrintPoint(list.Get(ReadIndex()));
+		system("pause");
+	}
+
+	if (action == Menu::Action::Set)
+	{
+		list.Set(ReadPoint(), ReadIndex());
+	}
+
+	if (action == Menu::Action::Remove)
+	{
+		list.Remove(ReadIndex());
+	}
 }
 
 
 int main()
 {
-
-
 	Menu menu;
 	Menu::Action action = Menu::Action::Undefined;
 	list.CreateEmpty();

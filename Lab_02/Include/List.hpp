@@ -157,10 +157,13 @@ void List<Type>::Remove(int index)
 				count++;
 				prev = prev->Next;
 			}
+			//prev next
+
 			auto current = prev->Next;
 			auto next = current->Next;
 			delete current;
 			current = next;
+			prev->Next = current;
 		}
 		Size--;
 	}

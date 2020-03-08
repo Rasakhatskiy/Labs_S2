@@ -20,8 +20,8 @@ private:
         "Get",
         "Set",
         "Remove",
-        "Clear",
 		"Print",
+		"Clear",
 		"Exit"
     };
 
@@ -40,8 +40,8 @@ public:
 		Get,		
 		Set,		
 		Remove,		
-		Clear,		
-		Print,		
+		Print,	
+		Clear,
 		Quit,		
 		Undefined,	
 		Move		
