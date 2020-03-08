@@ -11,5 +11,14 @@ int main()
 	//12 14 15 13
 	list.Remove(3);
 	//12 14 15
+	int a = list.Get(0);
+	int b = list.Get(1);
+	int c = list.Get(2);
+
+	list.Set(47, 1);
+
+	a = list.Get(0);
+	b = list.Get(1);
+	c = list.Get(2);
 	//list.CreateEmpty();
 }

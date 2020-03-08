@@ -38,13 +38,11 @@ private:
 	{
 		Type Value;
 		Node* Next;
-
 		Node(Type value, Node* next)
 		{
 			Value = value;
 			Next = next;
 		}
-
 		Node() = default;
 	};
 
@@ -143,6 +141,7 @@ void List<Type>::Remove(int index)
 			while (iter->Next != Root)
 				iter = iter->Next;
 			iter->Next = Root->Next;
+			delete Root;
 			Root = iter->Next;
 		}
 		else
@@ -154,7 +153,10 @@ void List<Type>::Remove(int index)
 				count++;
 				prev = prev->Next;
 			}
-			prev->Next = prev->Next->Next;
+			Node* current = prev->Next;
+			Node* next = current->Next;
+			delete current;
+			current = next;
 		}
 		Size--;
 	}
@@ -168,14 +170,57 @@ void List<Type>::Remove(int index)
 template<typename Type>
 Type List<Type>::Get(int index)
 {
-	//todo
-	return Type();
+	try
+	{
+		if (index > Size || index < 0)
+		{
+			throw std::out_of_range("Index out of range");
+		}
+		if (Size == 0)
+		{
+			throw std::out_of_range("List is empty");
+		}
+		int count = 0;
+		Node* seek = Root;
+		while (count != index)
+		{
+			seek = seek->Next;
+			count++;
+		}
+		return seek->Value;
+	}
+	catch (...)
+	{
+		Error = true;
+	}
 }
 
 template<typename Type>
-void List<Type>::Set(Type element, int index)
+void List<Type>::Set(Type value, int index)
 {
-	//todo
+	try
+	{
+		if (index > Size || index < 0)
+		{
+			throw std::out_of_range("Index out of range");
+		}
+		if (Size == 0)
+		{
+			throw std::out_of_range("List is empty");
+		}
+		int count = 0;
+		Node* seek = Root;
+		while (count != index)
+		{
+			seek = seek->Next;
+			count++;
+		}
+		seek->Value = value;
+	}
+	catch (...)
+	{
+		Error = true;
+	}
 }
 
 
