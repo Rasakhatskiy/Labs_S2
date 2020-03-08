@@ -126,6 +126,7 @@
     <Text Include="Task.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Interaction.hpp" />
     <ClInclude Include="Include\List.hpp" />
     <ClInclude Include="Include\Menu.hpp" />
     <ClInclude Include="Include\Point.hpp" />
