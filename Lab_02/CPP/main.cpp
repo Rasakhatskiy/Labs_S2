@@ -65,6 +65,7 @@ int main()
 	auto action = MainAction::Undefined;
 	while (action != MainAction::Quit)
 	{
+		action = (MainAction)menu.GetAction();
 		switch (action)
 		{
 		case MainAction::Undefined:							break;
@@ -75,6 +76,4 @@ int main()
 		default:											break;
 		}
 	}
-
-	DemoMode();
 }

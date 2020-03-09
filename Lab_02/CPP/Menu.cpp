@@ -54,7 +54,7 @@ void Menu::Draw()
 {
     system("CLS");
 
-	std::cout << "==========" + Header + "==========";
+	std::cout << "==========" + Header + "==========" << std::endl;
 	for (unsigned i = 0; i < MenuStringList.size(); ++i)
 	{
 		if (Cursor == i)	std::cout << Selector;
