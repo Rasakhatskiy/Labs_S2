@@ -55,6 +55,22 @@ void DemoMode()
 
 void BenchmarkMode()
 {
+	std::cout << "==========Benchmark mode==========" << std::endl;
+	int counter = 0;
+	list.CreateEmpty();
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+	double time = 0;
+	while (time < 10)
+	{
+		counter += 10000;
+		std::cout << "[" << counter << " elements]\n\n";
+		time = BenchmarkInsertBack(counter);
+		BenchmarkClearList();
+	}
+	BenchmarkInsertBack(counter);
+	BenchmarkInsertEverywhere();
+	BenchmarkRemoveEverywhere();
 
 	system("pause");
 }

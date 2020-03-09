@@ -15,15 +15,13 @@ struct Node
 		Next = next;
 	}
 	Node() { ; }
+	~Node() { ; }
 };
 
 template <typename Type>
 class List
 {
 public:
-	
-
-
 	//calls create empty
 	List<Type>();
 
@@ -60,6 +58,15 @@ public:
 	//Returns emptyness condition
 	bool IsEmpty();
 
+	//Returns size of all structure
+	int GetSize()
+	{
+		return 
+			(sizeof(Node<Type>*) * 2 + sizeof(Type)) * Size +
+			sizeof(Size) +
+			sizeof(Error);
+	}
+
 private:
 	
 	//Root node of list
@@ -75,7 +82,17 @@ private:
 template <typename Type>
 void List<Type>::CreateEmpty()
 {
-	while (Size != 0) Remove(0);
+	if (Size != 0)
+	{
+		auto current = Root->Next;
+		while(current != Root)
+		{
+			auto next = current->Next;
+			delete current;
+			current = next;
+		}
+		delete Root;
+	}
 	Size = 0;
 	Error = false;
 	Root = new Node<Type>();
@@ -146,6 +163,12 @@ void List<Type>::Remove(int index)
 		if (Size == 0)
 		{
 			throw std::out_of_range("List is empty");
+		}
+		if (Size == 1)
+		{
+			delete Root;
+			Size--;
+			return;
 		}
 		if (index == 0)
 		{
