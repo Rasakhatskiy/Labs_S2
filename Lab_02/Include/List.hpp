@@ -51,7 +51,14 @@ public:
 	//returns root node pointer
 	Node<Type>* GetRoot();
 
+	//returns error state
 	bool IsError();
+
+	//Sets Error to false
+	void ResetError();
+
+	//Returns emptyness condition
+	bool IsEmpty();
 
 private:
 	
@@ -70,6 +77,7 @@ void List<Type>::CreateEmpty()
 {
 	while (Size != 0) Remove(0);
 	Size = 0;
+	Error = false;
 	Root = new Node<Type>();
 	Root->Next = Root;
 }
@@ -234,6 +242,18 @@ template<typename Type>
 bool List<Type>::IsError()
 {
 	return Error;
+}
+
+template<typename Type>
+inline void List<Type>::ResetError()
+{
+	Error = false;
+}
+
+template<typename Type>
+inline bool List<Type>::IsEmpty()
+{
+	return Size == 0;
 }
 
 template <typename Type>

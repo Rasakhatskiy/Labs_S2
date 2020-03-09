@@ -56,7 +56,7 @@ void Menu::Draw()
     system("CLS");
 
 	std::vector<std::string> menu = MainMenu;
-
+	std::cout << "==========" + APPNAME + "==========";
 	for (unsigned i = 0; i < menu.size(); ++i)
 	{
 		if (Cursor == i)	std::cout << Selector;

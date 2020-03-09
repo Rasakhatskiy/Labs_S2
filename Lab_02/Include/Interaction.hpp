@@ -5,8 +5,11 @@
 #include "..\Include\Point.hpp"
 #include "..\Include\Menu.hpp"
 #include <string>
+#include <thread>
+
 
 List<Point3D> list;
+const int WAIT_MS = 1000;
 
 Point3D ReadPoint()
 {
@@ -69,17 +72,26 @@ int ReadIndex()
 	return index;
 }
 
-void PrintList()
+void PrintList(bool pause = true)
 {
-	auto root = list.GetRoot();
-	PrintPoint(root->Value);
-	auto node = root->Next;
-	while (node != root)
-	{
-		PrintPoint(node->Value);
-		node = node->Next;
+	if(!list.IsEmpty())
+	{ 
+		auto root = list.GetRoot();
+		PrintPoint(root->Value);
+		auto node = root->Next;
+		while (node != root)
+		{
+			PrintPoint(node->Value);
+			node = node->Next;
+		}
 	}
-	system("pause");
+	else
+	{
+		std::cout << "[Empty]" << std::endl;
+	}
+	
+	std::cout << "[" << (list.IsError() ? "Error" : "OK") << "]" << std::endl;
+	if(pause) system("pause");
 }
 
 void ExecuteAction(Menu::Action action)
@@ -117,6 +129,47 @@ void ExecuteAction(Menu::Action action)
 	{
 		list.Remove(ReadIndex());
 	}
+}
+
+void DemoInsert(double x, double y, double z, double i)
+{
+	std::cout << "Insert((" << x << "; " << y << "; " << z << "), " << i << ")" << std::endl;
+	list.Insert(Point3D(x, y, z), i);
+	PrintList(false);
+	std::cout << std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_MS));
+}
+
+void DemoRemove(double i)
+{
+	std::cout << "Remove(" << i << ")" << std::endl;
+	list.Remove(i);
+	PrintList(false);
+	std::cout << std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_MS));
+}
+
+void DemoSet(double x, double y, double z, double i)
+{
+	std::cout << "Set((" << x << "; " << y << "; " << z << "), " << i << ")" << std::endl;
+	list.Set(Point3D(x, y, z), i);
+	PrintList(false);
+	std::cout << std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_MS));
+}
+
+void DemoGet(double i)
+{
+	std::cout << "Get(" << i << ")" << std::endl;
+	auto point = list.Get(i);
+
+	if (list.IsError())
+		std::cout << "[Error]" << std::endl;
+	else
+		PrintPoint(point);
+
+	std::cout << std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_MS));
 }
 
 #endif // !INTERACTION_HPP

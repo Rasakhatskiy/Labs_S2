@@ -28,7 +28,7 @@ private:
     char Selector = '>';
     char Selector2 = '<';
     int Cursor;
-
+	std::string APPNAME = "LAB_02";
 
     Button GetButton();
     void Draw();
