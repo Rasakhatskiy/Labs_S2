@@ -11,6 +11,47 @@
 List<Point3D> list;
 const int WAIT_MS = 1000;
 
+std::vector<std::string> MainMenu = {
+	"Interaction mode",
+	"Demo mode",
+	"Benchmark mode",
+	"Quit"
+};
+
+enum class MainAction
+{
+	Undefined = -1,
+	Interactive,
+	Demo,
+	Benchmark,
+	Quit
+};
+
+std::vector<std::string> InteractiveMenu = {
+
+	"Insert",
+	"Get",
+	"Set",
+	"Remove",
+	"Print",
+	"Clear",
+	"Quit"
+};
+
+enum class InteractiveAction
+{
+	Undefined = -1,
+	Insert,
+	Get,
+	Set,
+	Remove,
+	Print,
+	Clear,
+	Quit,
+};
+
+
+
 Point3D ReadPoint()
 {
 	Point3D point;
@@ -94,38 +135,38 @@ void PrintList(bool pause = true)
 	if(pause) system("pause");
 }
 
-void ExecuteAction(Menu::Action action)
+void ExecuteAction(InteractiveAction action)
 {
-	if (action == Menu::Action::Quit || action == Menu::Action::Undefined)
+	if (action == InteractiveAction::Quit || action == InteractiveAction::Undefined)
 		return;
 
-	if (action == Menu::Action::Clear)
+	if (action == InteractiveAction::Clear)
 	{
 		list.CreateEmpty();
 	}
 
-	if (action == Menu::Action::Insert)
+	if (action == InteractiveAction::Insert)
 	{
 		list.Insert(ReadPoint(), ReadIndex());
 	}
 
-	if (action == Menu::Action::Print)
+	if (action == InteractiveAction::Print)
 	{
 		PrintList();
 	}
 
-	if (action == Menu::Action::Get)
+	if (action == InteractiveAction::Get)
 	{
 		PrintPoint(list.Get(ReadIndex()));
 		system("pause");
 	}
 
-	if (action == Menu::Action::Set)
+	if (action == InteractiveAction::Set)
 	{
 		list.Set(ReadPoint(), ReadIndex());
 	}
 
-	if (action == Menu::Action::Remove)
+	if (action == InteractiveAction::Remove)
 	{
 		list.Remove(ReadIndex());
 	}

@@ -1,5 +1,12 @@
 #include "..\Include\Menu.hpp"
 
+Menu::Menu(std::vector<std::string> menuList, std::string header)
+{
+	MenuStringList = menuList;
+	Cursor = 0;
+	Header = header;
+}
+
 void Menu::Run()
 {
     
@@ -10,29 +17,21 @@ void Menu::ResetCursor()
 	Cursor = 0;
 }
 
-Menu::Action Menu::GetAction()
+int Menu::GetAction()
 {
     Draw();
     auto button = GetButton();
 	
     switch (button)
     {
-        case Menu::Button::Undefined:										return Action::Move;
+        case Menu::Button::Undefined:										return -1;
         case Menu::Button::Up:			
-			if (Cursor > 0)Cursor--;										return Action::Move;
+			if (Cursor > 0)Cursor--;										return -1;
         case Menu::Button::Down:		
-			if (Cursor < MainMenu.size() - 1)	Cursor++;					return Action::Move;
-		case Menu::Button::Select:											return (Action)Cursor;
-        case Menu::Button::Return:											return Action::Undefined;
-        case Menu::Button::Quit:											return Action::Quit;
-        default:															break;
+			if (Cursor < MenuStringList.size() - 1)	Cursor++;				return -1;
+		case Menu::Button::Select:											return Cursor;
+        default:															return -1;
     }
-																			return Action::Undefined;
-}
-
-Menu::Menu()
-{
-    Cursor = 0;
 }
 
 Menu::Button Menu::GetButton()
@@ -55,14 +54,13 @@ void Menu::Draw()
 {
     system("CLS");
 
-	std::vector<std::string> menu = MainMenu;
-	std::cout << "==========" + APPNAME + "==========";
-	for (unsigned i = 0; i < menu.size(); ++i)
+	std::cout << "==========" + Header + "==========";
+	for (unsigned i = 0; i < MenuStringList.size(); ++i)
 	{
 		if (Cursor == i)	std::cout << Selector;
 		else				std::cout << " ";
 
-		std::cout << menu[i];
+		std::cout << MenuStringList[i];
 
 		if (Cursor == i)	std::cout << Selector2;
 

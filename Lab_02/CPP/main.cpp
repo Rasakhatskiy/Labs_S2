@@ -2,12 +2,12 @@
 
 void InteractiveMode()
 {
-	Menu menu;
-	Menu::Action action = Menu::Action::Undefined;
+	Menu menu(InteractiveMenu, "Interaction mode");
+	auto action = InteractiveAction::Undefined;
 	list.CreateEmpty();
-	while (action != Menu::Action::Quit)
+	while (action != InteractiveAction::Quit)
 	{
-		action = menu.GetAction();
+		action = (InteractiveAction)menu.GetAction();
 		ExecuteAction(action);
 	}
 	system("pause");
@@ -53,7 +53,28 @@ void DemoMode()
 	system("pause");
 }
 
+void BenchmarkMode()
+{
+
+	system("pause");
+}
+
 int main()
 {
+	Menu menu(MainMenu, "LAB_02");
+	auto action = MainAction::Undefined;
+	while (action != MainAction::Quit)
+	{
+		switch (action)
+		{
+		case MainAction::Undefined:							break;
+		case MainAction::Interactive:	InteractiveMode();	break;
+		case MainAction::Demo:			DemoMode();			break;
+		case MainAction::Benchmark:		BenchmarkMode();	break;
+		case MainAction::Quit:								break;
+		default:											break;
+		}
+	}
+
 	DemoMode();
 }

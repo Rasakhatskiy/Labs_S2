@@ -14,42 +14,22 @@ private:
         Undefined, Up, Down, Select, Return, Quit
     };
     
-    std::vector<std::string> MainMenu =
-    {
-        "Insert",
-        "Get",
-        "Set",
-        "Remove",
-		"Print",
-		"Clear",
-		"Exit"
-    };
+	std::vector<std::string> MenuStringList;
 
     char Selector = '>';
     char Selector2 = '<';
     int Cursor;
-	std::string APPNAME = "LAB_02";
+	std::string Header;
 
     Button GetButton();
     void Draw();
 
 public:
-    enum class Action
-    {
-        Insert,		
-		Get,		
-		Set,		
-		Remove,		
-		Print,	
-		Clear,
-		Quit,		
-		Undefined,	
-		Move		
-    };
-    Menu();
+    
+    Menu(std::vector<std::string> menuList, std::string header);
     void Run();
 	void ResetCursor();
-    Action GetAction();
+	int GetAction();
 };
 
 
