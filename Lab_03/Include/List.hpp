@@ -40,7 +40,7 @@ public:
 	void Push(Type element, int priority);
 
 	//Removes element at position
-	void Remove(int index);
+	Type Pop();
 
 	//Retuns element by id, returns NULL if there's no such id
 	Type Get(int index);
@@ -147,57 +147,35 @@ void PriorityQuiue<Type>::Push(Type value, int priority)
 }
 
 template<typename Type>
-void PriorityQuiue<Type>::Remove(int index)
+Type PriorityQuiue<Type>::Pop()
 {
 	try
 	{
-		if (index > Size || index < 0)
-		{
-			throw std::out_of_range("Index out of range");
-		}
 		if (Size == 0)
 		{
-			throw std::out_of_range("List is empty");
+			throw std::out_of_range("Queue is empty");
 		}
 		if (Size == 1)
 		{
+			auto value = Root->Value;
 			delete Root;
 			Size--;
-			return;
+			return value;
 		}
-		if (index == 0)
 		{
-			auto iter = Root->Next;
-			while (iter->Next != Root)
-				iter = iter->Next;
-			iter->Next = Root->Next;
-			delete Root;
-			Root = iter->Next;
+			auto value = Root->Value;
+			auto node = Root;
+			Root = Root->Next;
+			delete node;
+			Size--;
+			return value;
 		}
-		else
-		{
-			int count = 1;
-			auto prev = Root;
-			while (count != index)
-			{
-				count++;
-				prev = prev->Next;
-			}
-			//prev next
-
-			auto current = prev->Next;
-			auto next = current->Next;
-			delete current;
-			current = next;
-			prev->Next = current;
-		}
-		Size--;
 	}
 	catch (...)
 	{
 		Error = true;
 	}
-	return;
+	return NULL;
 }
 
 template<typename Type>

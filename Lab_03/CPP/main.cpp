@@ -86,6 +86,10 @@ int main()
 	queue.Push(69, 0);
 	queue.Push(420, 0);
 
+	while (!queue.IsEmpty())
+	{
+		std::cout << queue.Pop() << std::endl;
+	}
 
 	Menu menu(MainMenu, "LAB_02(b)");
 	auto action = MainAction::Undefined;
