@@ -24,6 +24,9 @@
     <ClInclude Include="Include\PriorityQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\TaskScheduler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPP\main.cpp">

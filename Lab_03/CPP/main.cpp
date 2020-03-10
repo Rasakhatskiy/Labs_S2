@@ -1,6 +1,8 @@
 #include "../Include/Menu.hpp"
 #include "../Include/Interaction.hpp"
 #include "../Include/PriorityQueue.hpp"
+#include "../Include/TaskScheduler.hpp"
+
 //
 //void InteractiveMode()
 //{
@@ -79,21 +81,15 @@
 
 int main()
 {
-	PriorityQuiue<int> queue;
-	queue.Push(0, 0);
-	queue.Push(47, 2);
-	queue.Push(53, 3);
-	queue.Push(69, 0);
-	queue.Push(420, 0);
+	TaskScheduler task;
+	task.Push(10, 1);
+	task.Push(10, 2);
+	task.Push(5, 1);
+	task.Push(15, 2);
+	task.Push(45, 0);
+	task.Push(2, 1);
 
-	std::cout << queue.Get(3) << std::endl;
-	queue.Set(6, 3);
-	std::cout << queue.Get(3) << std::endl;
 
-	while (!queue.IsEmpty())
-	{
-		std::cout << queue.Pop() << std::endl;
-	}
 
 	Menu menu(MainMenu, "LAB_02(b)");
 	auto action = MainAction::Undefined;
