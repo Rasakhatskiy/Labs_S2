@@ -1,6 +1,6 @@
 #include "../Include/Menu.hpp"
 #include "../Include/Interaction.hpp"
-#include "../Include/List.hpp"
+#include "../Include/PriorityQueue.hpp"
 //
 //void InteractiveMode()
 //{
@@ -85,6 +85,10 @@ int main()
 	queue.Push(53, 3);
 	queue.Push(69, 0);
 	queue.Push(420, 0);
+
+	std::cout << queue.Get(3) << std::endl;
+	queue.Set(6, 3);
+	std::cout << queue.Get(3) << std::endl;
 
 	while (!queue.IsEmpty())
 	{

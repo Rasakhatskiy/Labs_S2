@@ -125,11 +125,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Include\Interaction.hpp" />
-    <ClInclude Include="Include\List.hpp" />
+    <ClInclude Include="Include\PriorityQueue.hpp" />
     <ClInclude Include="Include\Menu.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\List.cpp" />
     <ClCompile Include="CPP\main.cpp" />
     <ClCompile Include="CPP\Menu.cpp" />
   </ItemGroup>
