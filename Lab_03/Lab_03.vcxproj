@@ -124,7 +124,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Interaction.hpp" />
     <ClInclude Include="Include\PriorityQueue.hpp" />
     <ClInclude Include="Include\Menu.hpp" />
     <ClInclude Include="Include\TaskScheduler.hpp" />

@@ -18,9 +18,6 @@
     <ClInclude Include="Include\Menu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Interaction.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\PriorityQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -10,7 +10,12 @@ private:
 		int Priority;
 		Node* Next;
 
-		Node() = default;
+		Node() 
+		{
+			Time = NULL;
+			Priority = NULL;
+			Next = nullptr;
+		}
 		Node(long time, int priority, Node* next)
 		{
 			Time = time;
@@ -20,25 +25,38 @@ private:
 	};
 
 	Node* Root;
-	Node* Current;
+	Node Current;
 	bool Error;
-public:
-	TaskScheduler();
+
+	Node Pop();
 	void Push(long time, int priority);
+
 	void Interrupt();
-	void Work(long time);
+
+public:
+	void Insert(long time, int priority);
+
+	TaskScheduler();
+	void WorkOnce();
+	void WorkLong(long time);
 	bool IsError();
 };
 
 TaskScheduler::TaskScheduler()
 {
 	Root = nullptr;
+	Current = Node();
+	Current.Time = NULL;
 }
 
 void TaskScheduler::Push(long time, int priority)
 {
 	try
 	{
+		//no time so it already completed
+		if (time == NULL)
+			return;
+
 		if (Root == nullptr)
 		{
 			Root = new Node(time, priority, nullptr);
@@ -85,6 +103,66 @@ void TaskScheduler::Push(long time, int priority)
 	}
 
 	return;
+}
+
+void TaskScheduler::Insert(long time, int priority)
+{
+	if (Current.Time != NULL && time < Current.Time)
+	{
+		Push(Current.Time, Current.Priority);
+		Current.Time = time;
+		Current.Priority = priority;
+	}
+	else
+	{
+		Push(time, priority);
+	}
+}
+
+void TaskScheduler::WorkOnce()
+{
+	//if there is no work, just don't work
+	if (Current.Time == NULL && Root == nullptr) return;
+
+	//begin to work finally, if still no work
+	if(Current.Time == NULL) Current = Pop();
+
+	//if this task completed, take next one
+	if (--Current.Time == 0) Current = Pop();
+}
+
+void TaskScheduler::WorkLong(long time)
+{
+	for (long i = 0; i < time; i++) WorkOnce();
+}
+
+TaskScheduler::Node TaskScheduler::Pop()
+{
+	try
+	{
+		if (Root == nullptr)
+		{
+			throw std::out_of_range("Queue is empty");
+		}
+		if (Root->Next == nullptr)
+		{
+			auto value = *Root;
+			delete Root;
+			return value;
+		}
+		{
+			auto value = *Root;
+			auto node = Root;
+			Root = Root->Next;
+			delete node;
+			return value;
+		}
+	}
+	catch (...)
+	{
+		Error = true;
+	}
+	return Node();
 }
 
 #endif // !TASK_SCHEDULER_HPP
