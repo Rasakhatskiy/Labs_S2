@@ -80,6 +80,7 @@
 int main()
 {
 	PriorityQuiue<int> queue;
+	queue.Push(0, 0);
 	queue.Push(47, 2);
 	queue.Push(53, 3);
 	queue.Push(69, 0);

@@ -130,7 +130,7 @@ void PriorityQuiue<Type>::Push(Type value, int priority)
 		}
 
 		auto current = Root;
-		while (current->Next != nullptr && priority > current->Next->Priority)
+		while (current->Next != nullptr && priority >= current->Next->Priority)
 		{
 			current = current->Next;
 		}
