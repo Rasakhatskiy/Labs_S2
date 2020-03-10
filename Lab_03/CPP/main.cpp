@@ -5,6 +5,9 @@
 
 int main()
 {
+	//sorry there is no menu for this lab, but you can try solve some linear algebra instead
+	//linear algebra module have higher priority than console menu and also takes more time
+
 	TaskScheduler task;
 	task.Insert(10, 1);
 	task.Insert(10, 2);
