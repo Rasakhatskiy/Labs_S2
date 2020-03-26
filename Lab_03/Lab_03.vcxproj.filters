@@ -22,4 +22,9 @@
   <ItemGroup>
     <Text Include="CPP\Task.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
