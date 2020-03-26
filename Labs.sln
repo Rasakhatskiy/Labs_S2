@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab_01", "Lab_01\Lab_01.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab_02", "Lab_02\Lab_02.vcxproj", "{F1FEA8F8-9169-485E-9E26-697145912B9D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab_02(b)", "Lab_03\Lab_03.vcxproj", "{0B4F8E68-E2CD-4E90-A613-B1A295440465}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab_02(b)", "Lab_02(b)\Lab_02(b).vcxproj", "{0B4F8E68-E2CD-4E90-A613-B1A295440465}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
