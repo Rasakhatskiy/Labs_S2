@@ -15,25 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Menu.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\PriorityQueue.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\TaskScheduler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="CPP\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Include\Task.txt" />
+    <Text Include="CPP\Task.txt" />
   </ItemGroup>
 </Project>
