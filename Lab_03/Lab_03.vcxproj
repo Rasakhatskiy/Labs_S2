@@ -129,6 +129,7 @@
     <Text Include="CPP\Task.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Sort.hpp" />
     <ClInclude Include="Include\Point.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
