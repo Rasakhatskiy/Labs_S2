@@ -67,6 +67,80 @@ void QuickSort(Point3D arr[], int lowest, int highest)
 }
 
 
+//--------------------------------------MERGE SORT------------------------------------
+void Merge(Point3D arr[], int lowest, int middle, int highest)
+{
+	int i, j, k;
+	int sizeFirst = middle - lowest + 1;
+	int sizeSecond = highest - middle;
 
+
+	Point3D* tempFirst = new Point3D[sizeFirst];
+	Point3D* tempSecond = new Point3D[sizeSecond];
+
+	
+	//split data between arrays
+	for (i = 0; i < sizeFirst; i++)
+		tempFirst[i] = arr[lowest + i];
+
+	for (j = 0; j < sizeSecond; j++)
+		tempSecond[j] = arr[middle + 1 + j];
+
+
+	i = 0; //start index of tempFirst array 
+	j = 0; //start index of tempSecond array 
+	k = lowest; //start index of merged array 
+
+
+	//merge
+	while (i < sizeFirst && j < sizeSecond)
+	{
+		if (tempFirst[i] >= tempSecond[j])
+		{
+			arr[k] = tempFirst[i];
+			i++;
+		}
+		else
+		{
+			arr[k] = tempSecond[j];
+			j++;
+		}
+		k++;
+	}
+
+
+	//get extra elements from first array
+	while (i < sizeFirst)
+	{
+		arr[k] = tempFirst[i];
+		i++;
+		k++;
+	}
+
+
+	//get extra elements from second array
+	while (j < sizeSecond)
+	{
+		arr[k] = tempSecond[j];
+		j++;
+		k++;
+	}
+
+	delete[] tempFirst;
+	delete[] tempSecond;
+}
+
+void MergeSort(Point3D arr[], int lowest, int highest)
+{
+	if (lowest < highest)
+	{
+		int middle = (lowest + highest) / 2;
+
+		MergeSort(arr, lowest, middle);
+		MergeSort(arr, middle + 1, highest);
+
+		Merge(arr, lowest, middle, highest);
+	}
+}
 
 #endif //SORT_HPP

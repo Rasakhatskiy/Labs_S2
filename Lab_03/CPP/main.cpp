@@ -27,17 +27,21 @@ int main()
 
 	const int size = 10;
 
-
+	std::cout << "Insertion sort" << std::endl;
 	Point3D arr[size] = { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9};
 	PrintArray(arr, size);
 	InsertionSort(arr, 0, size - 1);
 	PrintArray(arr, size);
 
-
+	std::cout << "NesQuick sort" << std::endl;
 	Point3D arr2[size] = { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9 };
 	PrintArray(arr2, size);
 	QuickSort(arr2, 0, size - 1);
 	PrintArray(arr2, size);
 
-
+	std::cout << "Merge sort" << std::endl;
+	Point3D arr3[size] = { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9 };
+	PrintArray(arr3, size);
+	MergeSort(arr3, 0, size - 1);
+	PrintArray(arr3, size);
 }
