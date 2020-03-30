@@ -31,8 +31,57 @@ int ReadPositiveInteger()
 
 void LaunchBenchmark()
 {
+	auto begin = std::chrono::steady_clock::now();
+	auto end = std::chrono::steady_clock::now();
+	auto time = 0.0;
+	auto maxTime = 0.0;
+
+	int elements = 10000;
+
+	do 
+	{
+		std::cout << std::endl;
+		elements *= 10;
+		std::cout << "Creating array of " << elements << " elements" << std::endl;
+
+		SilentShuffle(elements);
+		Point3D* arr = new Point3D[SIZE];
+
+
+		for (int i = 0; i < SIZE; i++) arr[i] = MOTHER_ARRAY[i];
+		
+		begin = std::chrono::steady_clock::now();
+		InsertionSort(arr, 0, SIZE - 1);
+		end = std::chrono::steady_clock::now();
+		time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+		std::cout << "Insertion sort time: "<< time<< " miliseconds" << std::endl;
+		if (time > maxTime)
+			maxTime = time;
+
+		for (int i = 0; i < SIZE; i++) arr[i] = MOTHER_ARRAY[i];
+
+		begin = std::chrono::steady_clock::now();
+		QuickSort(arr, 0, SIZE - 1);
+		end = std::chrono::steady_clock::now();
+		time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+		std::cout << "Quick sort time: " << time << " miliseconds" << std::endl;
+		if (time > maxTime) maxTime = time;
+
+		for (int i = 0; i < SIZE; i++) arr[i] = MOTHER_ARRAY[i];
+
+		begin = std::chrono::steady_clock::now();
+		MergeSort(arr, 0, SIZE - 1);
+		end = std::chrono::steady_clock::now();
+		time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+		std::cout << "Merge sort time: " << time << " miliseconds" << std::endl;
+		if (time > maxTime) maxTime = time;
+
+		delete[] arr;
+	} while (maxTime < 10000);
+
 
 }
+
 
 void Shuffle()
 {
@@ -69,6 +118,33 @@ void Shuffle()
 	std::cout << "Pres eni ki to kontinue.,." << std::endl;
 	_getch();
 }
+
+void SilentShuffle(int size)
+{
+	SIZE = size;
+	delete[] MOTHER_ARRAY;
+	MOTHER_ARRAY = new Point3D[SIZE];
+
+	double max = (INT16_MAX / 8.0);
+	double min = (INT16_MIN / 8.0);
+
+	double x, y, z, f;
+
+	srand(time(NULL));
+	for (int i = 0; i < SIZE; i++)
+	{
+		f = (double)rand() / RAND_MAX;
+		x = min + f * (max - min);
+		f = (double)rand() / RAND_MAX;
+		y = min + f * (max - min);
+		f = (double)rand() / RAND_MAX;
+		z = min + f * (max - min);
+
+		Point3D point = Point3D(x, y, z);
+		MOTHER_ARRAY[i] = point;
+	}
+}
+
 
 void InsertionSortLaunch()
 {

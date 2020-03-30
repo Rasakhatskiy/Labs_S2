@@ -19,6 +19,8 @@ extern Point3D* MOTHER_ARRAY;
 void PrintArray(Point3D arr[], int size);
 
 void LaunchBenchmark();
+void SilentShuffle(int size);
+
 void Shuffle();
 void InsertionSortLaunch();
 void QuickSortLaunch();
