@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\DataBase.cpp">
+    <ClCompile Include="CPP\Interaction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CPP\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPP\Sort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CPP\Menu.cpp">
@@ -27,35 +30,31 @@
     <ClCompile Include="CPP\Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Operator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CPP\DateTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\DataBase.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DateTime.hpp">
+    <ClInclude Include="Include\Interaction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Menu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Sort.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Include\Message.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Operator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Error.hpp">
+    <ClInclude Include="Include\DateTime.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Task.txt" />
-    <Text Include="Include\RandomText.hpp" />
   </ItemGroup>
 </Project>

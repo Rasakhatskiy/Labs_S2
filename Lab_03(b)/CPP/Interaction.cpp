@@ -36,7 +36,7 @@ void LaunchBenchmark()
 	auto time = 0.0;
 	auto maxTime = 0.0;
 
-	int elements = 100;
+	int elements = 10000;
 
 	do 
 	{
@@ -145,87 +145,7 @@ void SilentShuffle(int size)
 	}
 }
 
-
-void InsertionSortLaunch()
+void SetSortingOrderPoints()
 {
-	std::cout << std::endl;
-	auto begin = std::chrono::steady_clock::now();
-	auto end = std::chrono::steady_clock::now();
-	auto time = 0.0;
-
-	Point3D* arr = new Point3D[SIZE];
-	for (int i = 0; i < SIZE; i++) arr[i] = MOTHER_ARRAY[i];
-
-	begin = std::chrono::steady_clock::now();
-	InsertionSort(arr, 0, SIZE - 1);
-	end = std::chrono::steady_clock::now();
-
-	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
-	std::cout
-		<< "Insertion sort time: "
-		<< time
-		<< " miliseconds (trust me, it sorted)" << std::endl;
-
-	delete[] arr;
-	std::cout << "system(\"pause\");" << std::endl;
-	_getch();
-
-	/*PrintArray(arr, SIZE);
-	_getch();*/
-}
-
-void QuickSortLaunch()
-{
-	std::cout << std::endl;
-	auto begin = std::chrono::steady_clock::now();
-	auto end = std::chrono::steady_clock::now();
-	auto time = 0.0;
-
-	Point3D* arr = new Point3D[SIZE];
-	for (int i = 0; i < SIZE; i++) arr[i] = MOTHER_ARRAY[i];
-
-	begin = std::chrono::steady_clock::now();
-	QuickSort(arr, 0, SIZE - 1);
-	end = std::chrono::steady_clock::now();
-
-	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
-	std::cout
-		<< "Nesquick sort time: "
-		<< time
-		<< " miliseconds (trust me, it sorted)" << std::endl;
-
-	delete[] arr;
-	std::cout << "console, please wait" << std::endl;
-	_getch();
-
-	//PrintArray(arr, SIZE);
-	//_getch();
-}
-
-void MergeSortLaunch()
-{
-	std::cout << std::endl;
-	auto begin = std::chrono::steady_clock::now();
-	auto end = std::chrono::steady_clock::now();
-	auto time = 0.0;
-
-	Point3D* arr = new Point3D[SIZE];
-	for (int i = 0; i < SIZE; i++) arr[i] = MOTHER_ARRAY[i];
-
-	begin = std::chrono::steady_clock::now();
-	MergeSort(arr, 0, SIZE - 1);
-	end = std::chrono::steady_clock::now();
-
-	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
-	std::cout
-		<< "Merge sort time: "
-		<< time
-		<< " miliseconds (trust me, it sorted)" << std::endl;
-
-	delete[] arr;
-	std::cout << "ZA WARUDO" << std::endl;
-	_getch();
-
-	//PrintArray(arr, SIZE);
-	//_getch();
+	
 }
