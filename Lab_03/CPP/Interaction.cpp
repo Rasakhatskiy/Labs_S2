@@ -6,7 +6,7 @@ int SIZE = 1;
 Point3D* MOTHER_ARRAY = new Point3D[SIZE];
 
 
-void PrintArray(Point3D arr[], int size)
+void PrintArray(Point3D* arr, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -170,8 +170,8 @@ void InsertionSortLaunch()
 	std::cout << "system(\"pause\");" << std::endl;
 	_getch();
 
-	//PrintArray(arr, SIZE);
-	//_getch();
+	/*PrintArray(arr, SIZE);
+	_getch();*/
 }
 
 void QuickSortLaunch()
