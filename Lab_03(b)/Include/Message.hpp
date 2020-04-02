@@ -11,11 +11,11 @@ class Message
 public:
     enum MessageType
     {
+		Answer,
+		Comment,
+		Invite,
         News,
-        Question,
-        Answer,
-        Invite,
-        Comment
+        Question
     };
 
     unsigned int ID;

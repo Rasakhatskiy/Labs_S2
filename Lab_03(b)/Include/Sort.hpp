@@ -24,7 +24,7 @@ void Merge(Point3D* arr, int lowest, int middle, int highest);
 void MergeSort(Point3D* arr, int lowest, int highest);
 
 //--------------------------------------COUNTING SORT---------------------------------
-
+void CountSort(Message* arr, int size);
 
 
 //--------------------------------------RADIX SORT------------------------------------

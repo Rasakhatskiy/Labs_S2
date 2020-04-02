@@ -13,7 +13,7 @@ std::default_random_engine randomEngine
 
 std::uniform_int_distribution<int> intRandomGenerator{ INT16_MIN, INT16_MAX };
 std::uniform_int_distribution<int> intPositiveRandomGenerator{ 0, INT16_MAX };
-std::uniform_int_distribution<int> intRandomGenerator5{ 0, 5 };
+std::uniform_int_distribution<int> intRandomGenerator5{ 0, 4 };
 
 //----------------------------------PRINTING ARRAYS-------------------------------------
 void PrintArray(Point3D* arr, int size)
@@ -221,6 +221,7 @@ void ShuffleMessages()
 		PrintArray(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
 	else
 		std::cout << "It is too mush for me to print " << SIZE_M_MESSAGE << " elements. Pls forgive me." << std::endl;
+
 
 	std::cout << "Press the power button to shut down your PC..." << std::endl;
 	_getch();

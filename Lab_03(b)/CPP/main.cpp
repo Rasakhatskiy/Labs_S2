@@ -152,7 +152,11 @@ int main()
 					std::cout << "Radix sord has been committed..." << std::endl;
 					_getch();
 					break;
-				case 2: break;
+				case 2: 
+					CountSort(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
+					std::cout << "Counting sort has been committed..." << std::endl;
+					_getch();
+					break;
 				case 3: 
 					PrintArray(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
 					std::cout << "Prodam garazh" << std::endl;

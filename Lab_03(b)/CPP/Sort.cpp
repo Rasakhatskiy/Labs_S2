@@ -188,3 +188,29 @@ void RadixSort(Message* arr, int size)
 }
 
 //--------------------------------------COUNTING SORT---------------------------------
+void CountSort(Message * arr, int size)
+{
+	const int max = 4;
+	Message * result = new Message[size];
+
+	int count[max + 1];
+	for (int i = 0; i <= max; i++)
+		count[i] = 0;
+
+	int i = 0;
+
+	for (i = 0; i < size; i++)
+		count[(int)arr[i].Type]++;
+
+	for (i = 1; i <= max; i++)
+		count[i] += count[i - 1];
+
+	for (i = 0; i < size; i++)
+	{
+		result[count[(int)arr[i].Type] - 1] = arr[i];
+		count[(int)arr[i].Type]--;
+	}
+
+	for (i = 0; i < size; i++)
+		arr[i] = result[i];
+}
