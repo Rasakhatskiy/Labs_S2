@@ -1,0 +1,5 @@
+#include "../Include/RandomText.hpp"
+
+std::string RANDOM_LARGE_TEXT = "if I wasn't here tomorrow would anybody care if my time was up i'd wanna know you were happy I as there if I wasn't here tomorrow would anyone lose sleep if I wasn't hard and hollow then maybe you would miss me I know i'm a mess and I wanna be someone someone that i'd like better I can never forget  so don't remind me of it forever what if I just pulled myself together would it matter at all what if I just tried not to remember would it matter at all all the chances that have passed me by would it matter if I gave it one more try would it matter at all if I wasn't here tomorrow would anybody care still stuck inside this sorrow I got nothin' and going nowhere I know i'm a mess and I wanna be someone someone that i'd like better can you help me forget  don't wanna feel like this forever if I left tomorrow would anybody care stuck in this sorrow going nowhere";
+std::string RANDOM_AUTHOR = "JenLedger JohnCooper KoreyCooper SethMorrison RobertBWeide";
+std::string RANDOM_RECIPIENT = " AdamGontier MikeMushok CaleGontier CodyWatkins BenedictCumberbatch";

@@ -1,5 +1,9 @@
 #include "../Include/Sort.hpp"
 
+//---------------------------------------COMPARATOR------------------------------------
+
+
+
 //---------------------------------------INSERTION-------------------------------------
 
 
@@ -50,7 +54,6 @@ int FindPartitionIndex(Point3D* arr, int lowest, int highest)
 	}
 }
 
-//Несквик сорт за спаданням
 void QuickSort(Point3D * arr, int lowest, int highest)
 {
 	if (lowest < highest)
@@ -142,3 +145,46 @@ void MergeSort(Point3D * arr, int lowest, int highest)
 	}
 }
 
+//--------------------------------------COUNTING SORT---------------------------------
+
+
+
+//--------------------------------------RADIX SORT------------------------------------
+int FindMaxID(Message* arr, int size)
+{
+	int max = arr[0].ID;
+	for (int i = 1; i < size; i++)
+		if (arr[i].ID > max)
+			max = arr[i].ID;
+	return max;
+}
+
+void ExpSort(Message * arr, int size, int exp)
+{
+	Message* result = new Message[size];
+	int i, count[10] = { 0 };
+
+	for (i = 0; i < size; i++)
+		count[(arr[i].ID / exp) % 10]++;
+
+	for (i = 1; i < 10; i++)
+		count[i] += count[i - 1];
+
+	for (i = size - 1; i >= 0; i--)
+	{
+		result[count[(arr[i].ID / exp) % 10] - 1] = arr[i];
+		count[(arr[i].ID / exp) % 10]--;
+	}
+
+	for (i = 0; i < size; i++)
+		arr[i] = result[i];
+}
+
+void RadixSort(Message* arr, int size)
+{
+	int max = FindMaxID(arr, size);
+	for (int exp = 1; max / exp > 0; exp *= 10)
+		ExpSort(arr, size, exp);
+}
+
+//--------------------------------------COUNTING SORT---------------------------------

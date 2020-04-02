@@ -3,6 +3,15 @@
 #include "../Include/Point.hpp"
 #include "../Include/Message.hpp"
 
+
+//---------------------------------------COMPARATOR------------------------------------
+extern std::string SortingOrder;
+
+struct Point3D_BiggerThan_comparator
+{
+	inline bool operator()(const Point3D& struct1, const Point3D& struct2);
+};
+
 //---------------------------------------INSERTION-------------------------------------
 void InsertionSort(Point3D* arr, int lowest, int highest);
 
@@ -19,39 +28,9 @@ void MergeSort(Point3D* arr, int lowest, int highest);
 
 
 //--------------------------------------RADIX SORT------------------------------------
-// A utility function to get maximum value in arr[] 
-int FindMaxID(Message* arr, int size)
-{
-	int max = arr[0].ID;
-	for (int i = 1; i < size; i++)
-		if (arr[i].ID > max)
-			max = arr[i].ID;
-	return max;
-}
-
-// A function to do counting sort of arr[] according to 
-// the digit represented by exp. 
-void ExpSort(Message * arr, int size, int exp)
-{
-	Message* result = new Message[size];
-	int i, count[10] = { 0 };
-
-	for (i = 0; i < size; i++)
-		count[(arr[i].ID / exp) % 10]++;
-
-	for (i = 1; i < 10; i++)
-		count[i] += count[i - 1];
-
-	for (i = size - 1; i >= 0; i--)
-	{
-		result[count[(arr[i].ID / exp) % 10] - 1] = arr[i];
-		count[(arr[i].ID / exp) % 10]--;
-	}
-
-	for (i = 0; i < size; i++)
-		arr[i] = result[i];
-}
-
+int FindMaxID(Message* arr, int size);
+void ExpSort(Message* arr, int size, int exp);
+void RadixSort(Message* arr, int size);
 
 
 

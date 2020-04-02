@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-std::string SortingOrder;
+
 
 std::vector<std::string> MainMenuStrings =
 {
@@ -24,6 +24,15 @@ std::vector<std::string> PointsMenuStrings =
 	"Back"
 };
 
+std::vector<std::string> MessagesMenuStrings =
+{
+	"Shuffle (and remember)",
+	"Radix sort by ID",
+	"Counting sort by message type",
+	"Print",
+	"Back"
+};
+
 std::vector<std::string> SortingOrderMenuStrings =
 {
 	"X",
@@ -36,40 +45,44 @@ enum MenuType
 	Main, Points, Messages, Selector
 };
 
-struct bigger_than_key
-{
-	inline bool operator() (const Point3D& struct1, const Point3D& struct2)
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			switch (SortingOrder[0])
-			{
-				case'X': 
-					if (struct1.X > struct2.X) return true;
-					else if (struct1.X == struct2.X) break;
-					else return false;
-				case'Y': 
-					if (struct1.Y > struct2.Y) return true;
-					else if (struct1.Y == struct2.Y) break;
-					else return false;
-				case'Z':
-					if (struct1.Z > struct2.Z) return true;
-					else if (struct1.Z == struct2.Z) break;
-					else return false;
-				default: throw;
-			}
-		}
-		return false;
-	}
-};
 
+
+//ללללל אםנוחמכüגוה וךסעüמנםאכ סטלגמכ גאף
+std::string SortingOrder = "XYZ";
+inline bool Point3D_BiggerThan_comparator::operator()
+(const Point3D& struct1, const Point3D& struct2)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		switch (SortingOrder[0])
+		{
+			case'X':
+				if (struct1.X > struct2.X) return true;
+				else if (struct1.X == struct2.X) break;
+				else return false;
+			case'Y':
+				if (struct1.Y > struct2.Y) return true;
+				else if (struct1.Y == struct2.Y) break;
+				else return false;
+			case'Z':
+				if (struct1.Z > struct2.Z) return true;
+				else if (struct1.Z == struct2.Z) break;
+				else return false;
+			default: throw;
+		}
+	}
+	return false;
+}
 
 
 int main()
 {
-	SortingOrder = "XYZ";
-	Menu mainMenu(MainMenuStrings, "Lab 03 A");
-	Menu pointsMenu(PointsMenuStrings, "Interactive mode");
+	srand(time(NULL));
+
+	Menu mainMenu(MainMenuStrings, "Lab 03 B");
+	Menu pointsMenu(PointsMenuStrings, "Points sort mode");
+	Menu messagesMenu(MessagesMenuStrings, "Messages sort mode");
+
 	Menu menu = mainMenu;
 	MenuType menuType = MenuType::Main;
 
@@ -92,7 +105,10 @@ int main()
 					menuType = MenuType::Points;
 					menu = pointsMenu;
 					break;
-				case 1: LaunchBenchmark(); break;
+				case 1: 
+					menuType = MenuType::Messages;
+					menu = messagesMenu; 
+					break;
 				case 2: default: ulala = false; break;
 			}
 			continue;
@@ -101,7 +117,7 @@ int main()
 		{
 			switch (act)
 			{
-				case 0: Shuffle(); break;
+				case 0: ShufflePoint3D(); break;
 				case 1: 
 					SortingOrder.clear();
 					menuType = MenuType::Selector;
@@ -110,12 +126,12 @@ int main()
 					setup = 0;
 					break;
 				case 2:
-					std::sort(&MOTHER_ARRAY[0], &MOTHER_ARRAY[SIZE], bigger_than_key());
+					std::sort(&MOTHER_ARRAY_POINT[0], &MOTHER_ARRAY_POINT[SIZE_M_POINT], Point3D_BiggerThan_comparator());
 					std::cout << "Sort has been committed" << std::endl;
 					_getch();
 					break;
 				case 3: 
-					PrintArray(MOTHER_ARRAY, SIZE); 
+					PrintArray(MOTHER_ARRAY_POINT, SIZE_M_POINT); 
 					std::cout << "Press Alt + F4 to close the programm or any other key to continue..." << std::endl;
 					_getch();
 					break;
@@ -128,7 +144,24 @@ int main()
 		}
 		if (menuType == MenuType::Messages)
 		{
-
+			switch (act)
+			{
+				case 0: ShuffleMessages(); break;
+				case 1: 
+					RadixSort(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE); 
+					std::cout << "Radix sord has been committed..." << std::endl;
+					_getch();
+					break;
+				case 2: break;
+				case 3: 
+					PrintArray(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
+					std::cout << "Prodam garazh" << std::endl;
+					_getch(); break;
+				case 4: default:
+					menuType = MenuType::Main;
+					menu = mainMenu;
+					break;
+			}
 			continue;
 		}
 		if (menuType == MenuType::Selector) 
