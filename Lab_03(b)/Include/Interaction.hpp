@@ -28,6 +28,8 @@ void PrintArray(Message* arr, int size);
 void PrintMessage(Message message);
 
 void LaunchBenchmark();
+void MiniBenchmarkRadix();
+void MiniBenchmarkCounting();
 void SilentShufflePoint3D(int size);
 void ShuffleMessages();
 

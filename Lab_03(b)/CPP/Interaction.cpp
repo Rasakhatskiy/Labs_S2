@@ -15,6 +15,19 @@ std::uniform_int_distribution<int> intRandomGenerator{ INT16_MIN, INT16_MAX };
 std::uniform_int_distribution<int> intPositiveRandomGenerator{ 0, INT16_MAX };
 std::uniform_int_distribution<int> intRandomGenerator5{ 0, 4 };
 
+
+inline bool Message_smallerID_comparator::operator()
+(const Message& struct1, const Message& struct2)
+{
+	return struct1.ID < struct2.ID;
+;}
+
+inline bool Message_smallerType_comparator::operator()
+(const Message& struct1, const Message& struct2)
+{
+	return struct1.Type < struct2.Type;
+}
+
 //----------------------------------PRINTING ARRAYS-------------------------------------
 void PrintArray(Point3D* arr, int size)
 {
@@ -140,6 +153,69 @@ void LaunchBenchmark()
 
 }
 
+void MiniBenchmarkRadix()
+{
+	auto begin = std::chrono::steady_clock::now();
+	auto end = std::chrono::steady_clock::now();
+	auto time = 0.0;
+
+	Message* arr = new Message[SIZE_M_MESSAGE];
+
+	for (int i = 0; i < SIZE_M_MESSAGE; i++)
+		arr[i] = MOTHER_ARRAY_MESSAGE[i];
+
+	begin = std::chrono::steady_clock::now();
+	RadixSort(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
+	end = std::chrono::steady_clock::now();
+	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+	std::cout << "Radix sort time: " << time << " miliseconds" << std::endl;
+	
+	for (int i = 0; i < SIZE_M_MESSAGE; i++)
+		arr[i] = MOTHER_ARRAY_MESSAGE[i];
+
+	begin = std::chrono::steady_clock::now();
+	std::sort(
+		&MOTHER_ARRAY_MESSAGE[0], 
+		&MOTHER_ARRAY_MESSAGE[SIZE_M_MESSAGE], 
+		Message_smallerID_comparator());
+	end = std::chrono::steady_clock::now();
+	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+
+	std::cout << "Quick sort time: " << time << " miliseconds" << std::endl;
+	_getch();
+}
+
+void MiniBenchmarkCounting()
+{
+	auto begin = std::chrono::steady_clock::now();
+	auto end = std::chrono::steady_clock::now();
+	auto time = 0.0;
+
+	Message* arr = new Message[SIZE_M_MESSAGE];
+
+	for (int i = 0; i < SIZE_M_MESSAGE; i++)
+		arr[i] = MOTHER_ARRAY_MESSAGE[i];
+
+	begin = std::chrono::steady_clock::now();
+	CountSort(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
+	end = std::chrono::steady_clock::now();
+	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+	std::cout << "Count sort time: " << time << " miliseconds" << std::endl;
+
+	for (int i = 0; i < SIZE_M_MESSAGE; i++)
+		arr[i] = MOTHER_ARRAY_MESSAGE[i];
+
+	begin = std::chrono::steady_clock::now();
+	std::sort(
+		&MOTHER_ARRAY_MESSAGE[0],
+		&MOTHER_ARRAY_MESSAGE[SIZE_M_MESSAGE],
+		Message_smallerID_comparator());
+	end = std::chrono::steady_clock::now();
+	time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+
+	std::cout << "Quick sort time: " << time << " miliseconds" << std::endl;
+	_getch();
+}
 
 //----------------------------------EVERYDAY AM SHUFFELING------------------------------
 void ShufflePoint3D()

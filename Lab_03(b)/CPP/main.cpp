@@ -147,16 +147,8 @@ int main()
 			switch (act)
 			{
 				case 0: ShuffleMessages(); break;
-				case 1: 
-					RadixSort(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE); 
-					std::cout << "Radix sord has been committed..." << std::endl;
-					_getch();
-					break;
-				case 2: 
-					CountSort(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
-					std::cout << "Counting sort has been committed..." << std::endl;
-					_getch();
-					break;
+				case 1: MiniBenchmarkRadix(); break;
+				case 2: MiniBenchmarkCounting(); break;
 				case 3: 
 					PrintArray(MOTHER_ARRAY_MESSAGE, SIZE_M_MESSAGE);
 					std::cout << "Prodam garazh" << std::endl;

@@ -12,6 +12,16 @@ struct Point3D_BiggerThan_comparator
 	inline bool operator()(const Point3D& struct1, const Point3D& struct2);
 };
 
+struct Message_smallerID_comparator
+{
+	inline bool operator()(const Message& struct1, const Message& struct2);
+};
+
+struct Message_smallerType_comparator
+{
+	inline bool operator()(const Message& struct1, const Message& struct2);
+};
+
 //---------------------------------------INSERTION-------------------------------------
 void InsertionSort(Point3D* arr, int lowest, int highest);
 
