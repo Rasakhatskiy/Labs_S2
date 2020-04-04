@@ -123,6 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="Task.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPP\main.cpp" />
+    <ClCompile Include="CPP\TreeInt.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\TreeInt.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
