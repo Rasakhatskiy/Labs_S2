@@ -109,3 +109,78 @@ std::string Tree::Node::ToString(std::string spacing, bool closing, bool root = 
 
 	return result;
 }
+
+
+
+
+BinaryTree::BinaryTree():
+	Root(nullptr){}
+
+BinaryTree::~BinaryTree()
+{
+	DeleteNode(Root);
+}
+
+
+std::string BinaryTree::ToString()
+{
+	return Root->ToString("", true, true);
+}
+
+void BinaryTree::AddNode(long value)
+{
+	AddNode(Root, value);
+}
+
+void BinaryTree::AddNode(BinaryTree::Node* &node, long value)
+{
+	if (!node)
+	{
+		node = new Node(nullptr, value);
+		return;
+	}
+
+	if (value < node->Value)
+		AddNode(node->Left, value);
+	else
+		AddNode(node->Right, value);
+}
+
+void BinaryTree::DeleteNode(BinaryTree::Node* node)
+{
+	if (node == nullptr) return;
+	DeleteNode(node->Left);
+	DeleteNode(node->Right);
+	delete node;
+}
+
+
+BinaryTree::Node::Node(Node* parent, long value) :
+	Parent(parent), Value(value) {}
+
+std::string BinaryTree::Node::ToString(std::string spacing, bool closing, bool root = false)
+{
+	std::string result = spacing;
+	if (closing)
+	{
+		if (!root)
+		{
+			result += LineClosed;
+			spacing += "  ";
+		}
+	}
+	else
+	{
+		result += LineOpened;
+		spacing += LineVertical;
+		spacing += " ";
+	}
+
+	if (!root) result += LineHorizontal;
+	result += std::to_string(Value) + "\n";
+
+	if(Left) result += Left->ToString(spacing, !Right);
+	if(Right) result += Right->ToString(spacing, true);
+	
+	return result;
+}

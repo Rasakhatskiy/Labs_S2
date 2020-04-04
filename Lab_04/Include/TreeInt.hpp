@@ -52,18 +52,32 @@ public:
 	{
 	public:
 		long Value;
+
 		Node* Parent;
 		Node* Left;
 		Node* Right;
 
 		Node(Node* parent, long value);
+		std::string ToString(std::string spacing, bool closing, bool root);
+
+	private:
+		static const unsigned char LineClosed = 192;
+		static const unsigned char LineOpened = 195;
+		static const unsigned char LineVertical = 179;
+		static const unsigned char LineHorizontal = 196;
 	};
 
 	Node* Root;
 
 	void AddNode(long value);
 	std::string ToString();
-	void DelNode(long value);
+
+	BinaryTree();
+	~BinaryTree();
+
+private:
+	void DeleteNode(Node* node);
+	void AddNode(Node*& node, long value);
 };
 
 #endif
