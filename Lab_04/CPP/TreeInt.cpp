@@ -1,5 +1,7 @@
 ﻿#include "../Include/TreeInt.hpp"
 
+
+
 Tree::Tree() : 
 	Root(nullptr), 
 	RandomGenerator(std::uniform_int_distribution<int>{ 1, 100 }){}
@@ -110,8 +112,7 @@ std::string Tree::Node::ToString(std::string spacing, bool closing, bool root = 
 	return result;
 }
 
-
-
+//================================================================================================
 
 BinaryTree::BinaryTree():
 	Root(nullptr){}
@@ -152,6 +153,26 @@ void BinaryTree::DeleteNode(BinaryTree::Node* node)
 	DeleteNode(node->Left);
 	DeleteNode(node->Right);
 	delete node;
+}
+
+std::vector<long> BinaryTree::GetData()
+{
+	return GetData(Root);
+}
+
+std::vector<long> BinaryTree::GetData(BinaryTree::Node* node)
+{
+	std::vector<long> result;
+	if (!node) return result;
+	result.push_back(node->Value);
+
+	std::vector<long> left = GetData(node->Left);
+	std::vector<long> right = GetData(node->Right);
+
+	result.insert(result.end(), left.begin(), left.end());
+	result.insert(result.end(), right.begin(), right.end());
+
+	return result;
 }
 
 

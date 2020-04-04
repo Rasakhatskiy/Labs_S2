@@ -71,6 +71,7 @@ public:
 
 	void AddNode(long value);
 	std::string ToString();
+	std::vector<long> GetData();
 
 	BinaryTree();
 	~BinaryTree();
@@ -78,6 +79,7 @@ public:
 private:
 	void DeleteNode(Node* node);
 	void AddNode(Node*& node, long value);
+	std::vector<long> GetData(Node* node);
 };
 
 #endif
