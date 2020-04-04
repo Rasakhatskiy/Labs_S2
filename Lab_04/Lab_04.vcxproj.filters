@@ -24,9 +24,15 @@
     <ClCompile Include="CPP\TreeInt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LogicTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\TreeInt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicTree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
