@@ -1,18 +1,85 @@
 ﻿#include <iostream>
 #include "../Include/TreeInt.hpp"
+#include "../Include/LogicTree.hpp"
+#include "../Include/Menu.hpp"
+
+std::vector<std::string> MainMenuStrings =
+{
+	"Tree",
+	"Binary Tree",
+	"Logic Tree",
+	"Alt + F4"
+};
+
+std::vector<std::string> TreeStrings =
+{
+	"Insert Value",
+	"Remove Value",
+	"Print Tree",
+	"Clear Tree",
+	"Back"
+};
+
+std::vector<std::string> BinaryTreeStrings =
+{
+	"Insert Value",
+	"Get Data",
+	"Print Tree",
+	"Clear Tree",
+	"Back"
+};
+
+std::vector<std::string> LogicTreeStrings =
+{
+	"Set Equation",
+	"Solve Equation",
+	"Print Tree",
+	"Clear Tree",
+	"Back"
+};
+
+enum MenuType
+{
+	Main, Tree, Binary, Logic
+};
 
 int main()
 {
-	Tree tree;
-	BinaryTree bintree;
-	
-	std::string pi = "314159265358979323846264338327950288419716939937510582097494459230";
+	Menu mainMenu = Menu(MainMenuStrings, "Lab 04");
+	Menu treeMenu = Menu(MainMenuStrings, "Lab 04");
+	Menu binTreeMenu = Menu(MainMenuStrings, "Lab 04");
+	Menu logTreeMenu = Menu(MainMenuStrings, "Lab 04");
+	Menu menu(mainMenu);
+	MenuType type = MenuType::Main;
 
-	//for (auto& i : pi) tree.AddNode(tree.Root, i - '0', 0.5);
-	//std::cout << tree.ToString() << std::endl;
+	int action = 0;
+	while (true)
+	{
+		int action = menu.GetAction();
 
-	for (auto& i : pi) bintree.AddNode(i - '0');
-	std::cout << bintree.ToString() << std::endl;
-	auto bindata = bintree.GetData();
-	for (auto& i : bindata) std::cout << std::to_string(i) + " ";
+		if (type == MenuType::Main)
+		{
+			if (action == 0) { menu = treeMenu;		type = MenuType::Tree; }
+			if (action == 1) { menu = binTreeMenu;	type = MenuType::Binary; }
+			if (action == 2) { menu = logTreeMenu;	type = MenuType::Logic; }
+			if (action == 3) { return; }
+			continue;
+		}
+		if (type == MenuType::Tree)
+		{
+
+		}
+		if (type == MenuType::Binary)
+		{
+
+		}
+		if (type == MenuType::Logic)
+		{
+
+		}
+
+	}
+
+
+
 }

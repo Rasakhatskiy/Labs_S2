@@ -1,10 +1,10 @@
-#include "LogicTree.hpp"
+#include "../Include/LogicTree.hpp"
 
 
 LogicTree::LogicTree(std::string problem)
 {
+	problem = InfixToPostfix(problem);
 	Root = SetProblem(problem);
-	
 }
 
 LogicTree::~LogicTree()
@@ -88,7 +88,8 @@ std::string LogicTree::Node::ToString(std::string spacing, bool closing, bool ro
 	}
 
 	if (!root) result += LineHorizontal;
-	result += std::to_string(Value) + "\n";
+	result += Value;
+	result += "\n";
 
 	if (Left) result += Left->ToString(spacing, !Right);
 	if (Right) result += Right->ToString(spacing, true);
@@ -124,38 +125,25 @@ LogicTree::Node* LogicTree::SetProblem(std::string problem)
 {
 	std::stack<Node*> stackNodes;
 	Node* result, * t1, * t2;
-
-	// Traverse through every character of 
-	// input expression 
 	for (int i = 0; i < problem.size(); i++)
 	{
-		// If operand, simply push into stack 
 		if (!IsOperator(problem[i]))
 		{
 			result = AddNode(problem[i]);
 			stackNodes.push(result);
 		}
-		else // operator 
+		else
 		{
 			result = AddNode(problem[i]);
-
-			// Pop two top nodes 
-			t1 = stackNodes.top(); // Store top 
-			stackNodes.pop();      // Remove top 
+			t1 = stackNodes.top(); 
+			stackNodes.pop();
 			t2 = stackNodes.top();
 			stackNodes.pop();
-
-			//  make them children 
 			result->Right = t1;
 			result->Left = t2;
-
-			// Add this subexpression to stack 
 			stackNodes.push(result);
 		}
 	}
-
-	//  only element will be root of expression 
-	// tree 
 	result = stackNodes.top();
 	stackNodes.pop();
 
@@ -164,49 +152,42 @@ LogicTree::Node* LogicTree::SetProblem(std::string problem)
 
 std::string LogicTree::InfixToPostfix(std::string expression)
 {
-	// Declaring a Stack from Standard template library in C++. 
-	std::stack<char> S;
-	std::string postfix = ""; // Initialize postfix as empty string.
-	for (int i = 0; i < expression.length(); i++) {
-
-		// Scanning each character from left. 
-		// If character is a delimitter, move on. 
+	std::stack<char> stack;
+	std::string postfix = "";
+	for (int i = 0; i < expression.length(); i++) 
+	{
 		if (expression[i] == ' ' || expression[i] == ',') continue;
-
-		// If character is operator, pop two elements from stack, perform operation and push the result back. 
 		else if (IsOperator(expression[i]))
 		{
-			while (!S.empty() && S.top() != '(' && HasHigherPrecedence(S.top(), expression[i]))
+			while (!stack.empty() && stack.top() != '(' && HasHigherPrecedence(stack.top(), expression[i]))
 			{
-				postfix += S.top();
-				S.pop();
+				postfix += stack.top();
+				stack.pop();
 			}
-			S.push(expression[i]);
+			stack.push(expression[i]);
 		}
-		// Else if character is an operand
 		else if (IsOperand(expression[i]))
 		{
 			postfix += expression[i];
 		}
-
 		else if (expression[i] == '(')
 		{
-			S.push(expression[i]);
+			stack.push(expression[i]);
 		}
-
 		else if (expression[i] == ')')
 		{
-			while (!S.empty() && S.top() != '(') {
-				postfix += S.top();
-				S.pop();
+			while (!stack.empty() && stack.top() != '(') 
+			{
+				postfix += stack.top();
+				stack.pop();
 			}
-			S.pop();
+			stack.pop();
 		}
 	}
 
-	while (!S.empty()) {
-		postfix += S.top();
-		S.pop();
+	while (!stack.empty()) {
+		postfix += stack.top();
+		stack.pop();
 	}
 
 	return postfix;
@@ -217,25 +198,46 @@ int LogicTree::GetOperatorWeight(char op)
 	int weight = -1;
 	switch (op)
 	{
-		case '+':
-		case '-':
-			weight = 1;
-		case '*':
-		case '/':
-			weight = 2;
-		case '$':
-			weight = 3;
+		case '=': weight = 1; break;
+		case '>': weight = 2; break;
+		case '|':
+		case '+': weight = 3; break;
+		case '&': weight = 4; break;
+			break;
 	}
 	return weight;
 }
 
 bool LogicTree::HasHigherPrecedence(char op1, char op2)
 {
-	int op1Weight = GetOperatorWeight(op1);
-	int op2Weight = GetOperatorWeight(op2);
-
-	if (op1Weight == op2Weight)
-		return true;
-
-	return op1Weight > op2Weight ? true : false;
+	return GetOperatorWeight(op1) >= GetOperatorWeight(op2);
 }
+
+bool LogicTree::Solve()
+{
+	return Solve(Root);
+}
+
+bool LogicTree::Solve(LogicTree::Node* node)
+{
+	if (node->Left == nullptr || node->Right == nullptr)
+	{
+		if (node->Value == '1') return true;
+		if (node->Value == '0') return false;
+		return Variables[node->Value];
+	}
+
+	bool l = Solve(node->Left);
+	bool r = Solve(node->Right);
+
+	switch (node->Value)
+	{
+		case '|': return l | r;
+		case '&': return l & r;
+		case '+': return l ^ r;
+		case '>': return ~l | r;
+		case '=': return l == r;
+		default: throw;
+	}
+}
+

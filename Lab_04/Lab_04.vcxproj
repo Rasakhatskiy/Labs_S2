@@ -127,12 +127,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPP\main.cpp" />
+    <ClCompile Include="CPP\Menu.cpp" />
     <ClCompile Include="CPP\TreeInt.cpp" />
-    <ClCompile Include="LogicTree.cpp" />
+    <ClCompile Include="CPP\LogicTree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Menu.hpp" />
     <ClInclude Include="Include\TreeInt.hpp" />
-    <ClInclude Include="LogicTree.hpp" />
+    <ClInclude Include="Include\LogicTree.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

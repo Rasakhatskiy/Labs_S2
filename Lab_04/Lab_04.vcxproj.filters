@@ -24,7 +24,10 @@
     <ClCompile Include="CPP\TreeInt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LogicTree.cpp">
+    <ClCompile Include="CPP\LogicTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPP\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +35,10 @@
     <ClInclude Include="Include\TreeInt.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LogicTree.hpp">
+    <ClInclude Include="Include\LogicTree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

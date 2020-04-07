@@ -2,6 +2,7 @@
 #define LOGIC_TREE_HPP
 
 #include <vector>
+#include <map>
 #include <string>
 #include <stack>
 
@@ -9,7 +10,6 @@
 	1 - 1
 	& - and
 	| - or
-	! - not
 	+ - xor
 	> - implication
 	= - equality 
@@ -38,6 +38,7 @@ public:
 	};
 
 	Node* Root;
+	std::map<char, bool> Variables;
 
 	void AddNode(long value);
 	std::string ToString();
@@ -45,6 +46,10 @@ public:
 
 	LogicTree(std::string problem);
 	~LogicTree();
+	std::string InfixToPostfix(std::string expression);
+	bool Solve();
+	bool Solve(Node* node);
+	std::string GetVarList();
 
 private:
 	void DeleteNode(Node* node);
@@ -54,7 +59,6 @@ private:
 	bool IsOperand(char c);
 	Node* AddNode(int value);
 	Node* SetProblem(std::string problem);
-	std::string InfixToPostfix(std::string expression);
 	bool HasHigherPrecedence(char op1, char op2);
 	int GetOperatorWeight(char op);
 };
