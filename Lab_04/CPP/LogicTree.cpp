@@ -1,5 +1,7 @@
 #include "../Include/LogicTree.hpp"
 
+LogicTree::LogicTree() :
+	Root(nullptr){}
 
 LogicTree::LogicTree(std::string problem)
 {
@@ -239,5 +241,24 @@ bool LogicTree::Solve(LogicTree::Node* node)
 		case '=': return l == r;
 		default: throw;
 	}
+}
+
+std::string LogicTree::GetVariablesList(LogicTree::Node* node)
+{
+	std::string result = "";
+	if (node->Left == nullptr || node->Right == nullptr)
+	{
+		result += node->Value;
+		return result;
+	}
+	result += GetVariablesList(node->Left);
+	result += GetVariablesList(node->Right);
+	return result;
+}
+
+void LogicTree::SetEquation(std::string equation)
+{
+	equation = InfixToPostfix(equation);
+	Root = SetProblem(equation);
 }
 

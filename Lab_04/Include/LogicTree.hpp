@@ -44,15 +44,18 @@ public:
 	std::string ToString();
 	std::vector<long> GetData();
 
+	LogicTree();
 	LogicTree(std::string problem);
 	~LogicTree();
 	std::string InfixToPostfix(std::string expression);
 	bool Solve();
 	bool Solve(Node* node);
 	std::string GetVarList();
-
-private:
+	void SetEquation(std::string equation);
+	std::string GetVariablesList(LogicTree::Node* node);
 	void DeleteNode(Node* node);
+private:
+	
 	void AddNode(Node*& node, long value);
 	std::vector<long> GetData(Node* node);
 	bool IsOperator(char c);
