@@ -236,6 +236,49 @@ std::string GraphMatrix::Dijkstra()
 	return resultStr;
 }
 
+
+
+
+std::string GraphMatrix::KahnsSort()
+{
+	std::vector<int> degree(Size, 0);
+
+	for (int i = 0; i < Size; i++)
+		for (int j = 0; j < Size; j++)
+			if(Matrix[i][j])
+				degree[j]++;
+
+	std::queue<int> queue;
+	for (int i = 0; i < Size; i++)
+		if (!degree[i])
+			queue.push(i);
+
+	int visitedVerts = 0;
+	std::vector <int> result;
+
+	while (!queue.empty())
+	{
+		int i = queue.front();
+		queue.pop();
+		result.push_back(i);
+
+		for (int j = 0; j < Size; j++)
+			if (!--degree[j])
+				queue.push(j);
+
+		visitedVerts++;
+	}
+
+	if (visitedVerts != Size)
+		return "Impossible to sort with Kahn's method, this is cycle graph.";
+	
+	std::string resultStr;
+	for (int i = 0; i < result.size(); i++)
+		resultStr += std::to_string(result[i])  + " ";
+	return resultStr;
+}
+
+
 //--------------------------------------------------
 
 
@@ -263,6 +306,8 @@ void GraphStructure::GenerateRandom()
 	}
 }
 
+
+
 bool GraphStructure::CheckConnectivity()
 {
 	for (int i = 0; i < Size; i++)
@@ -288,6 +333,8 @@ void GraphStructure::MarkVisitedRec(int vertex)
 	}
 }
 
+
+
 std::string GraphStructure::DFS_MarkVisitedRec(int vertex)
 {
 	std::string subResult;
@@ -300,7 +347,6 @@ std::string GraphStructure::DFS_MarkVisitedRec(int vertex)
 	return subResult;
 }
 
-//Depth-first search
 std::string GraphStructure::DFS()
 {
 	std::string result;
@@ -312,6 +358,12 @@ std::string GraphStructure::DFS()
 	}
 	return result;
 }
+
+
+
+
+
+
 
 std::string GraphStructure::ToString()
 {

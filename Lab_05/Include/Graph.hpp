@@ -4,6 +4,8 @@
 #include <random>
 #include <string>
 #include <tuple>
+#include <list>
+#include <queue>
 
 class Graph
 {
@@ -44,9 +46,13 @@ public:
 	void GenerateRandom();
 	std::string ToString();
 	std::string ToStringCalc();
+
 	bool CheckConnectivity();
+
 	std::string Dijkstra();
 	int Dijkstra_MinDistance(int[], bool[]);
+
+	std::string KahnsSort();
 
 	std::string DFS(bool);
 };
