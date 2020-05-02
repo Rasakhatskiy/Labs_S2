@@ -86,6 +86,8 @@ void GraphMatrix::MarkVisitedRec(int vertex)
 	}
 }
 
+
+
 std::string GraphMatrix::ToString()
 {
 	std::string result;
@@ -125,6 +127,8 @@ std::string GraphMatrix::ToStringCalc()
 	return result;
 }
 
+
+
 std::string GraphMatrix::DFS_MarkVisitedRec(int vertex)
 {
 	std::string subResult;
@@ -139,7 +143,6 @@ std::string GraphMatrix::DFS_MarkVisitedRec(int vertex)
 	return subResult;
 }
 
-//Depth-first search with weight
 std::string GraphMatrix::DFS_MarkVisitedRec_Weight(int vertex)
 {
 	std::string subResult;
@@ -158,7 +161,6 @@ std::string GraphMatrix::DFS_MarkVisitedRec_Weight(int vertex)
 	return subResult;
 }
 
-//Depth-first search
 std::string GraphMatrix::DFS(bool weight = false)
 {
 	std::string result;
@@ -175,6 +177,64 @@ std::string GraphMatrix::DFS(bool weight = false)
 }
 
 
+
+int GraphMatrix::Dijkstra_MinDistance(int result[], bool shortestPathIncludance[])
+{
+	int minVal = INT_MAX;
+	int minId = -1;
+	for (int i = 0; i < Size; i++)
+	{
+		if (shortestPathIncludance[i] == false &&
+			result[i] <= minVal)
+		{
+			minVal = result[i];
+			minId = i;
+		}
+	}
+	return minId;
+}
+
+std::string GraphMatrix::Dijkstra()
+{
+	int* result = new int[Size];
+	bool* shortestPathIncludance = new bool[Size];
+
+	std::string resultStr;
+
+	for (int from = 0; from < Size; from++)
+	{
+		for (int i = 0; i < Size; i++)
+		{
+			result[i] = INT_MAX;
+			shortestPathIncludance[i] = false;
+		}
+		result[from] = 0;
+		for (int i = 0; i < Size - 1; i++)
+		{
+			int minId = Dijkstra_MinDistance(result, shortestPathIncludance);
+			shortestPathIncludance[minId] = true;
+			for (int j = 0; j < Size; j++)
+			{
+				if (!shortestPathIncludance[j] &&
+					Matrix[minId][j] &&
+					result[minId] != INT_MAX &&
+					result[minId] + Matrix[minId][j] < result[j])
+				{
+					result[j] = result[minId] + Matrix[minId][j];
+				}
+			}
+		}
+		for (int i = 0; i < Size; i++)
+		{
+			resultStr +=
+				"From " + std::to_string(from) +
+				" to " + std::to_string(i) +
+				" = " + std::to_string(result[i]) + "\n";
+		}
+		resultStr += "\n";
+	}
+	return resultStr;
+}
 
 //--------------------------------------------------
 

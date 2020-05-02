@@ -45,6 +45,8 @@ public:
 	std::string ToString();
 	std::string ToStringCalc();
 	bool CheckConnectivity();
+	std::string Dijkstra();
+	int Dijkstra_MinDistance(int[], bool[]);
 
 	std::string DFS(bool);
 };

@@ -8,6 +8,7 @@ int main()
 	std::cout << graphMatrix.ToStringCalc() << "\n\n";
 	std::cout << graphMatrix.DFS(false) << "\n\n";
 	std::cout << graphMatrix.DFS(true) << "\n\n";
+	std::cout << graphMatrix.Dijkstra() << "\n\n";
 
 	GraphStructure graphStructure(5);
 	graphStructure.GenerateRandom();
