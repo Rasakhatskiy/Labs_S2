@@ -123,6 +123,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Graph.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPP\Graph.cpp" />
+    <ClCompile Include="CPP\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
