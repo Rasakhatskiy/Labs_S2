@@ -3,6 +3,7 @@
 
 #include <random>
 #include <string>
+#include <tuple>
 
 class Graph
 {
@@ -17,6 +18,14 @@ protected:
 	int GetRandomInt();
 	bool GetRandomBool();
 
+	struct CustomBiggerThan
+	{
+		bool operator()(std::tuple<int, int, bool> const& lhs, std::tuple<int, int, bool> const& rhs) const
+		{
+			return std::get<1>(lhs) > std::get<1>(rhs);
+		}
+	};
+
 public:
 	Graph();
 	~Graph();
@@ -25,8 +34,9 @@ public:
 class GraphMatrix : Graph
 {
 	int** Matrix;
-	void MarkVisitedRec(int i);
-
+	void MarkVisitedRec(int);
+	std::string DFS_MarkVisitedRec(int);
+	std::string DFS_MarkVisitedRec_Weight(int);
 public:
 	GraphMatrix(int size);
 	~GraphMatrix();
@@ -35,12 +45,17 @@ public:
 	std::string ToString();
 	std::string ToStringCalc();
 	bool CheckConnectivity();
+
+	std::string DFS(bool);
 };
 
 class GraphStructure : Graph
 {
 
 	std::vector<int>* Structure;
+	std::string DFS_MarkVisitedRec(int);
+	void MarkVisitedRec(int);
+
 public:
 	GraphStructure(int size);
 	~GraphStructure();
@@ -48,8 +63,10 @@ public:
 	void GenerateRandom();
 
 	bool CheckConnectivity();
-	void MarkVisitedRec(int vertex);
+	std::string DFS();
+
 	std::string ToString();
+	std::string ToStringCalc();
 };
 
 #endif

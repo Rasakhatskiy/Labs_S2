@@ -91,11 +91,11 @@ std::string GraphMatrix::ToString()
 	std::string result;
 	for (int i = 0; i < Size; i++)
 	{
-		result += std::to_string(i) + "-";
+		result += std::to_string(i) + "->";
 		for (int j = 0; j < Size; j++)
 		{
 			if (Matrix[i][j])
-				result += std::to_string(j) + "-";
+				result += std::to_string(j) + "->";
 		}
 		result += "\n";
 	}
@@ -124,6 +124,57 @@ std::string GraphMatrix::ToStringCalc()
 		result += "Not connected";
 	return result;
 }
+
+std::string GraphMatrix::DFS_MarkVisitedRec(int vertex)
+{
+	std::string subResult;
+	Visited[vertex] = true;
+	subResult += std::to_string(vertex) + " ";
+
+	for (int i = 0; i < Size; i++)
+		if (Matrix[vertex][i])
+			if (!Visited[i])
+				subResult += DFS_MarkVisitedRec(i);
+
+	return subResult;
+}
+
+//Depth-first search with weight
+std::string GraphMatrix::DFS_MarkVisitedRec_Weight(int vertex)
+{
+	std::string subResult;
+	Visited[vertex] = true;
+	subResult += std::to_string(vertex) + " ";
+
+	std::vector<std::tuple<int, int, bool>> vect;
+	for (int i = 0; i < Size; i++)
+		vect.push_back(std::tuple<int, int, bool>(i, Matrix[vertex][i], Visited[i]));
+	std::sort(vect.begin(), vect.end(), CustomBiggerThan());
+
+	for (int i = 0; i < Size; i++)
+		if (std::get<1>(vect[i]) && !std::get<2>(vect[i]))
+			subResult += DFS_MarkVisitedRec(std::get<0>(vect[i]));
+
+	return subResult;
+}
+
+//Depth-first search
+std::string GraphMatrix::DFS(bool weight = false)
+{
+	std::string result;
+	for (int i = 0; i < Size; i++)
+	{
+		for (int j = 0; j < Size; j++)
+			Visited[j] = false;
+		if (weight)
+			result += DFS_MarkVisitedRec_Weight(i) + "\n";
+		else
+			result += DFS_MarkVisitedRec(i) + "\n";
+	}
+	return result;
+}
+
+
 
 //--------------------------------------------------
 
@@ -177,18 +228,57 @@ void GraphStructure::MarkVisitedRec(int vertex)
 	}
 }
 
+std::string GraphStructure::DFS_MarkVisitedRec(int vertex)
+{
+	std::string subResult;
+	Visited[vertex] = true;
+	subResult += std::to_string(vertex) + " ";
+
+	for (int j = 0; j < Structure[vertex].size(); j++)
+		if (!Visited[Structure[vertex][j]])
+				subResult += DFS_MarkVisitedRec(Structure[vertex][j]);
+	return subResult;
+}
+
+//Depth-first search
+std::string GraphStructure::DFS()
+{
+	std::string result;
+	for (int i = 0; i < Size; i++)
+	{
+		for (int j = 0; j < Size; j++)
+			Visited[j] = false;
+		result += DFS_MarkVisitedRec(i) + "\n";
+	}
+	return result;
+}
+
 std::string GraphStructure::ToString()
 {
 	std::string result;
 	for (int i = 0; i < Size; i++)
 	{
-		result += std::to_string(i) + "-";
+		result += std::to_string(i) + "->";
 		for (auto& j : Structure[i])
 		{
-			result += std::to_string(j) + "-";
+			result += std::to_string(j) + "->";
 		}
 		result += "\n";
 	}
+	if (CheckConnectivity())
+		result += "Connected";
+	else
+		result += "Not connected";
+	return result;
+}
+
+std::string GraphStructure::ToStringCalc()
+{
+	std::string result;
+	for (int i = 0; i < Size; i++)
+		for (auto& j : Structure[i])
+			result += std::to_string(i) + " " + std::to_string(j) + "\n";
+
 	if (CheckConnectivity())
 		result += "Connected";
 	else
