@@ -33,8 +33,13 @@ GraphMatrix::GraphMatrix(int size)
 	Visited = new bool[size];
 	Matrix = new int* [size];
 	for (int i = 0; i < size; ++i)
+	{
 		Matrix[i] = new int[size];
-
+		for (int j = 0; j < Size; j++)
+		{
+			Matrix[i][j] = 0;
+		}
+	}
 }
 
 GraphMatrix::~GraphMatrix()
@@ -42,6 +47,11 @@ GraphMatrix::~GraphMatrix()
 	for (int i = 0; i < Size; ++i)
 		delete[] Matrix[i];
 	delete[] Matrix;
+}
+
+void GraphMatrix::AddEdge(int vertex1, int vertex2, int weight)
+{
+	Matrix[vertex1][vertex2] = weight;
 }
 
 void GraphMatrix::GenerateRandom()
@@ -238,7 +248,6 @@ std::string GraphMatrix::Dijkstra()
 
 
 
-
 std::string GraphMatrix::KahnsSort()
 {
 	std::vector<int> degree(Size, 0);
@@ -279,6 +288,63 @@ std::string GraphMatrix::KahnsSort()
 }
 
 
+
+int GraphMatrix::FindMin(int keys[], bool notUsed[])
+{
+	int min = INT_MAX;
+	int minId = -1;
+	for (int i = 0; i < Size; i++)
+	{
+		if (notUsed[i] == false && keys[i] < min)
+		{
+			min = keys[i];
+			minId = i;
+		}
+	}
+	return minId;
+}
+
+GraphMatrix* GraphMatrix::FindMST()
+{
+	int* result = new int[Size];
+	int* keys = new int[Size];
+	bool* notUsed = new bool[Size];
+
+	for (int i = 0; i < Size; i++)
+	{
+		keys[i] = INT_MAX;
+		notUsed[i] = false;
+	}
+
+	keys[0] = 0;
+	result[0] = -1;
+
+	for (int i = 0; i < Size - 1; i++)
+	{
+		int min = FindMin(keys, notUsed);
+		notUsed[min] = true;
+		for (int j = 0; j < Size; j++)
+		{
+			if (Matrix[min][j] &&
+				!notUsed[j] &&
+				Matrix[min][j] < keys[j])
+			{
+				result[j] = min;
+				keys[j] = Matrix[min][j];
+			}
+		}
+	}
+
+
+	GraphMatrix* resultGraph = new GraphMatrix(Size);
+	for (int i = 1; i < Size; i++)
+		resultGraph->AddEdge(result[i], i, Matrix[i][result[i]]);
+
+	auto shit = resultGraph->ToString();
+
+
+	return resultGraph;
+}
 //--------------------------------------------------
 
 
@@ -291,6 +357,11 @@ GraphStructure::GraphStructure(int size)
 
 GraphStructure::~GraphStructure()
 {
+}
+
+void GraphStructure::AddEdge(int vertex1, int vertex2)
+{
+	Structure[vertex1].push_back(vertex2);
 }
 
 void GraphStructure::GenerateRandom()
@@ -339,12 +410,12 @@ std::string GraphStructure::DFS_MarkVisitedRec(int vertex)
 {
 	std::string subResult;
 	Visited[vertex] = true;
-	subResult += std::to_string(vertex) + " ";
+subResult += std::to_string(vertex) + " ";
 
-	for (int j = 0; j < Structure[vertex].size(); j++)
-		if (!Visited[Structure[vertex][j]])
-				subResult += DFS_MarkVisitedRec(Structure[vertex][j]);
-	return subResult;
+for (int j = 0; j < Structure[vertex].size(); j++)
+	if (!Visited[Structure[vertex][j]])
+		subResult += DFS_MarkVisitedRec(Structure[vertex][j]);
+return subResult;
 }
 
 std::string GraphStructure::DFS()
@@ -361,7 +432,101 @@ std::string GraphStructure::DFS()
 
 
 
+std::string GraphStructure::KahnsSort()
+{
+	std::vector<int> degree(Size, 0);
 
+	for (int i = 0; i < Size; i++)
+		for (auto& j : Structure[i])
+			degree[j]++;
+
+	std::queue<int> queue;
+	for (int i = 0; i < Size; i++)
+		if (!degree[i])
+			queue.push(i);
+
+	int visitedVerts = 0;
+	std::vector <int> result;
+
+	while (!queue.empty())
+	{
+		int i = queue.front();
+		queue.pop();
+		result.push_back(i);
+
+		for (int j = 0; j < Size; j++)
+			if (!--degree[j])
+				queue.push(j);
+
+		visitedVerts++;
+	}
+
+	if (visitedVerts != Size)
+		return "Impossible to sort with Kahn's method, this is cycle graph.";
+
+	std::string resultStr;
+	for (int i = 0; i < result.size(); i++)
+		resultStr += std::to_string(result[i]) + " ";
+	return resultStr;
+}
+
+
+
+int GraphStructure::FindMin(int keys[], bool notUsed[])
+{
+	int min = INT_MAX;
+	int minId = -1;
+	for (int i = 0; i < Size; i++)
+	{
+		if (notUsed[i] == false && keys[i] < min)
+		{
+			min = keys[i];
+			minId = i;
+		}
+	}
+	return minId;
+}
+
+GraphStructure* GraphStructure::FindMST()
+{
+	int* result = new int[Size];
+	int* keys = new int[Size];
+	bool* notUsed = new bool[Size];
+
+	for (int i = 0; i < Size; i++)
+	{
+		keys[i] = INT_MAX;
+		notUsed[i] = false;
+	}
+
+	keys[0] = 0;
+	result[0] = -1;
+
+	for (int i = 0; i < Size - 1; i++)
+	{
+		int min = FindMin(keys, notUsed);
+		notUsed[min] = true;
+
+		for (auto& j : Structure[i])
+		{
+			if (!notUsed[j])
+			{
+				result[j] = min;
+				keys[j] = 1;
+			}
+		}
+	}
+
+
+	GraphStructure* resultGraph = new GraphStructure(Size);
+	for (int i = 1; i < Size; i++)
+		resultGraph->AddEdge(result[i], i);
+
+	auto shit = resultGraph->ToString();
+
+
+	return resultGraph;
+}
 
 
 

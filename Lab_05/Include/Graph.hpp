@@ -43,6 +43,8 @@ public:
 	GraphMatrix(int size);
 	~GraphMatrix();
 
+	void AddEdge(int vertex1, int vertex2, int weight);
+
 	void GenerateRandom();
 	std::string ToString();
 	std::string ToStringCalc();
@@ -54,6 +56,9 @@ public:
 
 	std::string KahnsSort();
 
+	int FindMin(int key[], bool mstSet[]);
+	GraphMatrix* FindMST();
+
 	std::string DFS(bool);
 };
 
@@ -63,7 +68,7 @@ class GraphStructure : Graph
 	std::vector<int>* Structure;
 	std::string DFS_MarkVisitedRec(int);
 	void MarkVisitedRec(int);
-
+	int FindMin(int keys[], bool notUsed[]);
 public:
 	GraphStructure(int size);
 	~GraphStructure();
@@ -72,6 +77,12 @@ public:
 
 	bool CheckConnectivity();
 	std::string DFS();
+
+	std::string KahnsSort();
+
+	GraphStructure* FindMST();
+
+	void AddEdge(int vertex1, int vertex2);
 
 	std::string ToString();
 	std::string ToStringCalc();
