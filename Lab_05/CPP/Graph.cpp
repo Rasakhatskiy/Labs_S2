@@ -51,6 +51,8 @@ GraphMatrix::~GraphMatrix()
 
 void GraphMatrix::AddEdge(int vertex1, int vertex2, int weight)
 {
+	if (vertex1 >= Size || vertex2 >= Size || weight < 0)
+		throw std::out_of_range("Invalid user exception");
 	Matrix[vertex1][vertex2] = weight;
 }
 
@@ -81,6 +83,19 @@ bool GraphMatrix::CheckConnectivity()
 				return false;
 	}
 	return true;
+}
+
+int GraphMatrix::GetSumWeight()
+{
+	int sum = 0;
+	for (int i = 0; i < Size; i++)
+	{
+		for (int j = 0; j < Size; j++)
+		{
+			sum += Matrix[i][j];
+		}
+	}
+	return sum;
 }
 
 void GraphMatrix::MarkVisitedRec(int vertex)
@@ -139,16 +154,16 @@ std::string GraphMatrix::ToStringCalc()
 
 
 
-std::string GraphMatrix::DFS_MarkVisitedRec(int vertex)
+std::string GraphMatrix::DFS_MarkVisitedRec(int vertex) 
 {
 	std::string subResult;
 	Visited[vertex] = true;
 	subResult += std::to_string(vertex) + " ";
 
-	for (int i = 0; i < Size; i++)
-		if (Matrix[vertex][i])
-			if (!Visited[i])
-				subResult += DFS_MarkVisitedRec(i);
+	for (int j = 0; j < Size; j++)
+		if (Matrix[vertex][j])
+			if (!Visited[j])
+				subResult += DFS_MarkVisitedRec(j);
 
 	return subResult;
 }
@@ -345,23 +360,52 @@ GraphMatrix* GraphMatrix::FindMST()
 
 	return resultGraph;
 }
-//--------------------------------------------------
+
+GraphMatrix* GraphMatrix::KruskalMST()
+{
+	GraphMatrix* result = new GraphMatrix(Size);
+	std::vector<III> edges;
+	for (int i = 0; i < Size; i++)
+		for (int j = 0; j < Size; j++)
+			edges.push_back(III(i, j, Matrix[i][j]));
+	std::sort(edges.begin(), edges.end());
+
+	int totalWeight = 0;
+	DisjointSets disjointSets(Size);
+	for (auto &i : edges)
+	{
+		int vertex_1 = std::get<0>(i);
+		int vertex_2 = std::get<1>(i);
+		int weight   = std::get<2>(i);
+
+		int set_1 = disjointSets.FindParent(vertex_1);
+		int set_2 = disjointSets.FindParent(vertex_2);
+		if (set_1 != set_2)
+		{
+			result->AddEdge(vertex_1, vertex_2, weight);
+			disjointSets.MergeSet(set_1, set_2);
+			totalWeight += weight;
+		}
+	}
+	return result;
+}
+
 
 
 GraphStructure::GraphStructure(int size)
 {
 	Size = size;
 	Visited = new bool[size];
-	Structure = new std::vector<int>[size];
+	Structure = new std::vector<VertexRelation>[size];
 }
 
 GraphStructure::~GraphStructure()
 {
 }
 
-void GraphStructure::AddEdge(int vertex1, int vertex2)
+void GraphStructure::AddEdge(int vertex1, int vertex2, int weight)
 {
-	Structure[vertex1].push_back(vertex2);
+	Structure[vertex1].push_back(VertexRelation(vertex2, weight));
 }
 
 void GraphStructure::GenerateRandom()
@@ -373,10 +417,18 @@ void GraphStructure::GenerateRandom()
 				continue;
 			else
 				if (GetRandomBool())
-					Structure[i].push_back(j);
+					Structure[i].push_back(VertexRelation(j, GetRandomInt()));
 	}
 }
 
+int GraphStructure::GetSumWeight()
+{
+	int sum = 0;
+	for (int i = 0; i < Size; i++)
+		for (auto& j : Structure[i])
+			sum += j.Weight;
+	return sum;
+}
 
 
 bool GraphStructure::CheckConnectivity()
@@ -397,11 +449,9 @@ bool GraphStructure::CheckConnectivity()
 void GraphStructure::MarkVisitedRec(int vertex)
 {
 	Visited[vertex] = true;
-	for (int j = 0; j < Structure[vertex].size(); j++)
-	{
-		if (!Visited[Structure[vertex][j]])
-			MarkVisitedRec(Structure[vertex][j]);
-	}
+	for (auto &j : Structure[vertex])
+		if (!Visited[j.Vertex])
+			MarkVisitedRec(j.Vertex);
 }
 
 
@@ -412,9 +462,9 @@ std::string GraphStructure::DFS_MarkVisitedRec(int vertex)
 	Visited[vertex] = true;
 subResult += std::to_string(vertex) + " ";
 
-for (int j = 0; j < Structure[vertex].size(); j++)
-	if (!Visited[Structure[vertex][j]])
-		subResult += DFS_MarkVisitedRec(Structure[vertex][j]);
+for (auto &j : Structure[vertex])
+	if (!Visited[j.Vertex])
+		subResult += DFS_MarkVisitedRec(j.Vertex);
 return subResult;
 }
 
@@ -438,7 +488,7 @@ std::string GraphStructure::KahnsSort()
 
 	for (int i = 0; i < Size; i++)
 		for (auto& j : Structure[i])
-			degree[j]++;
+			degree[j.Vertex]++;
 
 	std::queue<int> queue;
 	for (int i = 0; i < Size; i++)
@@ -507,12 +557,14 @@ GraphStructure* GraphStructure::FindMST()
 		int min = FindMin(keys, notUsed);
 		notUsed[min] = true;
 
-		for (auto& j : Structure[i])
+		for (auto& j : Structure[min])
 		{
-			if (!notUsed[j])
+			if (j.Weight &&
+				!notUsed[j.Vertex] &&
+				j.Weight < keys[j.Vertex])
 			{
-				result[j] = min;
-				keys[j] = 1;
+				result[j.Vertex] = min;
+				keys[j.Vertex] = j.Weight;
 			}
 		}
 	}
@@ -520,12 +572,46 @@ GraphStructure* GraphStructure::FindMST()
 
 	GraphStructure* resultGraph = new GraphStructure(Size);
 	for (int i = 1; i < Size; i++)
-		resultGraph->AddEdge(result[i], i);
-
-	auto shit = resultGraph->ToString();
-
-
+	{
+		for (auto& j : Structure[i])
+		{
+			if (j.Vertex == result[i])
+			{
+				resultGraph->AddEdge(result[i], i, j.Weight);
+				break;
+			}
+		}
+	}
 	return resultGraph;
+}
+
+GraphStructure* GraphStructure::KruskalMST()
+{
+	GraphStructure* result = new GraphStructure(Size);
+	std::vector<III> edges;
+	for (int i = 0; i < Size; i++)
+		for (auto &j : Structure[i])
+			edges.push_back(III(i, j.Vertex, j.Weight));
+	std::sort(edges.begin(), edges.end());
+
+	int totalWeight = 0;
+	DisjointSets disjointSets(Size);
+	for (auto& i : edges)
+	{
+		int vertex_1 = std::get<0>(i);
+		int vertex_2 = std::get<1>(i);
+		int weight   = std::get<2>(i);
+
+		int set_1 = disjointSets.FindParent(vertex_1);
+		int set_2 = disjointSets.FindParent(vertex_2);
+		if (set_1 != set_2)
+		{
+			result->AddEdge(vertex_1, vertex_2, weight);
+			disjointSets.MergeSet(set_1, set_2);
+			totalWeight += weight;
+		}
+	}
+	return result;
 }
 
 
@@ -538,7 +624,7 @@ std::string GraphStructure::ToString()
 		result += std::to_string(i) + "->";
 		for (auto& j : Structure[i])
 		{
-			result += std::to_string(j) + "->";
+			result += std::to_string(j.Vertex) + "->";
 		}
 		result += "\n";
 	}
@@ -554,11 +640,43 @@ std::string GraphStructure::ToStringCalc()
 	std::string result;
 	for (int i = 0; i < Size; i++)
 		for (auto& j : Structure[i])
-			result += std::to_string(i) + " " + std::to_string(j) + "\n";
+			result += std::to_string(i) + " " + std::to_string(j.Vertex) + "\n";
 
 	if (CheckConnectivity())
 		result += "Connected";
 	else
 		result += "Not connected";
 	return result;
+}
+
+//--------------------------------------------------
+
+Graph::DisjointSets::DisjointSets(int size)
+{
+	Size = size;
+	Parents = new int[size + 1];
+	Ranks = new int[size + 1];
+	for (int i = 0; i <= size; i++)
+	{
+		Ranks[i] = 0;
+		Parents[i] = i;
+	}
+}
+
+int Graph::DisjointSets::FindParent(int vertex)
+{
+	if (vertex != Parents[vertex])
+		Parents[vertex] = FindParent(Parents[vertex]);
+	return Parents[vertex];
+}
+
+void Graph::DisjointSets::MergeSet(int vertex_1, int vertex_2)
+{
+	vertex_1 = FindParent(vertex_1), vertex_2 = FindParent(vertex_2);
+	if (Ranks[vertex_1] > Ranks[vertex_2])
+		Parents[vertex_2] = vertex_1;
+	else
+		Parents[vertex_1] = vertex_2;
+	if (Ranks[vertex_1] == Ranks[vertex_2])
+		Ranks[vertex_2]++;
 }

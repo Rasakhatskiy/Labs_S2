@@ -6,6 +6,9 @@
 #include <tuple>
 #include <list>
 #include <queue>
+#include <stdexcept>
+typedef std::tuple<int, int, bool> IIB;
+typedef std::tuple<int, int, int> III;
 
 class Graph
 {
@@ -22,10 +25,19 @@ protected:
 
 	struct CustomBiggerThan
 	{
-		bool operator()(std::tuple<int, int, bool> const& lhs, std::tuple<int, int, bool> const& rhs) const
+		bool operator()(IIB const& lhs, IIB const& rhs) const
 		{
 			return std::get<1>(lhs) > std::get<1>(rhs);
 		}
+	};
+
+	struct DisjointSets
+	{
+		int* Parents, * Ranks;
+		int Size;
+		DisjointSets(int size);
+		int FindParent(int v);
+		void MergeSet(int v, int w);
 	};
 
 public:
@@ -46,6 +58,8 @@ public:
 	void AddEdge(int vertex1, int vertex2, int weight);
 
 	void GenerateRandom();
+
+	int GetSumWeight();
 	std::string ToString();
 	std::string ToStringCalc();
 
@@ -58,14 +72,22 @@ public:
 
 	int FindMin(int key[], bool mstSet[]);
 	GraphMatrix* FindMST();
+	GraphMatrix* KruskalMST();
 
 	std::string DFS(bool);
 };
 
 class GraphStructure : Graph
 {
+	struct VertexRelation
+	{
+		int Vertex;
+		int Weight;
+		VertexRelation(int v, int w) : 
+			Vertex(v), Weight(w) {}
+	};
 
-	std::vector<int>* Structure;
+	std::vector<VertexRelation>* Structure;
 	std::string DFS_MarkVisitedRec(int);
 	void MarkVisitedRec(int);
 	int FindMin(int keys[], bool notUsed[]);
@@ -81,11 +103,13 @@ public:
 	std::string KahnsSort();
 
 	GraphStructure* FindMST();
+	GraphStructure* KruskalMST();
 
-	void AddEdge(int vertex1, int vertex2);
+	void AddEdge(int vertex1, int vertex2, int weight);
 
 	std::string ToString();
 	std::string ToStringCalc();
+	int GetSumWeight();
 };
 
 #endif
