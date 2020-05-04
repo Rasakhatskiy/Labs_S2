@@ -21,9 +21,21 @@
     <ClCompile Include="CPP\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CPP\Interaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FlawlessMenu\FlawlessMenu\lib\FlawlessMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Graph.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Interaction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FlawlessMenu\FlawlessMenu\lib\FlawlessMenu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

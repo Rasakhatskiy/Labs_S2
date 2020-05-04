@@ -1,59 +1,49 @@
 #include <iostream>
-#include "../Include/Graph.hpp"
+#include "../Include/Interaction.hpp"
 
 int main()
 {
-	GraphMatrix graphMatrix(5);
-	//graphMatrix.GenerateRandom();
+	FlawlessMenu::Menu::Filler = "============";
+	FlawlessMenu::Menu::Selector = "-->";
+	FlawlessMenu::Menu::GetKeyFunc = _getch;
 
-	graphMatrix.AddEdge(0, 1, 2);
-	graphMatrix.AddEdge(1, 0, 2);
-	graphMatrix.AddEdge(0, 2, 2);
-	graphMatrix.AddEdge(2, 0, 2);
-	graphMatrix.AddEdge(0, 3, 2);
-	graphMatrix.AddEdge(3, 0, 2);
-	graphMatrix.AddEdge(0, 4, 2);
-	graphMatrix.AddEdge(4, 0, 2);
-	graphMatrix.AddEdge(1, 3, 2);
+	auto Menu = new FlawlessMenu::Menu("Lab 05");
 
-	//std::cout << graphMatrix.ToString() << "\n\n";
-	//std::cout << graphMatrix.ToStringCalc() << "\n\n";
-	//std::cout << graphMatrix.DFS(false) << "\n\n";
-	//std::cout << graphMatrix.DFS(true) << "\n\n";
-	//std::cout << graphMatrix.Dijkstra() << "\n\n";
-	//std::cout << graphMatrix.KahnsSort() << "\n\n";
+	auto demoMenu = new FlawlessMenu::Menu("Demo mode");
+	auto interMenu = new FlawlessMenu::Menu("Iteractive mode");
+	auto benchMenu = new FlawlessMenu::Menu("Benchmark mode");
 
-	auto mst = graphMatrix.FindMST();
-	std::cout << mst->ToStringCalc() << "\n\n";
-	auto mstK = graphMatrix.KruskalMST();
-	std::cout << mstK->ToStringCalc() << "\n\n";
-	//std::cout << mst->ToStringCalc() << "\n\n";
+	auto createGraphMenu = new FlawlessMenu::Menu("Create Graph");
+	auto fillGraphMenuM = new FlawlessMenu::Menu("Fill Graph");
+	auto fillGraphMenuS = new FlawlessMenu::Menu("Fill Graph");
 
 
-	//std::cout << "======================================\n\n\n";
-	GraphStructure graphStructure(5);
 
-	graphStructure.AddEdge(0, 1, 2);
-	graphStructure.AddEdge(1, 0, 2);
-	graphStructure.AddEdge(0, 2, 2);
-	graphStructure.AddEdge(2, 0, 2);
-	graphStructure.AddEdge(0, 3, 2);
-	graphStructure.AddEdge(3, 0, 2);
-	graphStructure.AddEdge(0, 4, 2);
-	graphStructure.AddEdge(4, 0, 2);
-	graphStructure.AddEdge(1, 3, 2);
+	interMenu->Add("Create new graph", createGraphMenu);
+	interMenu->Add("Show graph", ShowGraph);
+	interMenu->Add("Check connectivity", CheckConnectivity);
+	interMenu->Add("Depth First Search Any", DFSA);
+	interMenu->Add("Depth First Search Sorted", DFSS);
+	interMenu->Add("Dijkstra algorytm", Dijkstra);
+	interMenu->Add("Kahn's sort", KahnsSort);
+	interMenu->Add("Find Minimum Spanning Tree", FindMST);
+	interMenu->Add("Kruskal Minimum Spanning Tree", KruskalMST);
 
-	//std::cout << graphStructure.ToString() << "\n\n";
-	//std::cout << graphStructure.ToStringCalc() << "\n\n";
 
-	auto mst2 = graphStructure.FindMST();
-	std::cout << mst2->ToString() << "\n\n";
-	auto mstK2 = graphStructure.KruskalMST();
-	std::cout << mstK2->ToString() << "\n\n";
-	//std::cout << mst->ToStringCalc() << "\n\n";
 
-	//graphStructure.GenerateRandom();
-	//std::cout << graphStructure.ToStringCalc() << "\n\n";
-	//std::cout << graphStructure.DFS() << "\n\n";
-	//std::cout << graphStructure.KahnsSort() << "\n\n";
+	createGraphMenu->Add("Matrix graph", fillGraphMenuM);
+	createGraphMenu->Add("Structure graph", fillGraphMenuS);
+
+	fillGraphMenuM->Add("Random graph", FillMatrixRandom);
+	fillGraphMenuM->Add("Type by hand", FillMatrixByHand);
+
+	fillGraphMenuS->Add("Random graph", FillStructureRandom);
+	fillGraphMenuS->Add("Type by hand", FillStructureByHand);
+
+	Menu->Add("Interactive mode", interMenu);
+	Menu->Add("Demo mode", Demo);
+	Menu->Add("Benchmark mode", Benchmark);
+
+	Menu->Start();
+
 }

@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Documents\Sharaga v.2\Labs\FlawlessMenu\FlawlessMenu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -100,6 +101,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Documents\Sharaga v.2\Labs\FlawlessMenu\FlawlessMenu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,10 +125,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\FlawlessMenu\FlawlessMenu\lib\FlawlessMenu.hpp" />
     <ClInclude Include="Include\Graph.hpp" />
+    <ClInclude Include="Include\Interaction.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\FlawlessMenu\FlawlessMenu\lib\FlawlessMenu.cpp" />
     <ClCompile Include="CPP\Graph.cpp" />
+    <ClCompile Include="CPP\Interaction.cpp" />
     <ClCompile Include="CPP\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,6 +12,11 @@ Graph::Graph()
 }
 Graph::~Graph(){}
 
+int Graph::GetSize()
+{
+	return Size;
+}
+
 int Graph::GetRandomInt()
 {
 	return RandomDistributorInt(RandomGenerator);

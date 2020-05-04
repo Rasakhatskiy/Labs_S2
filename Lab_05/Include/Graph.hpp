@@ -41,11 +41,42 @@ protected:
 	};
 
 public:
+	class NotImplementedException : public std::logic_error
+	{
+	public:
+		virtual char const* what() const { return "Function not yet implemented."; }
+	};
+
 	Graph();
 	~Graph();
+
+	int GetSize();
+
+	virtual void AddEdge(int vertex1, int vertex2, int weight)
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual void GenerateRandom()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual int GetSumWeight()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual bool CheckConnectivity()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual std::string DFS(bool)
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual std::string ToString()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual std::string ToStringCalc()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual std::string Dijkstra()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual std::string KahnsSort()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual Graph* FindMST()
+		{ throw std::exception("Function is not implemented yet."); }
+	virtual Graph* KruskalMST()
+		{ throw std::exception("Function is not implemented yet."); }
 };
 
-class GraphMatrix : Graph
+class GraphMatrix : public Graph
 {
 	int** Matrix;
 	void MarkVisitedRec(int);
@@ -56,10 +87,9 @@ public:
 	~GraphMatrix();
 
 	void AddEdge(int vertex1, int vertex2, int weight);
-
 	void GenerateRandom();
-
 	int GetSumWeight();
+
 	std::string ToString();
 	std::string ToStringCalc();
 
@@ -77,7 +107,7 @@ public:
 	std::string DFS(bool);
 };
 
-class GraphStructure : Graph
+class GraphStructure : public Graph
 {
 	struct VertexRelation
 	{
