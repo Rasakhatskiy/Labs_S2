@@ -401,6 +401,7 @@ GraphStructure::GraphStructure(int size)
 
 GraphStructure::~GraphStructure()
 {
+	delete[] Structure;
 }
 
 void GraphStructure::AddEdge(int vertex1, int vertex2, int weight)
@@ -573,6 +574,8 @@ GraphStructure* GraphStructure::FindMST()
 	GraphStructure* resultGraph = new GraphStructure(Size);
 	for (int i = 1; i < Size; i++)
 	{
+		if (result[i] < 0 || result[i] >= Size)
+			continue;
 		for (auto& j : Structure[i])
 		{
 			if (j.Vertex == result[i])

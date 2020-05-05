@@ -35,5 +35,15 @@ int ReadWeight();
 
 void Sleep();
 
+double DoSomething(std::string something, void (*task)(void));
 
+void Bench_CheckConnectivity();
+void Bench_DFSA();
+void Bench_DFSS();
+void Bench_Dijkstra();
+void Bench_KahnsSort();
+void Bench_FindMST();
+void Bench_KruskalMST();
+
+void DuHast(bool& flag, int a, int max);
 #endif

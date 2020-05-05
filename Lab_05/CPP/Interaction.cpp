@@ -7,6 +7,16 @@ void Sleep()
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
 
+double DoSomething(std::string something, void(*task)(void))
+{
+	auto begin = std::chrono::steady_clock::now();
+	task();
+	auto end = std::chrono::steady_clock::now();
+	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+	std::cout << something << " done for " << time << " ms." << std::endl;
+	return time;
+}
+
 int ReadSize()
 {
 	std::cout << "Enter size: ";
@@ -103,6 +113,30 @@ void Demo()
 
 void Benchmark() 
 {
+	double eps = 0.001;
+	int maxTime = 10000; //10 sec
+	double time = 0.0;
+
+	int size = 100;
+	bool flag = false;
+	while (!flag)
+	{
+		graph = new GraphMatrix(size);
+		graph->GenerateRandom();
+		std::cout << "Created graph with " << size << " vertices." << std::endl;
+		DuHast(flag, DoSomething("Check connectivity", Bench_CheckConnectivity), maxTime);
+		DuHast(flag, DoSomething("Depth First Search by any vertex", Bench_DFSA), maxTime);
+		DuHast(flag, DoSomething("Depth First Search from hightest weight of edge", Bench_DFSS), maxTime);
+		DuHast(flag, DoSomething("Find shortest path by Dijkstra algorythm", Bench_Dijkstra), maxTime);
+		DuHast(flag, DoSomething("Kahn's topologic sort", Bench_KahnsSort), maxTime);
+		DuHast(flag, DoSomething("Check connectivity", Bench_FindMST), maxTime);
+		DuHast(flag, DoSomething("Check connectivity", Bench_KruskalMST), maxTime);
+		std::cout << "\n\n";
+		size *= 4;
+		delete graph;
+	}
+	std::cout << "Benchmark is done. Press any key...\n";
+	_getch();
 }
 
 bool CheckNullptr()
@@ -122,6 +156,15 @@ void ShowGraph()
 	std::cout << graph->ToString();
 	_getch();
 }
+
+void DuHast(bool &flag, int a, int max)
+{
+	if (flag) 
+		return;
+	else
+		flag = (a - max) > 0;
+}
+
 
 void FillMatrixRandom()
 {
@@ -168,6 +211,8 @@ void FillStructureByHand()
 		graph->AddEdge(v1, v2, w);
 	} while (true);
 }
+
+
 
 void CheckConnectivity()
 {
@@ -230,4 +275,39 @@ void KruskalMST()
 
 
 
+void Bench_CheckConnectivity()
+{
+	graph->CheckConnectivity();
+}
 
+void Bench_DFSA()
+{
+	graph->DFS(false);
+}
+
+void Bench_DFSS()
+{
+	graph->DFS(true);
+}
+
+void Bench_Dijkstra()
+{
+	graph->Dijkstra();
+}
+
+void Bench_KahnsSort()
+{
+	graph->KahnsSort();
+}
+
+void Bench_FindMST()
+{
+	auto g = graph->FindMST();
+	delete g;
+}
+
+void Bench_KruskalMST()
+{
+	auto g = graph->KruskalMST();
+	delete g;
+}
