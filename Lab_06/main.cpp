@@ -44,26 +44,7 @@ int main()
 	std::cout << list.Search("po") << std::endl;
 	std::cout << list.Search("Denis") << std::endl;*/
 
-	SortedBinarySearchTree list;
-	list.Insert("Denis");
-	list.Insert("ya");
-	list.Insert("otsortiroval");
-	list.Insert("etot");
-	list.Insert("spisok");
-	list.Insert("po");
-	list.Insert("ubivaniy");
-	list.Insert("dliny");
+	
 
-	list.Remove("spisok");
-
-	auto vec = list.ToVectorValues();
-	for (auto& i : vec)
-		std::cout << i << std::endl;
-
-
-	std::cout << list.Search("etot")->Value << std::endl;
-	std::cout << list.Search("null")->Value << std::endl;
-	std::cout << list.Search("po")->Value << std::endl;
-	std::cout << list.Search("Denis")->Value << std::endl;
 
 }
