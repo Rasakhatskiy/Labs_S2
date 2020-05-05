@@ -1,10 +1,11 @@
 #include "SortedLinkedList.hpp"
+#include "SortedArrayList.hpp"
 
 #include <iostream>
 
 int main()
 {
-	SortedLinkedList list;
+	/*SortedLinkedList list;
 	list.Insert("Denis");
 	list.Insert("ya");
 	list.Insert("otsortiroval");
@@ -21,8 +22,25 @@ int main()
 	std::cout << list.Search("etot") << std::endl;
 	std::cout << list.Search("null") << std::endl;
 	std::cout << list.Search("po") << std::endl;
+	std::cout << list.Search("Denis") << std::endl;*/
+
+	SortedArrayList list;
+	list.Insert("Denis");
+	list.Insert("ya");
+	list.Insert("otsortiroval");
+	list.Insert("etot");
+	list.Insert("spisok");
+	list.Insert("po");
+	list.Insert("ubivaniy");
+	list.Insert("dliny");
+
+	int count = 0;
+	for (auto i = list.Begin(); i != list.End(); i++)
+		std::cout << "[" << count++ << "]"  << *i << std::endl;
+
+	std::cout << list.Search("etot") << std::endl;
+	std::cout << list.Search("null") << std::endl;
+	std::cout << list.Search("po") << std::endl;
 	std::cout << list.Search("Denis") << std::endl;
-
-
 
 }
