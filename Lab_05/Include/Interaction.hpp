@@ -1,9 +1,12 @@
 #ifndef INTERACTION_HPP
 #define INTERACTION_HPP
 #include <conio.h>
+#include <chrono>
+#include <thread>
 #include "FlawlessMenu.hpp"
 #include "../Include/Graph.hpp"
 
+const unsigned int microseconds = 3000;
 extern Graph* graph;
 extern bool IsMatrix;
 
@@ -29,5 +32,8 @@ int ReadSize();
 char ReadChar();
 int ReadVertex();
 int ReadWeight();
+
+void Sleep();
+
 
 #endif

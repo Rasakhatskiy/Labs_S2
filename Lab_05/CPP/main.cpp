@@ -17,8 +17,6 @@ int main()
 	auto fillGraphMenuM = new FlawlessMenu::Menu("Fill Graph");
 	auto fillGraphMenuS = new FlawlessMenu::Menu("Fill Graph");
 
-
-
 	interMenu->Add("Create new graph", createGraphMenu);
 	interMenu->Add("Show graph", ShowGraph);
 	interMenu->Add("Check connectivity", CheckConnectivity);
@@ -29,8 +27,6 @@ int main()
 	interMenu->Add("Find Minimum Spanning Tree", FindMST);
 	interMenu->Add("Kruskal Minimum Spanning Tree", KruskalMST);
 
-
-
 	createGraphMenu->Add("Matrix graph", fillGraphMenuM);
 	createGraphMenu->Add("Structure graph", fillGraphMenuS);
 
@@ -39,6 +35,12 @@ int main()
 
 	fillGraphMenuS->Add("Random graph", FillStructureRandom);
 	fillGraphMenuS->Add("Type by hand", FillStructureByHand);
+
+
+
+
+
+
 
 	Menu->Add("Interactive mode", interMenu);
 	Menu->Add("Demo mode", Demo);

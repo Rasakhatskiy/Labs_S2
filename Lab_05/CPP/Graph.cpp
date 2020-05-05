@@ -131,10 +131,6 @@ std::string GraphMatrix::ToString()
 		}
 		result += "\n";
 	}
-	if (CheckConnectivity())
-		result += "Connected";
-	else
-		result += "Not connected";
 	return result;
 }
 
@@ -150,10 +146,6 @@ std::string GraphMatrix::ToStringCalc()
 		}
 		//result += "\n";
 	}
-	if (CheckConnectivity())
-		result += "Connected";
-	else
-		result += "Not connected";
 	return result;
 }
 
@@ -312,7 +304,7 @@ std::string GraphMatrix::KahnsSort()
 int GraphMatrix::FindMin(int keys[], bool notUsed[])
 {
 	int min = INT_MAX;
-	int minId = -1;
+	int minId = 0;
 	for (int i = 0; i < Size; i++)
 	{
 		if (notUsed[i] == false && keys[i] < min)
@@ -337,7 +329,7 @@ GraphMatrix* GraphMatrix::FindMST()
 	}
 
 	keys[0] = 0;
-	result[0] = -1;
+	result[0] = 0;
 
 	for (int i = 0; i < Size - 1; i++)
 	{
@@ -358,7 +350,10 @@ GraphMatrix* GraphMatrix::FindMST()
 
 	GraphMatrix* resultGraph = new GraphMatrix(Size);
 	for (int i = 1; i < Size; i++)
-		resultGraph->AddEdge(result[i], i, Matrix[i][result[i]]);
+		if (result[i] < 0 || result[i] >= Size)
+			continue;
+		else
+			resultGraph->AddEdge(result[i], i, Matrix[i][result[i]]);
 
 	auto shit = resultGraph->ToString();
 
@@ -530,7 +525,7 @@ std::string GraphStructure::KahnsSort()
 int GraphStructure::FindMin(int keys[], bool notUsed[])
 {
 	int min = INT_MAX;
-	int minId = -1;
+	int minId = 0;
 	for (int i = 0; i < Size; i++)
 	{
 		if (notUsed[i] == false && keys[i] < min)
@@ -555,7 +550,7 @@ GraphStructure* GraphStructure::FindMST()
 	}
 
 	keys[0] = 0;
-	result[0] = -1;
+	result[0] = 0;
 
 	for (int i = 0; i < Size - 1; i++)
 	{
@@ -633,10 +628,6 @@ std::string GraphStructure::ToString()
 		}
 		result += "\n";
 	}
-	if (CheckConnectivity())
-		result += "Connected";
-	else
-		result += "Not connected";
 	return result;
 }
 
@@ -647,10 +638,6 @@ std::string GraphStructure::ToStringCalc()
 		for (auto& j : Structure[i])
 			result += std::to_string(i) + " " + std::to_string(j.Vertex) + "\n";
 
-	if (CheckConnectivity())
-		result += "Connected";
-	else
-		result += "Not connected";
 	return result;
 }
 
