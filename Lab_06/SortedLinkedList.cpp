@@ -5,17 +5,16 @@ SortedLinkedList::SortedLinkedList() :
 
 SortedLinkedList::~SortedLinkedList()
 {
-	if (Root)
+	auto temp = Root->Next;
+	while (temp)
 	{
-		auto current = Root->Next;
-		while (current != Root)
-		{
-			auto next = current->Next;
-			delete current;
-			current = next;
-		}
-		delete Root;
+		Root->Next = temp->Next;
+		temp->Next = nullptr;
+		delete temp;
+		temp = Root->Next;
 	}
+	delete Root;
+	Root = nullptr;
 }
 
 
@@ -99,49 +98,42 @@ void SortedLinkedList::Insert(std::string value)
 
 void SortedLinkedList::Remove(std::string value)
 {
-	try
+	if (Size == 0)
 	{
-		if (Size == 0)
-		{
-			throw std::out_of_range("List is empty");
-		}
-		if (Size == 1 && Root->Value == value)
-		{
-			delete Root;
-			Root = nullptr;
-			Size--;
-			return;
-		}
-		if (Root->Value == value)
-		{
-			auto iter = Root->Next;
-			while (iter->Next != Root)
-				iter = iter->Next;
-			iter->Next = Root->Next;
-			delete Root;
-			Root = iter->Next;
-		}
-		else
-		{
-			auto prev = Root;
-			while (prev->Next && value != prev->Next->Value)
-			{
-				prev = prev->Next;
-			}
-			if (!prev) return;
-
-			auto current = prev->Next;
-			auto next = current->Next;
-			delete current;
-			current = next;
-			prev->Next = current;
-		}
+		throw std::out_of_range("List is empty");
+	}
+	if (Size == 1 && Root->Value == value)
+	{
+		delete Root;
+		Root = nullptr;
 		Size--;
+		return;
 	}
-	catch (...)
+	if (Root->Value == value)
 	{
-		Error = true;
+		auto iter = Root->Next;
+		while (iter->Next != Root)
+			iter = iter->Next;
+		iter->Next = Root->Next;
+		delete Root;
+		Root = iter->Next;
 	}
+	else
+	{
+		auto prev = Root;
+		while (prev->Next && value != prev->Next->Value)
+		{
+			prev = prev->Next;
+		}
+		if (!prev || !prev->Next) return;
+
+		auto current = prev->Next;
+		auto next = current->Next;
+		delete current;
+		current = next;
+		prev->Next = current;
+	}
+	Size--;
 	return;
 }
 

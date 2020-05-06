@@ -61,6 +61,40 @@ bool CheckList()
 	return true;
 }
 
+void GenerateRandom(int number)
+{
+	for (int i = 0; i < number; ++i)
+	{
+		std::string string;
+		auto length = GetRandomLength();
+		for (int j = 0; j < length; ++j)
+			string += GetRandomChar();
+		AR->Insert(string);
+	}
+}
+
+void RemoveRandom(int max)
+{
+	try
+	{
+		auto vector = AR->ToVectorValues();
+		for (int i = 0; i < max / 3; ++i)
+		{
+			auto randomShit = std::uniform_int_distribution<int>(1, (max - i));
+			int index = INT32_MAX;
+			while (index >= vector.size())
+				index = randomShit(RandomGenerator);
+
+			AR->Remove(vector[index]);
+		}
+	}
+	catch (const std::exception&)
+	{
+		auto stop = true;
+	}
+	
+}
+
 void SLL_Create()
 {
 	AR = new SortedLinkedList();
@@ -125,6 +159,23 @@ void Show()
 	_getch();
 }
 
+void DuHast(bool& flag, int a, int max)
+{
+	if (flag)
+		return;
+	else
+		flag = (a - max) > 0;
+}
+
+double DoSomething(std::string something, void(*task)(void))
+{
+	auto begin = std::chrono::steady_clock::now();
+	task();
+	auto end = std::chrono::steady_clock::now();
+	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+	std::cout << something << " done for " << time << " ms." << std::endl;
+	return time;
+}
 
 void Demo()
 {
@@ -178,6 +229,57 @@ void Demo()
 	_getch();
 };
 
-void Benchmark() {};
+void Benchmark()
+{
+	double eps = 0.001;
+	int maxTime = 10000; //10 sec
+	double time = 0.0;
+
+	int size = 100;
+	bool flag = false;
+
+	int number = 100;
+
+	while (!flag)
+	{
+		auto begin = std::chrono::steady_clock::now();
+		auto end = std::chrono::steady_clock::now();
+		auto time = 0.0;
+		auto type = "Linked list";
+
+		auto maxTime = 0.0;
+
+		while(maxTime < 10000)
+		{
+			AR = new SortedLinkedList();
+
+			std::cout << "Generating " << number << " long " << type << std::endl;
+			begin = std::chrono::steady_clock::now();
+			GenerateRandom(number);
+			end = std::chrono::steady_clock::now();
+			time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+			std::cout << "Done for " << time << " ms." << std::endl;
+			if (time > maxTime) time = maxTime;
+
+			std::cout << "\n";
+
+			std::cout << "Removing " << number / 3 << " elements " << type << std::endl;
+			begin = std::chrono::steady_clock::now();
+			RemoveRandom(number);
+			end = std::chrono::steady_clock::now();
+			time = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1000.0;
+			std::cout << "Done for " << time << " ms." << std::endl;
+			if (time > maxTime) time = maxTime;
+
+			std::cout << "\n\n";
+
+			delete AR;
+			Sleep();
+			number *= 2;
+		}
+	}
+	std::cout << "Benchmark is done. Press any key...\n";
+	_getch();
+};
 #endif // !INTERACTION_HPP
 

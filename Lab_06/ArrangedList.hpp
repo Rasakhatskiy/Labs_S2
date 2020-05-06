@@ -8,7 +8,7 @@ class ArrangedList
 {
 public:
 	ArrangedList() {};
-	~ArrangedList() {};
+	virtual ~ArrangedList() {};
 
 	virtual void Insert(std::string value) { throw std::bad_exception(); };
 	virtual void Remove(std::string value) { throw std::bad_exception(); };
