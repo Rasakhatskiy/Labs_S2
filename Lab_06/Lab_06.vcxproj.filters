@@ -30,6 +30,9 @@
     <ClCompile Include="SortedAvlTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sorted_2_3_Tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SortedLinkedList.hpp">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SortedAvlTree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sorted_2_3_Tree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

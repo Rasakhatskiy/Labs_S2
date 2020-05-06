@@ -127,6 +127,7 @@
     <ClInclude Include="SortedAvlTree.hpp" />
     <ClInclude Include="SortedBinarySearchTree.hpp" />
     <ClInclude Include="SortedLinkedList.hpp" />
+    <ClInclude Include="Sorted_2_3_Tree.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="SortedAvlTree.cpp" />
     <ClCompile Include="SortedBinarySearchTree.cpp" />
     <ClCompile Include="SortedLinkedList.cpp" />
+    <ClCompile Include="Sorted_2_3_Tree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
