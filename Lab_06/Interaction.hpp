@@ -19,7 +19,16 @@ void Demo() {};
 void Benchmark() {};
 
 
-
+bool CheckList()
+{
+	if (!AR)
+	{
+		std::cout << "Create list first\n..." << std::endl;
+		_getch();
+		return false;
+	}
+	return true;
+}
 
 void SLL_Create()
 {
@@ -44,6 +53,7 @@ void AVL_Create()
 
 void Insert()
 {
+	if (!CheckList()) return;
 	std::cout << "Enter string to insert:" << std::endl;
 	std::string value;
 	std::getline(std::cin, value);
@@ -52,6 +62,7 @@ void Insert()
 
 void Remove()
 {
+	if (!CheckList()) return;
 	std::cout << "Enter string to remove:" << std::endl;
 	std::string value;
 	std::getline(std::cin, value);
@@ -60,6 +71,7 @@ void Remove()
 
 void Search()
 {
+	if (!CheckList()) return;
 	std::cout << "Enter string to search:" << std::endl;
 	std::string value;
 	std::getline(std::cin, value);
@@ -74,10 +86,11 @@ void Search()
 
 void Show()
 {
+	if (!CheckList()) return;
 	auto vector = AR->ToVectorValues();
 	for (auto& i : vector) std::cout << i << std::endl;
 	std::cout << std::endl;
-	std::cout << "Sorry linux, i choose CONIO.H..." << std::endl;
+	std::cout << "..." << std::endl;
 	_getch();
 }
 #endif // !INTERACTION_HPP
