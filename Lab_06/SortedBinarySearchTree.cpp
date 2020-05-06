@@ -101,7 +101,7 @@ int SortedBinarySearchTree::GetSize()
 	return Size;
 }
 
-SortedBinarySearchTree::Node* SortedBinarySearchTree::Search(std::string value)
+bool SortedBinarySearchTree::Search(std::string value)
 {
 	return Search(value, Root);
 }

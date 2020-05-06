@@ -11,7 +11,7 @@ Sorted_2_3_Tree::~Sorted_2_3_Tree()
 
 void Sorted_2_3_Tree::Insert(std::string value)
 {
-	Insert(Root, value);
+	Root = Insert(Root, value);
 }
 
 void Sorted_2_3_Tree::Remove(std::string value)
@@ -19,9 +19,16 @@ void Sorted_2_3_Tree::Remove(std::string value)
 	Remove(Root, value);
 }
 
-Sorted_2_3_Tree::Node* Sorted_2_3_Tree::Search(std::string value)
+bool Sorted_2_3_Tree::Search(std::string value)
 {
 	return Search(Root, value);
+}
+
+std::vector<std::string> Sorted_2_3_Tree::ToVectorValues()
+{
+	std::vector<std::string> vector;
+	ToVectorValues(Root, vector);
+	return vector;
 }
 
 

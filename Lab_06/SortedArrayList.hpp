@@ -4,7 +4,9 @@
 #include <string>
 #include <algorithm>
 
-class SortedArrayList
+#include "ArrangedList.hpp"
+
+class SortedArrayList : public ArrangedList
 {
 	std::vector<std::string> Array;
 public:
@@ -12,7 +14,10 @@ public:
 	void Remove(std::string value);
 	void Remove(int id);
 	int GetSize();
-	int Search(std::string value);
+
+	bool Search(std::string value);
+	std::vector<std::string> ToVectorValues();
+
 	std::vector<std::string>::iterator Begin();
 	std::vector<std::string>::iterator End();
 	SortedArrayList();

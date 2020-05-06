@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Documents\Sharaga v.2\Labs\FlawlessMenu\FlawlessMenu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -100,6 +101,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Documents\Sharaga v.2\Labs\FlawlessMenu\FlawlessMenu\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +125,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\FlawlessMenu\FlawlessMenu\lib\FlawlessMenu.hpp" />
+    <ClInclude Include="ArrangedList.hpp" />
+    <ClInclude Include="Interaction.hpp" />
     <ClInclude Include="SortedArrayList.hpp" />
     <ClInclude Include="SortedAvlTree.hpp" />
     <ClInclude Include="SortedBinarySearchTree.hpp" />
@@ -130,6 +135,8 @@
     <ClInclude Include="Sorted_2_3_Tree.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\FlawlessMenu\FlawlessMenu\lib\FlawlessMenu.cpp" />
+    <ClCompile Include="Interaction.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SortedArrayList.cpp" />
     <ClCompile Include="SortedAvlTree.cpp" />

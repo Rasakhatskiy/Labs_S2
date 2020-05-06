@@ -5,7 +5,11 @@
 #include <algorithm>
 #include <vector>
 
-class Sorted_2_3_Tree
+#include "ArrangedList.hpp"
+
+typedef unsigned char byte;
+
+class Sorted_2_3_Tree : public ArrangedList
 {
 	class Node
 	{
@@ -58,8 +62,7 @@ public:
 
 	void Insert(std::string value);
 	void Remove(std::string value);
-
-	Node* Search(std::string value);
+	bool Search(std::string value);
 
 	std::vector<std::string> ToVectorValues();
 	std::vector<Node *>		 ToVectorNodes();

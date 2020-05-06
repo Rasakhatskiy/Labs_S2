@@ -1,8 +1,9 @@
 #ifndef SORTED_LINKED_LIST_HHPP
-#define LIST_HPP
+#define SORTED_LINKED_LIST_HHPP
 #include <stdexcept>
 #include <string>
 
+#include "ArrangedList.hpp"
 
 struct Node
 {
@@ -18,7 +19,7 @@ struct Node
 };
 
 
-class SortedLinkedList
+class SortedLinkedList : public ArrangedList
 {
 public:
 	//calls create empty
@@ -27,9 +28,6 @@ public:
 	//
 	~SortedLinkedList();
 
-	//Creates an empty list or just clears current
-	void CreateEmpty();
-
 	//Returns current number of nodes in list
 	int Length();
 
@@ -37,9 +35,10 @@ public:
 	void Insert(std::string element, int index);
 
 	void Insert(std::string value);
+	void Remove(std::string value);
+	std::vector<std::string> ToVectorValues();
+	bool Search(std::string value);
 
-	//Removes element at position
-	void Remove(int index);
 
 	//Retuns element by id, returns NULL if there's no such id
 	std::string Get(int index);
@@ -68,7 +67,8 @@ public:
 			sizeof(Error);
 	}
 
-	int Search(std::string value);
+
+	void GetValueToVector(Node* node, std::vector<std::string>& vector);
 
 private:
 

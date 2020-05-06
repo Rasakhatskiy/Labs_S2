@@ -5,7 +5,9 @@
 #include <algorithm>
 #include <vector>
 
-class SortedAvlTree
+#include "ArrangedList.hpp"
+
+class SortedAvlTree : public ArrangedList
 {
 	struct Node
 	{
@@ -42,7 +44,7 @@ public:
 
 	void Insert(std::string value);
 	void Remove(std::string value);
-	Node* Search(std::string value);
+	bool Search(std::string value);
 	std::vector<std::string> ToVectorValues();
 	std::vector<SortedAvlTree::Node*> ToVectorNodes();
 

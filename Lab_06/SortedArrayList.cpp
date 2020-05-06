@@ -40,12 +40,17 @@ int SortedArrayList::GetSize()
 	return Array.size();
 }
 
-int SortedArrayList::Search(std::string value)
+bool SortedArrayList::Search(std::string value)
 {
 	auto it = std::find(Array.begin(), Array.end(), value);
 	if (it == Array.end()) 
-		return -1;
-	return std::distance(Array.begin(), it);
+		return false;
+	return true;
+}
+
+std::vector<std::string> SortedArrayList::ToVectorValues()
+{
+	return Array;
 }
 
 std::vector<std::string>::iterator SortedArrayList::Begin()

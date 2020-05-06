@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 
-class SortedBinarySearchTree
+#include "ArrangedList.hpp"
+
+class SortedBinarySearchTree : public ArrangedList
 {
 	struct Node
 	{
@@ -31,9 +33,11 @@ public:
 
 	void Insert(std::string value);
 	void Remove(std::string value);
-	int GetSize();
-	Node* Search(std::string value);
+	bool Search(std::string value);
 	std::vector<std::string> ToVectorValues();
+
+
+	int GetSize();
 	std::vector<Node*> ToVectorNodes();
 };
 #endif // !SORTED_BINARY_SEARCH_TREE_HPP

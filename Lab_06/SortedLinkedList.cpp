@@ -1,18 +1,11 @@
 #include "SortedLinkedList.hpp"
 
-SortedLinkedList::SortedLinkedList()
-{
-	CreateEmpty();
-}
+SortedLinkedList::SortedLinkedList() :
+	Size(0), Error(false), Root(nullptr) {}
 
 SortedLinkedList::~SortedLinkedList()
 {
-}
-
-
-void SortedLinkedList::CreateEmpty()
-{
-	if (Root != nullptr)
+	if (Root)
 	{
 		auto current = Root->Next;
 		while (current != Root)
@@ -23,9 +16,6 @@ void SortedLinkedList::CreateEmpty()
 		}
 		delete Root;
 	}
-	Size = 0;
-	Error = false;
-	Root = nullptr;
 }
 
 
@@ -81,58 +71,48 @@ void SortedLinkedList::Insert(std::string value, int index)
 
 void SortedLinkedList::Insert(std::string value)
 {
-	try
+	if (!Root)
 	{
-		if (Root == nullptr)
-		{
-			Root = new Node(value, nullptr);
-			Size = 1;
-			return;
-		}
-		Node* current = Root;
-		Node* previous = nullptr;
-		auto size = value.size();
-		while (current != nullptr && current->Value.size() > size)
-		{
-			previous = current;
-			current = current->Next;
-		}
-		if (current == nullptr)
-			previous->Next = new Node(value, nullptr);
-		else if (previous == nullptr)
-			Root = new Node(value, Root);
-		else
-			previous->Next = new Node(value, current);
+		Root = new Node(value, nullptr);
+		Size = 1;
+		return;
+	}
+	Node* current = Root;
+	Node* previous = nullptr;
+	auto size = value.size();
+	while (current != nullptr && current->Value.size() > size)
+	{
+		previous = current;
+		current = current->Next;
+	}
+	if (current == nullptr)
+		previous->Next = new Node(value, nullptr);
+	else if (previous == nullptr)
+		Root = new Node(value, Root);
+	else
+		previous->Next = new Node(value, current);
 
-		Size++;
-	}
-	catch (...)
-	{
-		Error = true;
-	}
+	Size++;
 
 	return;
 }
 
-void SortedLinkedList::Remove(int index)
+void SortedLinkedList::Remove(std::string value)
 {
 	try
 	{
-		if (index > Size || index < 0)
-		{
-			throw std::out_of_range("Index out of range");
-		}
 		if (Size == 0)
 		{
 			throw std::out_of_range("List is empty");
 		}
-		if (Size == 1)
+		if (Size == 1 && Root->Value == value)
 		{
 			delete Root;
+			Root = nullptr;
 			Size--;
 			return;
 		}
-		if (index == 0)
+		if (Root->Value == value)
 		{
 			auto iter = Root->Next;
 			while (iter->Next != Root)
@@ -143,14 +123,12 @@ void SortedLinkedList::Remove(int index)
 		}
 		else
 		{
-			int count = 1;
 			auto prev = Root;
-			while (count != index)
+			while (prev->Next && value != prev->Next->Value)
 			{
-				count++;
 				prev = prev->Next;
 			}
-			//prev next
+			if (!prev) return;
 
 			auto current = prev->Next;
 			auto next = current->Next;
@@ -237,7 +215,7 @@ inline bool SortedLinkedList::IsEmpty()
 	return Size == 0;
 }
 
-int SortedLinkedList::Search(std::string value)
+bool SortedLinkedList::Search(std::string value)
 {
 	if (Root == nullptr) return -1;
 	auto current = Root;
@@ -251,9 +229,23 @@ int SortedLinkedList::Search(std::string value)
 	}
 
 	if (current != nullptr && current->Value == value)
-		return id;
+		return true;
 
-	return -1;
+	return false;
+}
+
+std::vector<std::string> SortedLinkedList::ToVectorValues()
+{
+	std::vector<std::string> vector;
+	GetValueToVector(Root, vector);
+	return vector;
+}
+
+void SortedLinkedList::GetValueToVector(Node* node, std::vector<std::string>& vector)
+{
+	if (!node) return;
+	vector.push_back(node->Value);
+	GetValueToVector(node->Next, vector);
 }
 
 Node* SortedLinkedList::GetRoot()

@@ -13,14 +13,15 @@ SortedAvlTree::~SortedAvlTree(){}
 
 void SortedAvlTree::Insert(std::string value)
 {
-	Insert(value, Root);
+	Root = Insert(value, Root);
 }
 
 void SortedAvlTree::Remove(std::string value)
 {
+	Remove(value, Root);
 }
 
-SortedAvlTree::Node* SortedAvlTree::Search(std::string value)
+bool SortedAvlTree::Search(std::string value)
 {
 	return Search(value, Root);
 }
@@ -101,15 +102,16 @@ SortedAvlTree::Node* SortedAvlTree::RotateLeft(Node* targetNode)
 
 SortedAvlTree::Node* SortedAvlTree::Insert(std::string value, Node* targetNode)
 {
-	if (targetNode == nullptr)
+	if (!targetNode)
 	{
 		Size++;
-		return(new Node(value));
+		targetNode = new Node(value);
+		return targetNode;
 	}
 
 	if (targetNode->Value.size() > value.size())
 		targetNode->Left = Insert(value, targetNode->Left);
-	else if (targetNode->Value.size() < value.size())
+	else if (targetNode->Value.size() <= value.size())
 		targetNode->Right = Insert(value, targetNode->Right);
 	else  
 		return targetNode;
@@ -119,23 +121,23 @@ SortedAvlTree::Node* SortedAvlTree::Insert(std::string value, Node* targetNode)
 
 	int balance = Balance(targetNode);
 
-	if (balance > 1 && value < targetNode->Left->Value)
+	if (balance > 1 && value.size() < targetNode->Left->Value.size())
 	{
 		return RotateRight(targetNode);
 	}
 
-	if (balance < -1 && value > targetNode->Right->Value)
+	if (balance < -1 && value.size() > targetNode->Right->Value.size())
 	{
 		return RotateLeft(targetNode);
 	}
 
-	if (balance > 1 && value > targetNode->Left->Value)
+	if (balance > 1 && value.size() > targetNode->Left->Value.size())
 	{
 		targetNode->Left = RotateLeft(targetNode->Left);
 		return RotateRight(targetNode);
 	}
 
-	if (balance < -1 && value < targetNode->Right->Value)
+	if (balance < -1 && value.size() < targetNode->Right->Value.size())
 	{
 		targetNode->Right = RotateRight(targetNode->Right);
 		return RotateLeft(targetNode);
@@ -158,7 +160,11 @@ SortedAvlTree::Node* SortedAvlTree::Remove(std::string value, Node* targetNode)
 	{
 		targetNode->Right = Remove(value, targetNode->Right);
 	}
-	else if(targetNode->Value == value)
+	else if (targetNode->Value.size() == value.size() && targetNode->Value != value)
+	{
+		targetNode->Right = Remove(value, targetNode->Right);
+	}
+	else if(targetNode->Value.size() == value.size())
 	{
 		if (!targetNode->Left || !targetNode->Right)
 		{
@@ -227,9 +233,12 @@ SortedAvlTree::Node* SortedAvlTree::Search(std::string value, Node* targetNode)
 	{
 		return nullptr;
 	}
-	else if (targetNode->Value == value)
+	else if (targetNode->Value.size() == value.size())
 	{
-		return targetNode;
+		if(targetNode->Value != value)
+			return Search(value, targetNode->Right);
+		else
+			return targetNode;
 	}
 	else if (targetNode->Value.size() > value.size())
 	{
