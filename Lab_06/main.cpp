@@ -7,6 +7,8 @@
 
 int main()
 {
+	InitRandom();
+
 	FlawlessMenu::Menu::Filler = "=============";
 	FlawlessMenu::Menu::Selector = "==>";
 	FlawlessMenu::Menu::GetKeyFunc = _getch;
