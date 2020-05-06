@@ -3,7 +3,7 @@
 
 #include <string>
 #include <algorithm>
-#include <utility>
+#include <vector>
 
 class Sorted_2_3_Tree
 {
@@ -49,6 +49,8 @@ class Sorted_2_3_Tree
 	Sorted_2_3_Tree::Node* Fix(Node* leaf);
 	Sorted_2_3_Tree::Node* Redistribute(Node* leaf);
 	Sorted_2_3_Tree::Node* Merge(Node* leaf);
+	void ToVectorValues(Node* node, std::vector<std::string>& vector);
+
 public:
 	Sorted_2_3_Tree();
 	~Sorted_2_3_Tree();
@@ -58,6 +60,9 @@ public:
 	void Remove(std::string value);
 
 	Node* Search(std::string value);
+
+	std::vector<std::string> ToVectorValues();
+	std::vector<Node *>		 ToVectorNodes();
 
 };
 

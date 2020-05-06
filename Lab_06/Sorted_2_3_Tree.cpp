@@ -540,4 +540,23 @@ Sorted_2_3_Tree::Node* Sorted_2_3_Tree::Merge(Node* leaf) {
 	return parent;
 }
 
+void Sorted_2_3_Tree::ToVectorValues(Node* node, std::vector<std::string>& vector)
+{
+	if (!node) return;
+	if (node->Values == 1)
+	{
+		ToVectorValues(node->Right, vector);
+		vector.push_back(node->Value_1);
+		ToVectorValues(node->Middle, vector);
+	}
+	if (node->Values == 2)
+	{
+		ToVectorValues(node->Right, vector);
+		vector.push_back(node->Value_1);
+		ToVectorValues(node->Middle, vector);
+		vector.push_back(node->Value_2);
+		ToVectorValues(node->Left, vector);
+	}
+}
+
 
