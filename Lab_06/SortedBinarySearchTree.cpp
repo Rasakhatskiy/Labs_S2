@@ -57,6 +57,11 @@ SortedBinarySearchTree::Node* SortedBinarySearchTree::Remove(std::string value, 
 		targetNode->Right = Remove(value, targetNode->Right);
 		return targetNode;
 	}
+	else if (targetNode->Value != value)
+	{
+		targetNode->Right = Remove(value, targetNode->Right);
+		return targetNode;
+	}
 	else
 	{
 		if (!targetNode->Left)

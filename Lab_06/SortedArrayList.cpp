@@ -1,64 +1,58 @@
 #include "SortedArrayList.hpp"
 
 
-
 SortedArrayList::SortedArrayList()
-{
-}
-
+= default;
 
 SortedArrayList::~SortedArrayList()
-{
-}
+= default;
 
 void SortedArrayList::Insert(std::string value)
 {
-	int size = value.size();
-	for (auto i = Array.begin(); i != Array.end(); ++i)
-	{
-		if (i->size() < size)
-		{
-			Array.insert(i, value);
-			return;
-		}
-	}
-	Array.insert(Array.end(), value);
+    int size = value.size();
+    for (auto i = Array.begin(); i != Array.end(); ++i)
+    {
+        if (i->size() < size)
+        {
+            Array.insert(i, value);
+            return;
+        }
+    }
+    Array.insert(Array.end(), value);
 }
 
 void SortedArrayList::Remove(std::string value)
 {
-	Array.erase(std::remove(Array.begin(), Array.end(), value), Array.end());
+    Array.erase(std::remove(Array.begin(), Array.end(), value), Array.end());
 }
 
 void SortedArrayList::Remove(int id)
 {
-	Array.erase(Array.begin() + id);
+    Array.erase(Array.begin() + id);
 }
 
 int SortedArrayList::GetSize()
 {
-	return Array.size();
+    return Array.size();
 }
 
 bool SortedArrayList::Search(std::string value)
 {
-	auto it = std::find(Array.begin(), Array.end(), value);
-	if (it == Array.end()) 
-		return false;
-	return true;
+    auto it = std::find(Array.begin(), Array.end(), value);
+    return !(it == Array.end());
 }
 
 std::vector<std::string> SortedArrayList::ToVectorValues()
 {
-	return Array;
+    return Array;
 }
 
 std::vector<std::string>::iterator SortedArrayList::Begin()
 {
-	return Array.begin();
+    return Array.begin();
 }
 
 std::vector<std::string>::iterator SortedArrayList::End()
 {
-	return Array.end();
+    return Array.end();
 }

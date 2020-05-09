@@ -40,7 +40,7 @@ public:
 
 	Node* Root;
 
-	int GetSize();
+    int GetSize() const;
 
 	void Insert(std::string value);
 	void Remove(std::string value);

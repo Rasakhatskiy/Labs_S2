@@ -254,12 +254,15 @@ Sorted_2_3_Tree::Node* Sorted_2_3_Tree::Fix(Node* leaf)
 	}
 	if (leaf->Values)
 	{
-		if (leaf->Parent) return Fix(leaf->Parent);
-		else return leaf;
+		if (leaf->Parent) 
+			return Fix(leaf->Parent);
+		else 
+			return leaf;
 	}
 
 	auto parent = leaf->Parent;
-	if (parent->Left->Values == 2 || parent->Middle->Values == 2 || parent->Values == 2)
+	if(parent)
+	if (parent->Left && parent->Left->Values == 2 || parent->Middle && parent->Middle->Values == 2 || parent->Values == 2)
 		leaf = Redistribute(leaf);
 	else if (parent->Values == 2 && parent->Right->Values == 2)
 		leaf = Redistribute(leaf);
@@ -500,23 +503,30 @@ Sorted_2_3_Tree::Node* Sorted_2_3_Tree::Merge(Node* leaf) {
 
 	if (parent->Left == leaf) 
 	{
+		if (!parent->Middle)
+			return parent;
+
 		parent->Middle->Insert(parent->Value_1);
 		parent->Middle->Right = parent->Middle->Middle;
 		parent->Middle->Middle = parent->Middle->Left;
 
-		if (leaf->Left != nullptr) 
+		if (leaf->Left != nullptr)
 			parent->Middle->Left = leaf->Left;
 		else if (leaf->Middle != nullptr)
 			parent->Middle->Left = leaf->Middle;
 
-		if (parent->Middle->Left != nullptr) 
+		if (parent->Middle->Left != nullptr)
 			parent->Middle->Left->Parent = parent->Middle;
 
 		parent->Remove(parent->Value_1);
 		delete parent->Left;
 		parent->Left = nullptr;
+		
 	}
-	else if (parent->Middle == leaf) {
+	else if (parent->Middle == leaf) 
+	{
+		if (!parent->Left)
+			return parent;
 		parent->Left->Insert(parent->Value_1);
 
 		if (leaf->Left != nullptr)
