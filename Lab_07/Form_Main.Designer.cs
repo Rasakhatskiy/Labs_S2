@@ -31,12 +31,12 @@
             this.textBox_path = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboxBoxEx1 = new MyTemplateForms.ComboxBoxEx();
             this.button_browse = new System.Windows.Forms.Button();
             this.button_start = new System.Windows.Forms.Button();
             this.button_refresh = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
+            this.comboBox_disks = new MyTemplateForms.ComboxBoxEx();
             this.SuspendLayout();
             // 
             // textBox_path
@@ -64,14 +64,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Select drive:";
             // 
-            // comboxBoxEx1
-            // 
-            this.comboxBoxEx1.FormattingEnabled = true;
-            this.comboxBoxEx1.Location = new System.Drawing.Point(115, 41);
-            this.comboxBoxEx1.Name = "comboxBoxEx1";
-            this.comboxBoxEx1.Size = new System.Drawing.Size(241, 21);
-            this.comboxBoxEx1.TabIndex = 0;
-            // 
             // button_browse
             // 
             this.button_browse.BackColor = System.Drawing.Color.White;
@@ -82,6 +74,7 @@
             this.button_browse.TabIndex = 4;
             this.button_browse.Text = "Browse";
             this.button_browse.UseVisualStyleBackColor = false;
+            this.button_browse.Click += new System.EventHandler(this.Button_browse_Click);
             // 
             // button_start
             // 
@@ -104,6 +97,7 @@
             this.button_refresh.TabIndex = 6;
             this.button_refresh.Text = "Refresh";
             this.button_refresh.UseVisualStyleBackColor = false;
+            this.button_refresh.Click += new System.EventHandler(this.Button_refresh_Click);
             // 
             // progressBar1
             // 
@@ -123,6 +117,17 @@
             this.label3.Text = "100%";
             this.label3.Visible = false;
             // 
+            // comboBox_disks
+            // 
+            this.comboBox_disks.FormattingEnabled = true;
+            this.comboBox_disks.Location = new System.Drawing.Point(115, 41);
+            this.comboBox_disks.Name = "comboBox_disks";
+            this.comboBox_disks.Size = new System.Drawing.Size(241, 21);
+            this.comboBox_disks.TabIndex = 0;
+            this.comboBox_disks.DropDown += new System.EventHandler(this.ComboBox_disks_DropDown);
+            this.comboBox_disks.SelectedIndexChanged += new System.EventHandler(this.ComboBox_disks_SelectedIndexChanged);
+            this.comboBox_disks.DropDownClosed += new System.EventHandler(this.ComboBox_disks_DropDownClosed);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -135,7 +140,7 @@
             this.Controls.Add(this.button_start);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_browse);
-            this.Controls.Add(this.comboxBoxEx1);
+            this.Controls.Add(this.comboBox_disks);
             this.Controls.Add(this.textBox_path);
             this.Controls.Add(this.label2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -152,7 +157,7 @@
         private System.Windows.Forms.TextBox textBox_path;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private MyTemplateForms.ComboxBoxEx comboxBoxEx1;
+        private MyTemplateForms.ComboxBoxEx comboBox_disks;
         private System.Windows.Forms.Button button_browse;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Button button_refresh;
