@@ -14,7 +14,7 @@ namespace Lab_07
 {
     public partial class Form_Main : Form
     {
-        const string helpString = "Select/Enter/Drag (from admin explorer)";
+
 
         List<DataWork.DiskInfo> DiskInfoList = new List<DataWork.DiskInfo>();
         DataTable ItemsComboboxDisks = new DataTable();
@@ -145,6 +145,13 @@ namespace Lab_07
                 textBox_path.Text = dialog.FileName;
                 textBox_path.ForeColor = Color.Black;
             }
+        }
+
+        private void button_start_Click(object sender, EventArgs e)
+        {
+            if(comboBox_disks.SelectedIndex < 1)
+                MessageBox.Show(String_)
+
         }
     }
 }
