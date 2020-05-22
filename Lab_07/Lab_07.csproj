@@ -33,10 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>config\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ico.ico</ApplicationIcon>
+    <ApplicationIcon>images\ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -68,32 +68,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComboBoxEx.cs">
+    <Compile Include="src\Forms\ComboBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataWork\DataProvider.cs" />
-    <Compile Include="DataWork\DataReceiver.cs" />
-    <Compile Include="DataWork\DiskInfo.cs" />
-    <Compile Include="DataWork\DiskManagment.cs" />
-    <Compile Include="Form_About.cs">
+    <Compile Include="src\Converter.cs" />
+    <Compile Include="src\DataWork\DataProvider.cs" />
+    <Compile Include="src\DataWork\DataReceiver.cs" />
+    <Compile Include="src\DataWork\DiskInfo.cs" />
+    <Compile Include="src\DataWork\DiskManagment.cs" />
+    <Compile Include="src\Extractor.cs" />
+    <Compile Include="src\Forms\Form_About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_About.Designer.cs">
+    <Compile Include="src\Forms\Form_About.Designer.cs">
       <DependentUpon>Form_About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Main.cs">
+    <Compile Include="src\Forms\Form_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Main.Designer.cs">
+    <Compile Include="src\Forms\Form_Main.Designer.cs">
       <DependentUpon>Form_Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Main_Constants.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="src\Forms\Form_Main_Constants.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Logger.cs" />
+    <Compile Include="src\Parameter.cs" />
+    <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form_About.resx">
+    <Compile Include="src\Renamer.cs" />
+    <EmbeddedResource Include="src\Forms\Form_About.resx">
       <DependentUpon>Form_About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Main.resx">
+    <EmbeddedResource Include="src\Forms\Form_Main.resx">
       <DependentUpon>Form_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,8 +112,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="app.manifest" />
-    <None Include="packages.config" />
+    <None Include="config\app.manifest" />
+    <None Include="config\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,11 +125,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="config\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ico.ico" />
-    <Content Include="Windows Logo.png" />
+    <Content Include="images\ico.ico" />
+    <Content Include="images\Windows Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

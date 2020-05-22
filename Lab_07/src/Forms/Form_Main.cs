@@ -2,12 +2,9 @@
 using MyTemplateForms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Lab_07
@@ -39,7 +36,7 @@ namespace Lab_07
         protected void TextBox_Focus(Object sender, EventArgs e)
         {
             var textBox = sender as TextBox;
-            if(textBox.Text == helpString)
+            if(textBox.Text == String_help)
             {
                 textBox.Text = "";
                 textBox.ForeColor = Color.Black;
@@ -51,7 +48,7 @@ namespace Lab_07
             var textBox = sender as TextBox;
             if (textBox.Text == "")
             {
-                textBox.Text = helpString;
+                textBox.Text = String_help;
                 textBox.ForeColor = Color.Gray;
             }
         }
@@ -149,8 +146,27 @@ namespace Lab_07
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            if(comboBox_disks.SelectedIndex < 1)
-                MessageBox.Show(String_)
+            if (comboBox_disks.SelectedIndex < 1)
+            {
+                MessageBox.Show(
+                    String_incorrectInput, 
+                    String_noDiskSelected, 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!File.Exists(textBox_path.Text))
+            {
+                MessageBox.Show(
+                    String_incorrectInput, 
+                    String_incorrectPath, 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            Extractor extractor = new Extractor(-1, textBox_path.Text, -1, -1);
 
         }
     }

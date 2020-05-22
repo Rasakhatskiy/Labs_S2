@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_07
 {
-    class Form_Main_Constants
+    public partial class Form_Main : Form
     {
         const string String_help = "Select/Enter path";
 

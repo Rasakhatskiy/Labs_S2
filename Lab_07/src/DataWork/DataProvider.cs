@@ -7,32 +7,38 @@ namespace DataWork
 {
     class DataProvider
     {
+        public const int BUFFER_SIZE = 0x4000000;
+
         public bool IsOpen { get; set; }
+
+        public int Progress { get; private set; }
+
+        public long SectorBegin { get; private set; }
+
+        public long SectorEnd { get; private set; }
+
+        public long PacksRead { get; private set; }
+
+        public bool EndOfSource { get; private set; }
+
+        public int BytesPerSector { get; private set; }
+
+
         private byte[] BufferFirst;
         private byte[] BufferSecond;
         private byte[] BufferSector;
 
-        public int Progress { get; private set; }
-        public long SectorBegin { get; private set; }
-        public long SectorEnd { get; private set; }
-        public long PacksRead { get; private set; }
-        public bool EndOfSource { get; private set; }
-        public int BytesPerSector { get; private set; }
-
-        public const int BUFFER_SIZE = 0x4000000;
-        
 
         private Task TaskDataReceiver;
 
         private DataReceiver DataReceiver;
         private bool IsFirstActive = true;
         private long PacksInSource;
-        //private int SectorsInSmall;
         private int SectorsInBuffer;
         private bool EndIsNear = false;
 
-        double ProgressStep = 0;
-        double TotalProgress = 0;
+        private double ProgressStep = 0;
+        private double TotalProgress = 0;
 
         public byte this[int index]
         {
@@ -45,12 +51,6 @@ namespace DataWork
             DataReceiver = new DataWork.DataReceiver(diskId);
         }
 
-        public DataProvider(string imagePath)
-        {
-            IsOpen = true;
-            DataReceiver = new DataReceiver(imagePath);
-        }
-        
         public void Launch(long secBeg, long secEnd)
         {
             SectorBegin = secBeg;
