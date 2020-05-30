@@ -7,18 +7,23 @@ namespace DataWork
 {
     internal class DiskInfo
     {
-        public int id;
-        public int bytesPerSector;
-        public string model;
-        public long numberOfSectors;
-        public long size;
+        public int ID { get; set; }
+
+        public int BytesPerSector { get; set; }
+
+        public string Model { get; set; }
+
+        public long NumberOfSectors { get; set; }
+
+        public long Size { get; set; }
+
         public DiskInfo(int id, int bytesPerSector, string model, long numberOfSectors, long size)
         {
-            this.id = id;
-            this.model = model;
-            this.numberOfSectors = numberOfSectors;
-            this.size = size;
-            this.bytesPerSector = bytesPerSector;
+            this.ID = id;
+            this.Model = model;
+            this.NumberOfSectors = numberOfSectors;
+            this.Size = size;
+            this.BytesPerSector = bytesPerSector;
         }
         public static List<DiskInfo> GetDiskInfoList()
         {
@@ -48,7 +53,7 @@ namespace DataWork
                     diskInfoList.Add(diskInfo);
                 }
 
-                diskInfoList.Sort((s1, s2) => s1.id.CompareTo(s2.id));
+                diskInfoList.Sort((s1, s2) => s1.ID.CompareTo(s2.ID));
             }
             catch (ManagementException)
             {

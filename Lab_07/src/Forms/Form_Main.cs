@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Lab_07
@@ -91,9 +92,9 @@ namespace Lab_07
             {
                 ItemsComboboxDisks.Rows.Add(new object[]
                 {
-                    $"Disk drive {res.id}\n{res.model}\n{res.size} GB",
-                    $"Disk drive {res.id}  {res.model}  {res.size} GB",
-                    $"Disk drive {res.id}\n{res.model}\n{res.size} GB"
+                    $"Disk drive {res.ID}\n{res.Model}\n{res.Size} GB",
+                    $"Disk drive {res.ID}  {res.Model}  {res.Size} GB",
+                    $"Disk drive {res.ID}\n{res.Model}\n{res.Size} GB"
                 });
             }
 
@@ -156,7 +157,7 @@ namespace Lab_07
                 return;
             }
 
-            if (!File.Exists(textBox_path.Text))
+            if (!Directory.Exists(textBox_path.Text))
             {
                 MessageBox.Show(
                     String_incorrectInput, 
@@ -166,8 +167,18 @@ namespace Lab_07
                 return;
             }
 
-            Extractor extractor = new Extractor(-1, textBox_path.Text, -1, -1);
+            Extractor extractor = new Extractor(
+                DiskInfoList[comboBox_disks.SelectedIndex - 1].ID, 
+                textBox_path.Text, 
+                0,
+                DiskInfoList[comboBox_disks.SelectedIndex - 1].NumberOfSectors);
 
+            Task task = Task.Run(() =>
+            {
+                extractor.Start();
+            });
+
+            
         }
     }
 }
