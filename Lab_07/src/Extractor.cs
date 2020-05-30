@@ -153,7 +153,7 @@ namespace Lab_07
             const int sizeOffset = 0x0C;
             const int dateTimeOffset = 0x10;
             const int spare = 0x200;
-            byte[] signatureHYAV = new byte[4] { 0x48, 0x59, 0x41, 0x56 };
+            byte[] signatureVideo = new byte[4] { 0x50, 0x55, 0x50, 0x41 };
 
             var position = spare;
 
@@ -185,7 +185,7 @@ namespace Lab_07
                         warning = false;
                     }
                 }
-                if (SignatureFound(signatureHYAV, position, DataProvider.GetBuffer()))
+                if (SignatureFound(signatureVideo, position, DataProvider.GetBuffer()))
                 {
                     cameraNumber = DataProvider[position + cameraOffset];
                     size = Converter.ReadInt32(position + sizeOffset, DataProvider.GetBuffer());
@@ -247,7 +247,7 @@ namespace Lab_07
                     lastPos = position;
                     if (position + size < SIZE_64_MB - spare && size > 2)
                     {
-                        if (SignatureFound(signatureHYAV, position + size, DataProvider.GetBuffer()))
+                        if (SignatureFound(signatureVideo, position + size, DataProvider.GetBuffer()))
                         {
                             position += size - 2;
                         }

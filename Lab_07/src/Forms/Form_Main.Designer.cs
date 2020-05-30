@@ -45,7 +45,7 @@
             // textBox_path
             // 
             this.textBox_path.AllowDrop = true;
-            this.textBox_path.Location = new System.Drawing.Point(115, 84);
+            this.textBox_path.Location = new System.Drawing.Point(118, 55);
             this.textBox_path.Name = "textBox_path";
             this.textBox_path.Size = new System.Drawing.Size(241, 20);
             this.textBox_path.TabIndex = 3;
@@ -53,7 +53,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 87);
+            this.label2.Location = new System.Drawing.Point(15, 58);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 2;
@@ -62,7 +62,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 45);
+            this.label1.Location = new System.Drawing.Point(15, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 1;
@@ -72,7 +72,7 @@
             // 
             this.button_browse.BackColor = System.Drawing.Color.White;
             this.button_browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_browse.Location = new System.Drawing.Point(376, 83);
+            this.button_browse.Location = new System.Drawing.Point(379, 54);
             this.button_browse.Name = "button_browse";
             this.button_browse.Size = new System.Drawing.Size(75, 21);
             this.button_browse.TabIndex = 4;
@@ -84,7 +84,7 @@
             // 
             this.button_start.BackColor = System.Drawing.Color.White;
             this.button_start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_start.Location = new System.Drawing.Point(376, 126);
+            this.button_start.Location = new System.Drawing.Point(379, 97);
             this.button_start.Name = "button_start";
             this.button_start.Size = new System.Drawing.Size(75, 21);
             this.button_start.TabIndex = 5;
@@ -96,7 +96,7 @@
             // 
             this.button_refresh.BackColor = System.Drawing.Color.White;
             this.button_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_refresh.Location = new System.Drawing.Point(376, 41);
+            this.button_refresh.Location = new System.Drawing.Point(379, 12);
             this.button_refresh.Name = "button_refresh";
             this.button_refresh.Size = new System.Drawing.Size(75, 21);
             this.button_refresh.TabIndex = 6;
@@ -106,7 +106,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(115, 126);
+            this.progressBar.Location = new System.Drawing.Point(118, 97);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(205, 21);
             this.progressBar.TabIndex = 7;
@@ -115,7 +115,7 @@
             // label_progress
             // 
             this.label_progress.AutoSize = true;
-            this.label_progress.Location = new System.Drawing.Point(325, 130);
+            this.label_progress.Location = new System.Drawing.Point(328, 101);
             this.label_progress.Name = "label_progress";
             this.label_progress.Size = new System.Drawing.Size(33, 13);
             this.label_progress.TabIndex = 8;
@@ -130,7 +130,7 @@
             // comboBox_disks
             // 
             this.comboBox_disks.FormattingEnabled = true;
-            this.comboBox_disks.Location = new System.Drawing.Point(115, 41);
+            this.comboBox_disks.Location = new System.Drawing.Point(118, 12);
             this.comboBox_disks.Name = "comboBox_disks";
             this.comboBox_disks.Size = new System.Drawing.Size(241, 21);
             this.comboBox_disks.TabIndex = 0;
@@ -144,7 +144,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(465, 169);
+            this.ClientSize = new System.Drawing.Size(465, 130);
             this.Controls.Add(this.label_progress);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.button_refresh);
