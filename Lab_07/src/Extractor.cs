@@ -191,16 +191,6 @@ namespace Lab_07
                     size = Converter.ReadInt32(position + sizeOffset, DataProvider.GetBuffer());
                     dateTimeInt = Converter.ReadInt32(position + dateTimeOffset, DataProvider.GetBuffer());
 
-                    if (cameraNumber == 0x01)
-                    {
-                        var STOP = cameraNumber * size;
-                    }
-
-                    if (cameraNumber == 0x01 && (uint)dateTimeInt == 0x4F10CACE && size == 0x0000153A)
-                    {
-                        var STOP = cameraNumber * size;
-                    }
-
                     //on/off last block
                     if (cameraNumber == lastCam)
                     {
@@ -217,7 +207,7 @@ namespace Lab_07
                     if (parameter == null)
                     {
                         var valid =
-                            (cameraNumber >= 0 && cameraNumber < 32) &&
+                            ((cameraNumber == 2 || cameraNumber == 4 || cameraNumber == 5) && cameraNumber < 32) &&
                             (dateTimeInt > 0) &&
                             (size > 0);
 
@@ -286,7 +276,8 @@ namespace Lab_07
             foreach (var item in Writers)
             {
                 item.Close();
-                MoveFile(item.Path, item.CameraNumber + 1, item.FirstTimeInt, item.LastTimeInt);
+                //MoveFile(item.Path, item.CameraNumber + 1, item.FirstTimeInt, item.LastTimeInt);
+                File.Delete(item.Path);
             }
             #endregion
         }
@@ -314,7 +305,8 @@ namespace Lab_07
                     if (parameter.Size > SIZE_01_GB)
                     {
                         parameter.Close();
-                        MoveFile(parameter.Path, parameter.CameraNumber + 1, parameter.FirstTimeInt, parameter.LastTimeInt);
+                        //MoveFile(parameter.Path, parameter.CameraNumber + 1, parameter.FirstTimeInt, parameter.LastTimeInt);
+                        File.Delete(parameter.Path);
                         parameter.Open(parameter.LastTimeInt);
                     }
                 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +17,10 @@ namespace Lab_07
 
         List<DataWork.DiskInfo> DiskInfoList = new List<DataWork.DiskInfo>();
         DataTable ItemsComboboxDisks = new DataTable();
+        Extractor myExtractor;
+        bool IsRunning = false;
+        Task MainTask;
+
 
         public Form_Main()
         {
@@ -28,7 +33,6 @@ namespace Lab_07
             textBox_path.GotFocus += new EventHandler(TextBox_Focus);
             textBox_path.LostFocus += new EventHandler(TextBox_LostFocus);
             TextBox_LostFocus(textBox_path, null);
-
 
         }
 
@@ -167,18 +171,69 @@ namespace Lab_07
                 return;
             }
 
-            Extractor extractor = new Extractor(
+            myExtractor = new Extractor(
                 DiskInfoList[comboBox_disks.SelectedIndex - 1].ID, 
                 textBox_path.Text, 
                 0,
                 DiskInfoList[comboBox_disks.SelectedIndex - 1].NumberOfSectors);
 
-            Task task = Task.Run(() =>
+            SwitchControls(false);
+            timer_progress.Start();
+            IsRunning = true;
+            MainTask = Task.Run(() =>
             {
-                extractor.Start();
+                myExtractor.Start();
             });
 
             
+        }
+
+        private void timer_progress_Tick(object sender, EventArgs e)
+        {
+            if(myExtractor.IsCompleted)
+            {
+                timer_progress.Stop();
+                MessageBox.Show("Operation completed", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                SwitchControls(true);
+                IsRunning = false;
+                return;
+            }
+
+            var progress =
+                myExtractor.Progress >= 0 && myExtractor.Progress <= 100 ?
+                myExtractor.Progress :
+                100;
+
+            progressBar.Value = progress;
+            label_progress.Text = $"{progress}%";
+        }
+
+        private void SwitchControls(bool state)
+        {
+            comboBox_disks.Enabled = state;
+            button_refresh.Enabled = state;
+            textBox_path.Enabled = state;
+            button_browse.Enabled = state;
+
+            button_start.Visible = state;
+            button_start.Enabled = state;
+
+            progressBar.Visible = !state;
+            label_progress.Visible = !state;
+
+            label_progress.Text = "0%";
+            progressBar.Value = 0;
+        }
+
+        private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (IsRunning && MessageBox.Show("Process is still running, are you usre you want to exit?", 
+                                "Warning",
+                                MessageBoxButtons.YesNo, 
+                                MessageBoxIcon.Warning) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

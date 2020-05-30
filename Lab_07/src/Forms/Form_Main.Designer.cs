@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Main));
             this.textBox_path = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -35,8 +36,9 @@
             this.button_browse = new System.Windows.Forms.Button();
             this.button_start = new System.Windows.Forms.Button();
             this.button_refresh = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.label_progress = new System.Windows.Forms.Label();
+            this.timer_progress = new System.Windows.Forms.Timer(this.components);
             this.comboBox_disks = new MyTemplateForms.ComboxBoxEx();
             this.SuspendLayout();
             // 
@@ -102,23 +104,28 @@
             this.button_refresh.UseVisualStyleBackColor = false;
             this.button_refresh.Click += new System.EventHandler(this.Button_refresh_Click);
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(115, 126);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(241, 21);
-            this.progressBar1.TabIndex = 7;
-            this.progressBar1.Visible = false;
+            this.progressBar.Location = new System.Drawing.Point(115, 126);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(205, 21);
+            this.progressBar.TabIndex = 7;
+            this.progressBar.Visible = false;
             // 
-            // label3
+            // label_progress
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(373, 130);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "100%";
-            this.label3.Visible = false;
+            this.label_progress.AutoSize = true;
+            this.label_progress.Location = new System.Drawing.Point(325, 130);
+            this.label_progress.Name = "label_progress";
+            this.label_progress.Size = new System.Drawing.Size(33, 13);
+            this.label_progress.TabIndex = 8;
+            this.label_progress.Text = "100%";
+            this.label_progress.Visible = false;
+            // 
+            // timer_progress
+            // 
+            this.timer_progress.Interval = 1000;
+            this.timer_progress.Tick += new System.EventHandler(this.timer_progress_Tick);
             // 
             // comboBox_disks
             // 
@@ -138,8 +145,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(249)))));
             this.ClientSize = new System.Drawing.Size(465, 169);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.label_progress);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.button_refresh);
             this.Controls.Add(this.button_start);
             this.Controls.Add(this.label1);
@@ -152,6 +159,7 @@
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.Text = "Video Recovery";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Main_FormClosing);
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -166,7 +174,8 @@
         private System.Windows.Forms.Button button_browse;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Button button_refresh;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label label_progress;
+        private System.Windows.Forms.Timer timer_progress;
     }
 }
